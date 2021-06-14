@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Collection.UI.Scripts.Utilities;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -11,10 +12,24 @@ namespace Collection.UI.Scripts.Rooms
         [SerializeField] private Transform content;
 
         private List<PlayerListing> _playerListings = new List<PlayerListing>();
+        private RoomCanvases _roomCanvases;
+        
+        public void Initialize(RoomCanvases canvases)
+        {
+            _roomCanvases = canvases;
+        }
 
         private void Awake()
         {
             GetCurrentRoomPlayer();
+        }
+
+        /// <summary>
+        /// Photon internal method
+        /// </summary>
+        public override void OnLeftRoom()
+        {
+            content.DestroyChildren();
         }
 
         /// <summary>
@@ -62,6 +77,7 @@ namespace Collection.UI.Scripts.Rooms
         {
             //Find player that left room
             var index = _playerListings.FindIndex(x => x.Player == otherPlayer);
+
             if (index != -1)
             {
                 //destroy player object

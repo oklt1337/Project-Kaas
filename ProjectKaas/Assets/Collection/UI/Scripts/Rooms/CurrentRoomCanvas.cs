@@ -4,11 +4,19 @@ namespace Collection.UI.Scripts.Rooms
 {
     public class CurrentRoomCanvas : MonoBehaviour
     {
+        [SerializeField] private PlayerListingMenu playerListingsMenu;
+        public PlayerListingMenu PlayerListingMenu => playerListingsMenu;
+        
+        [SerializeField] private LeaveRoomMenu leaveRoomMenu;
+        public LeaveRoomMenu LeaveRoomMenu => leaveRoomMenu;
+        
         private RoomCanvases _roomCanvases;
         
         public void Initialize(RoomCanvases canvases)
         {
             _roomCanvases = canvases;
+            PlayerListingMenu.Initialize(canvases);
+            LeaveRoomMenu.Initialize(canvases);
         }
 
         /// <summary>

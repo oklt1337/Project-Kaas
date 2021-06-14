@@ -8,14 +8,12 @@ namespace Collection.UI.Scripts.Rooms
     public class CreateRoomMenu : MonoBehaviourPunCallbacks
     {
         [SerializeField] private TextMeshProUGUI roomName;
-        [SerializeField] private RoomListingMenu roomListingMenu;
-
+        
         private RoomCanvases _roomCanvases;
 
         public void Initialize(RoomCanvases canvases)
         {
             _roomCanvases = canvases;
-            roomListingMenu.Initialize(canvases);
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Collection.UI.Scripts.Utilities;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -24,6 +26,7 @@ namespace Collection.UI.Scripts.Rooms
         public override void OnJoinedRoom()
         {
             _roomCanvases.CurrentRoomCanvas.ActivateRoom();
+            content.DestroyChildren();
         }
 
         /// <summary>

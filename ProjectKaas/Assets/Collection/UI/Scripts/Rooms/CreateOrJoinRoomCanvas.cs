@@ -7,12 +7,16 @@ namespace Collection.UI.Scripts.Rooms
         [SerializeField] private CreateRoomMenu createRoomMenu;
         public CreateRoomMenu CreateRoomMenu => createRoomMenu;
         
+        [SerializeField] private RoomListingMenu roomListingMenu;
+        public RoomListingMenu RoomListingMenu => roomListingMenu;
+        
         private RoomCanvases _roomCanvases;
         
         public void Initialize(RoomCanvases canvases)
         {
             _roomCanvases = canvases;
             CreateRoomMenu.Initialize(canvases);
+            RoomListingMenu.Initialize(canvases);
         }
     }
 }
