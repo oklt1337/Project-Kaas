@@ -1,3 +1,5 @@
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 namespace Collection.UI.Scripts.Rooms
@@ -25,6 +27,7 @@ namespace Collection.UI.Scripts.Rooms
         public void ActivateRoom()
         {
             gameObject.SetActive(true);
+            PlayerListingMenu.ShowStartButton(PhotonNetwork.IsMasterClient);
         }
 
         /// <summary>
@@ -33,6 +36,7 @@ namespace Collection.UI.Scripts.Rooms
         public void DeactivateRoom()
         {
             gameObject.SetActive(false);
+            PlayerListingMenu.ShowStartButton(PhotonNetwork.IsMasterClient);
         }
     }
 }

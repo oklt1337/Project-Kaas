@@ -11,8 +11,15 @@ namespace Collection.UI.Scripts.Rooms
         [SerializeField] private PlayerListing playerListingPrefab;
         [SerializeField] private Transform content;
 
+        [SerializeField] private GameObject startButton;
+
         private List<PlayerListing> _playerListings = new List<PlayerListing>();
         private RoomCanvases _roomCanvases;
+
+        public void ShowStartButton(bool show)
+        {
+            startButton.SetActive(show);
+        }
         
         public void Initialize(RoomCanvases canvases)
         {
@@ -107,6 +114,8 @@ namespace Collection.UI.Scripts.Rooms
         {
             if (PhotonNetwork.IsMasterClient)
             {
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.CurrentRoom.IsVisible = false;
                 PhotonNetwork.LoadLevel(1);
             }
         }
