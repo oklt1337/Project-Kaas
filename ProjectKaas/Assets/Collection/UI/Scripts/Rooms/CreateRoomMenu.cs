@@ -8,7 +8,7 @@ namespace Collection.UI.Scripts.Rooms
     public class CreateRoomMenu : MonoBehaviourPunCallbacks
     {
         [SerializeField] private TextMeshProUGUI roomName;
-        
+
         private RoomCanvases _roomCanvases;
 
         public void Initialize(RoomCanvases canvases)
@@ -33,7 +33,11 @@ namespace Collection.UI.Scripts.Rooms
             else
             {
                 //Create RoomOptions
-                var roomOptions = new RoomOptions {MaxPlayers = 8};
+                var roomOptions = new RoomOptions
+                {
+                    MaxPlayers = 8, 
+                    BroadcastPropsChangeToAll = true
+                };
                 //Create Room
                 PhotonNetwork.JoinOrCreateRoom(roomName.text, roomOptions, TypedLobby.Default);
             }

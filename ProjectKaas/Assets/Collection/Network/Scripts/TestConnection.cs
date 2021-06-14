@@ -10,8 +10,11 @@ namespace Collection.Network.Scripts
         void Start()
         {
             Debug.Log("Connecting to server.", this);
+
+            PhotonNetwork.SendRate = 20;
+            PhotonNetwork.SerializationRate = 5;
             PhotonNetwork.AutomaticallySyncScene = true;
-            PhotonNetwork.NickName = MasterManager.GameSettings.NickName;
+            PhotonNetwork.NickName = MasterManager.GameSettings.InitializeNickname();
             PhotonNetwork.GameVersion = MasterManager.GameSettings.GameVersion;
             PhotonNetwork.ConnectUsingSettings();
         }

@@ -9,13 +9,17 @@ namespace Collection.Network.Scripts
         public string GameVersion => gameVersion;
 
         [SerializeField] private string nickName = "None";
-        public string NickName
+        public string NickName => nickName;
+
+        public string InitializeNickname()
         {
-            get
+            if (!nickName.Contains("#"))
             {
                 var value = Random.Range(1000, 9999);
-                return nickName + "#" + value;
+                nickName += "#" + value;
             }
+
+            return nickName;
         }
     }
 }
