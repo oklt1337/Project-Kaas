@@ -1,8 +1,6 @@
-using Collection.Network.Scripts;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Collection.UI.Scripts.Rooms
@@ -10,6 +8,13 @@ namespace Collection.UI.Scripts.Rooms
     public class CreateRoomMenu : MonoBehaviourPunCallbacks
     {
         [SerializeField] private TextMeshProUGUI roomName;
+
+        private RoomCanvases _roomCanvases;
+
+        public void Initialize(RoomCanvases canvases)
+        {
+            _roomCanvases = canvases;
+        }
 
         /// <summary>
         /// Create a room
@@ -40,6 +45,8 @@ namespace Collection.UI.Scripts.Rooms
         public override void OnCreatedRoom()
         {
             Debug.Log("Created room successfully.", this);
+            //Activate room.
+            _roomCanvases.CurrentRoomCanvas.ActivateRoom();
         }
 
         /// <summary>
