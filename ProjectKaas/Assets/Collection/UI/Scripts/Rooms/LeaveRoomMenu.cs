@@ -15,6 +15,7 @@ namespace Collection.UI.Scripts.Rooms
         public void OnClickLeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
+            _roomCanvases.CurrentRoomCanvas.DeactivateRoom();
         }
     }
 }

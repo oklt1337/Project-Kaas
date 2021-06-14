@@ -18,7 +18,11 @@ namespace Collection.Network.Scripts
         public override void OnConnectedToMaster()
         {
             Debug.Log(PhotonNetwork.LocalPlayer.NickName + " connected to the server.", this);
-            PhotonNetwork.JoinLobby();
+
+            if (!PhotonNetwork.InLobby)
+            {
+                PhotonNetwork.JoinLobby();
+            }
         }
 
         public override void OnDisconnected(DisconnectCause cause)

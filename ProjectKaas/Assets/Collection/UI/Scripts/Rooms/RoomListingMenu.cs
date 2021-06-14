@@ -27,6 +27,7 @@ namespace Collection.UI.Scripts.Rooms
         {
             _roomCanvases.CurrentRoomCanvas.ActivateRoom();
             content.DestroyChildren();
+            _roomListings.Clear();
         }
 
         /// <summary>
@@ -50,11 +51,20 @@ namespace Collection.UI.Scripts.Rooms
                 //Added to rooms list
                 else
                 {
-                    var listing = Instantiate(roomListingPrefab, content);
-                    if (listing != null)
+                    int index = _roomListings.FindIndex(x => x.RoomInfo.Name == info.Name);
+                    if (index == -1)
                     {
-                        listing.SetRoomInfo(info);
-                        _roomListings.Add(listing);
+                        var listing = Instantiate(roomListingPrefab, content);
+                        if (listing != null)
+                        {
+                            listing.SetRoomInfo(info);
+                            _roomListings.Add(listing);
+                        }
+                    }
+                    else
+                    {
+                        //Modify listings here.
+                        //_roomListings. do sth.
                     }
                 }
             }
