@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0981ba4c9f3af694aa7b7583a90ed5e4
+guid: 1ff74caccc4f01b48baad58585badd62
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - BadaBoom BB
+  - Exo
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

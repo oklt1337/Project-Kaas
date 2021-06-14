@@ -1435,7 +1435,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Project Kaas
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a47240914352c9445a2d091387d5b0d4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 721f16abdb24d734ca0162aeeeb4a216, type: 2}
   m_sharedMaterial: {fileID: -1044928039343818613, guid: a47240914352c9445a2d091387d5b0d4,
     type: 2}
   m_fontSharedMaterials: []
@@ -1500,7 +1500,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &771817512
@@ -1743,8 +1743,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Project Kaas
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a47240914352c9445a2d091387d5b0d4, type: 2}
-  m_sharedMaterial: {fileID: -1044928039343818613, guid: a47240914352c9445a2d091387d5b0d4,
+  m_fontAsset: {fileID: 11400000, guid: 721f16abdb24d734ca0162aeeeb4a216, type: 2}
+  m_sharedMaterial: {fileID: 5867659389922077731, guid: 721f16abdb24d734ca0162aeeeb4a216,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1769,7 +1769,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 96.3
+  m_fontSize: 62.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
