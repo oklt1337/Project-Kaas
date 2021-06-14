@@ -13,6 +13,7 @@ namespace Collection.UI.Scripts.Rooms
         [SerializeField] private PlayerListing playerListingPrefab;
         [SerializeField] private Transform content;
         [SerializeField] private GameObject startButton;
+        [SerializeField] private GameObject readyButton;
         [SerializeField] private RawImage readyUp;
 
         [Header("Ready Button Textures")]
@@ -23,9 +24,14 @@ namespace Collection.UI.Scripts.Rooms
         private RoomCanvases _roomCanvases;
         private bool _ready;
 
-        public void ShowStartButton(bool show)
+        /// <summary>
+        /// Activates or deactivates buttons for the clients.
+        /// </summary>
+        /// <param name="show">bool</param>
+        public void ActivateButtonsForClient(bool show)
         {
             startButton.SetActive(show);
+            readyButton.SetActive(!show);
         }
 
         public void Initialize(RoomCanvases canvases)
