@@ -12,11 +12,30 @@ namespace Collection.UI.Scripts.Rooms
 
         private List<PlayerListing> _playerListings = new List<PlayerListing>();
 
+        private void Awake()
+        {
+            GetCurrentRoomPlayer();
+        }
+
         /// <summary>
-        /// Photon internal method
+        /// Get all player currently in a room
         /// </summary>
-        /// <param name="newPlayer">Player</param>
-        public override void OnPlayerEnteredRoom(Player newPlayer)
+        private void GetCurrentRoomPlayer()
+        {
+            //in current room
+            //find all player in dictionary 
+            //and add them to player list
+            foreach (var playerInfo in PhotonNetwork.CurrentRoom.Players)
+            {
+                AddPlayerListing(playerInfo.Value);
+            }
+        }
+
+        /// <summary>
+        /// add new player to player list
+        /// </summary>
+        /// <param name="newPlayer"></param>
+        private void AddPlayerListing(Player newPlayer)
         {
             var listing = Instantiate(playerListingPrefab, content);
             if (listing != null)
@@ -24,6 +43,15 @@ namespace Collection.UI.Scripts.Rooms
                 listing.SetPlayerInfo(newPlayer);
                 _playerListings.Add(listing);
             }
+        }
+        
+        /// <summary>
+        /// Photon internal method
+        /// </summary>
+        /// <param name="newPlayer">Player</param>
+        public override void OnPlayerEnteredRoom(Player newPlayer)
+        {
+            AddPlayerListing(newPlayer);
         }
 
         /// <summary>

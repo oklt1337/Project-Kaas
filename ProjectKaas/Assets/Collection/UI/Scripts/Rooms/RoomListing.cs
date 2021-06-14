@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
@@ -16,6 +17,11 @@ namespace Collection.UI.Scripts.Rooms
             RoomInfo = info;
             roomName.text = info.Name;
             playerCount.text = info.PlayerCount + " / " + info.MaxPlayers;
+        }
+
+        public void OnClickJoinRoom()
+        {
+            PhotonNetwork.JoinRoom(RoomInfo.Name);
         }
     }
 }

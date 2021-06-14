@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Collection.Network.Scripts;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -12,7 +11,24 @@ namespace Collection.UI.Scripts.Rooms
         [SerializeField] private Transform content;
 
         private List<RoomListing> _roomListings = new List<RoomListing>();
+        private RoomCanvases _roomCanvases;
+        
+        public void Initialize(RoomCanvases canvases)
+        {
+            _roomCanvases = canvases;
+        }
 
+        /// <summary>
+        /// Photon internal method
+        /// </summary>
+        public override void OnJoinedRoom()
+        {
+            _roomCanvases.CurrentRoomCanvas.ActivateRoom();
+        }
+
+        /// <summary>
+        /// Photon internal method
+        /// </summary>
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             foreach (var info in roomList)
