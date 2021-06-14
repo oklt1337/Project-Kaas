@@ -19,17 +19,19 @@ namespace Collection.UI.Scripts.Rooms
             _roomCanvases = canvases;
         }
 
-        private void Awake()
+        public override void OnEnable()
         {
             GetCurrentRoomPlayer();
         }
 
-        /// <summary>
-        /// Photon internal method
-        /// </summary>
-        public override void OnLeftRoom()
+        public override void OnDisable()
         {
-            content.DestroyChildren();
+            foreach (var playerListing in _playerListings)
+            {
+                Destroy(playerListing.gameObject);
+            }
+
+            _playerListings.Clear();
         }
 
         /// <summary>
@@ -37,6 +39,11 @@ namespace Collection.UI.Scripts.Rooms
         /// </summary>
         private void GetCurrentRoomPlayer()
         {
+            if (!PhotonNetwork.IsConnected)
+                return;
+            if (PhotonNetwork.CurrentRoom == null || PhotonNetwork.CurrentRoom.Players == null)
+                return;
+            
             //in current room
             //find all player in dictionary 
             //and add them to player list
@@ -52,11 +59,20 @@ namespace Collection.UI.Scripts.Rooms
         /// <param name="newPlayer"></param>
         private void AddPlayerListing(Player newPlayer)
         {
-            var listing = Instantiate(playerListingPrefab, content);
-            if (listing != null)
+            var index = _playerListings.FindIndex(x => x.Player == newPlayer);
+
+            if (index != -1)
             {
-                listing.SetPlayerInfo(newPlayer);
-                _playerListings.Add(listing);
+                _playerListings[index].SetPlayerInfo(newPlayer);
+            }
+            else
+            {
+                var listing = Instantiate(playerListingPrefab, content);
+                if (listing != null)
+                {
+                    listing.SetPlayerInfo(newPlayer);
+                    _playerListings.Add(listing);
+                }
             }
         }
         
@@ -84,6 +100,14 @@ namespace Collection.UI.Scripts.Rooms
                 Destroy(_playerListings[index].gameObject);
                 //remove player from player list
                 _playerListings.RemoveAt(index);
+            }
+        }
+
+        public void OnClickStartGame()
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LoadLevel(1);
             }
         }
     }
