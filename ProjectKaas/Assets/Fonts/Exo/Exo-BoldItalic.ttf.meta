@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1ff74caccc4f01b48baad58585badd62
+guid: 4301d9bb77b296042a819c8c9fa738ee
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -10,7 +10,10 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Exo
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 1ff74caccc4f01b48baad58585badd62, type: 3}
+  - {fileID: 12800000, guid: a26730b47ddf1544bb187602ccf682d6, type: 3}
+  - {fileID: 12800000, guid: 713147a81cd8bde4c9585258c6e40764, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

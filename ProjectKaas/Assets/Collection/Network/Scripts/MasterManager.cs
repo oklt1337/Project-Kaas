@@ -37,7 +37,7 @@ namespace Collection.Network.Scripts
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void PopulateNetworkPrefabs()
+        public static void PopulateNetworkPrefabs()
         {
 #if UNITY_EDITOR            
             Instance._networkPrefabs.Clear();
