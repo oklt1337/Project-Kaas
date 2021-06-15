@@ -84,7 +84,7 @@ namespace Collection.UI.Scripts.Rooms
         /// add new player to player list
         /// </summary>
         /// <param name="newPlayer"></param>
-        private void AddPlayerListing(Player newPlayer)
+        private void AddPlayerListing(Photon.Realtime.Player newPlayer)
         {
             var index = _playerListings.FindIndex(x => x.Player == newPlayer);
 
@@ -103,7 +103,7 @@ namespace Collection.UI.Scripts.Rooms
             }
         }
 
-        public override void OnMasterClientSwitched(Player newMasterClient)
+        public override void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
         {
             _roomCanvases.CurrentRoomCanvas.LeaveRoomMenu.OnClickLeaveRoom();
         }
@@ -112,7 +112,7 @@ namespace Collection.UI.Scripts.Rooms
         /// Photon internal method
         /// </summary>
         /// <param name="newPlayer">Player</param>
-        public override void OnPlayerEnteredRoom(Player newPlayer)
+        public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
         {
             AddPlayerListing(newPlayer);
         }
@@ -121,7 +121,7 @@ namespace Collection.UI.Scripts.Rooms
         /// Photon internal method
         /// </summary>
         /// <param name="otherPlayer">Player</param>
-        public override void OnPlayerLeftRoom(Player otherPlayer)
+        public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
         {
             //Find player that left room
             var index = _playerListings.FindIndex(x => x.Player == otherPlayer);
@@ -139,14 +139,14 @@ namespace Collection.UI.Scripts.Rooms
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                for (int i = 0; i < _playerListings.Count; i++)
+                /*for (int i = 0; i < _playerListings.Count; i++)
                 {
                     if (_playerListings[i].Player != PhotonNetwork.LocalPlayer)
                     {
                         if (!_playerListings[i].Ready)
                             return;
                     }
-                }
+                }*/
 
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;
@@ -161,7 +161,7 @@ namespace Collection.UI.Scripts.Rooms
         }
 
         [PunRPC]
-        private void RPC_ChangeReadyState(Player player, bool ready)
+        private void RPC_ChangeReadyState(Photon.Realtime.Player player, bool ready)
         {
             var index = _playerListings.FindIndex(x => x.Player == player);
             if (index != -1)

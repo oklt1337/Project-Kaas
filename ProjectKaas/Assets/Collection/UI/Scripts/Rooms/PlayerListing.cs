@@ -12,17 +12,17 @@ namespace Collection.UI.Scripts.Rooms
         [SerializeField] TextMeshProUGUI ping;
         [SerializeField] RawImage pingIcon;
 
-        public Player Player { get; private set; }
+        public Photon.Realtime.Player Player { get; private set; }
         public bool Ready { get; set; }
 
-        public void SetPlayerInfo(Player player)
+        public void SetPlayerInfo(Photon.Realtime.Player player)
         {
             Player = player;
 
             SetPlayerText(player);
         }
 
-        public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)
+        public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player target, ExitGames.Client.Photon.Hashtable changedProps)
         {
             if (target != null && target == Player)
             {
@@ -33,7 +33,7 @@ namespace Collection.UI.Scripts.Rooms
             }
         }
 
-        private void SetPlayerText(Player player)
+        private void SetPlayerText(Photon.Realtime.Player player)
         {
             var result = -1;
             if (Player.CustomProperties.ContainsKey("RandomNumber"))
