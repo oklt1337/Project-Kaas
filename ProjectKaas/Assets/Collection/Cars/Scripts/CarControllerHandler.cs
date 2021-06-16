@@ -21,18 +21,34 @@ namespace Collection.Cars.Scripts
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (photonView.IsMine)
             {
-                _animator.SetBool(Driving, _playerInputHandler.Drive);
-                
-                if (_playerInputHandler.Drive)
-                {
-                    var newPos = transform.position + Vector3.forward * (speed * Time.deltaTime);
-                    _rigidbody.MovePosition(newPos);
-                }
+                AnimateCar(_playerInputHandler.Drive);
+                MoveCar();
             }
+        }
+
+        /// <summary>
+        /// handles car movement.
+        /// </summary>
+        private void MoveCar()
+        {
+            if (_playerInputHandler.Drive)
+            {
+                var newPos = transform.position + Vector3.forward * (speed * Time.deltaTime);
+                _rigidbody.MovePosition(newPos);
+            }
+        }
+
+        /// <summary>
+        /// Handles car animations.
+        /// </summary>
+        /// <param name="driving"></param>
+        private void AnimateCar(bool driving)
+        {
+            _animator.SetBool(Driving, driving);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Collection.UI.Scripts.Utilities;
 using Photon.Pun;
 using Photon.Realtime;
@@ -84,7 +85,7 @@ namespace Collection.UI.Scripts.Rooms
         /// add new player to player list
         /// </summary>
         /// <param name="newPlayer"></param>
-        private void AddPlayerListing(Photon.Realtime.Player newPlayer)
+        private void AddPlayerListing(Player newPlayer)
         {
             var index = _playerListings.FindIndex(x => x.Player == newPlayer);
 
@@ -103,7 +104,7 @@ namespace Collection.UI.Scripts.Rooms
             }
         }
 
-        public override void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
+        public override void OnMasterClientSwitched(Player newMasterClient)
         {
             _roomCanvases.CurrentRoomCanvas.LeaveRoomMenu.OnClickLeaveRoom();
         }
@@ -112,7 +113,7 @@ namespace Collection.UI.Scripts.Rooms
         /// Photon internal method
         /// </summary>
         /// <param name="newPlayer">Player</param>
-        public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+        public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             AddPlayerListing(newPlayer);
         }
@@ -121,7 +122,7 @@ namespace Collection.UI.Scripts.Rooms
         /// Photon internal method
         /// </summary>
         /// <param name="otherPlayer">Player</param>
-        public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+        public override void OnPlayerLeftRoom(Player otherPlayer)
         {
             //Find player that left room
             var index = _playerListings.FindIndex(x => x.Player == otherPlayer);
@@ -139,14 +140,11 @@ namespace Collection.UI.Scripts.Rooms
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                /*for (int i = 0; i < _playerListings.Count; i++)
+                //make sure all players are ready 
+                if (_playerListings.Where(t => t.Player != PhotonNetwork.LocalPlayer).Any(t => !t.Ready))
                 {
-                    if (_playerListings[i].Player != PhotonNetwork.LocalPlayer)
-                    {
-                        if (!_playerListings[i].Ready)
-                            return;
-                    }
-                }*/
+                    return;
+                }
 
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;
@@ -161,7 +159,7 @@ namespace Collection.UI.Scripts.Rooms
         }
 
         [PunRPC]
-        private void RPC_ChangeReadyState(Photon.Realtime.Player player, bool ready)
+        private void RPC_ChangeReadyState(Player player, bool ready)
         {
             var index = _playerListings.FindIndex(x => x.Player == player);
             if (index != -1)

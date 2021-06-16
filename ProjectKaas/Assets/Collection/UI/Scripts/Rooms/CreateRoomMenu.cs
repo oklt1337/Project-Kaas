@@ -40,6 +40,8 @@ namespace Collection.UI.Scripts.Rooms
                 };
                 //Create Room
                 PhotonNetwork.JoinOrCreateRoom(roomName.text, roomOptions, TypedLobby.Default);
+
+                Debug.Log("Room " + roomName.text + " got created.");
             }
         }
 
