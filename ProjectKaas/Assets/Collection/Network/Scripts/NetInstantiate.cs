@@ -1,3 +1,4 @@
+using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using UnityEditor;
 using UnityEngine;
@@ -6,7 +7,7 @@ namespace Collection.Network.Scripts
 {
     public class NetInstantiate : MonoBehaviour
     {
-        [SerializeField] private string path;
+        [SerializeField] private string pathCar;
         private static int _posIndex;
         
         private void Awake()
@@ -19,18 +20,17 @@ namespace Collection.Network.Scripts
             {
                 case 0:
                     Debug.Log("Car Instantiated at: " + pos1);
-                    Debug.Log(path);
-                    PhotonNetwork.Instantiate(path, pos1, Quaternion.identity);
+                    PhotonNetwork.Instantiate(pathCar, pos1, Quaternion.identity);
                     _posIndex++;
                     break;
                 case 1:
                     Debug.Log("Car Instantiated at: " + pos2);
-                    PhotonNetwork.Instantiate(path, pos2, Quaternion.identity);
+                    PhotonNetwork.Instantiate(pathCar, pos2, Quaternion.identity);
                     _posIndex++;
                     break;
                 case 2:
                     Debug.Log("Car Instantiated at: " + pos3);
-                    PhotonNetwork.Instantiate(path, pos3, Quaternion.identity);
+                    PhotonNetwork.Instantiate(pathCar, pos3, Quaternion.identity);
                     _posIndex++;
                     break;
                 case 3:

@@ -491,6 +491,7 @@ GameObject:
   - component: {fileID: 4029141172953185249}
   - component: {fileID: 6470027840096220154}
   - component: {fileID: 1260200267698590711}
+  - component: {fileID: 5098928451106523045}
   m_Layer: 0
   m_Name: car-formula
   m_TagString: Untagged
@@ -530,7 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c93454ec216af1a439872861815533cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
+  speed: 10
 --- !u!114 &951231499569297685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,6 +623,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5098928451106523045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586834310606677940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 820e01063b159d74994b2d3c4fc41a6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 7017989022037011160, guid: b6c1ed8c6eccc1644bcd2aea173d31dd, type: 3}
+  inputHandler: {fileID: 951231499569297685}
 --- !u!1 &2586876549317780334
 GameObject:
   m_ObjectHideFlags: 0

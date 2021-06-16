@@ -7,7 +7,7 @@ namespace Collection.Cars.Scripts
     public class CarControllerHandler : MonoBehaviourPun
     {
         [SerializeField] private float speed = 30f;
-        
+
         private PlayerInputHandler _playerInputHandler;
         private Animator _animator;
         private Rigidbody _rigidbody;
@@ -35,11 +35,13 @@ namespace Collection.Cars.Scripts
         /// </summary>
         private void MoveCar()
         {
-            if (_playerInputHandler.Drive)
-            {
-                var newPos = transform.position + Vector3.forward * (speed * Time.deltaTime);
-                _rigidbody.MovePosition(newPos);
-            }
+            var movement = _playerInputHandler.MovementInput;
+            movement *= speed;
+            var myTransform = transform;
+            var movePos = myTransform.right * movement.x + myTransform.forward * movement.y;
+            var direction = new Vector3(movePos.x, _rigidbody.velocity.y, movePos.z);
+
+            _rigidbody.velocity = direction;
         }
 
         /// <summary>
