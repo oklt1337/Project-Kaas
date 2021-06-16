@@ -21,16 +21,14 @@ namespace Collection.Network.Scripts
         {
             foreach (var networkPrefab in Instance._networkPrefabs.Where(networkPrefab => networkPrefab.prefab == obj))
             {
-                if (networkPrefab.path != String.Empty)
+                if (networkPrefab.path != string.Empty)
                 {
                     var newObj = PhotonNetwork.Instantiate(networkPrefab.path, pos, rot);
                     return newObj;
                 }
-                else
-                {
-                    Debug.LogError("Path is empty for gameobject name " + networkPrefab.prefab);
-                    return null;
-                }
+
+                Debug.LogError("Path is empty for gameobject name " + networkPrefab.prefab);
+                return null;
             }
 
             return null;
