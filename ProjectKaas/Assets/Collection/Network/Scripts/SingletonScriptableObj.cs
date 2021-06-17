@@ -4,7 +4,7 @@ namespace Collection.Network.Scripts
 {
     public abstract class SingletonScriptableObj<T> : ScriptableObject where T : ScriptableObject
     {
-        private static T _instance = null;
+        private static T _instance;
         
         public static T Instance
         {

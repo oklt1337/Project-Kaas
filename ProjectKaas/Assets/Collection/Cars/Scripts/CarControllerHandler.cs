@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Collection.Cars.Scripts
 {
+    [RequireComponent(typeof(Animator), typeof(Rigidbody))]
     public class CarControllerHandler : MonoBehaviourPun
     {
         [SerializeField] private float speed = 30f;
@@ -15,7 +16,7 @@ namespace Collection.Cars.Scripts
 
         private void Awake()
         {
-            _playerInputHandler = GetComponent<PlayerInputHandler>();
+            _playerInputHandler = gameObject.AddComponent<PlayerInputHandler>();
             _animator = GetComponent<Animator>();
             _rigidbody = GetComponent<Rigidbody>();
         }
@@ -47,7 +48,7 @@ namespace Collection.Cars.Scripts
         /// <summary>
         /// Handles car animations.
         /// </summary>
-        /// <param name="driving"></param>
+        /// <param name="driving">bool</param>
         private void AnimateCar(bool driving)
         {
             _animator.SetBool(Driving, driving);

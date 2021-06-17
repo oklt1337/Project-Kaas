@@ -20,6 +20,22 @@ namespace Collection.UI.Scripts.Rooms
             Player = player;
 
             SetPlayerText(player);
+
+            var myPing = PhotonNetwork.GetPing();
+            ping.text = myPing.ToString();
+
+            if (myPing <= 50)
+            {
+                pingIcon.color = Color.green;
+            }
+            else if (myPing <= 80)
+            {
+                pingIcon.color = Color.yellow;
+            }
+            else
+            {
+                pingIcon.color = Color.red;
+            }
         }
 
         public override void OnPlayerPropertiesUpdate(Player target, ExitGames.Client.Photon.Hashtable changedProps)
