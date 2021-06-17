@@ -4,54 +4,51 @@ using UnityEngine;
 
 namespace Collection.Cars.Scripts
 {
-    [RequireComponent(typeof(Animator), typeof(Rigidbody))]
-    public class CarControllerHandler : MonoBehaviourPun
+    [RequireComponent(typeof(Rigidbody))]
+    public class CarControllerHandler : MonoBehaviour
     {
-        [SerializeField] private float speed = 30f;
-
-        private PlayerInputHandler _playerInputHandler;
-        private Animator _animator;
+        #region Private Fields
+        
+        private Car _car;
         private Rigidbody _rigidbody;
-        private static readonly int Driving = Animator.StringToHash("Driving");
+        
+        #endregion
 
+        #region MonoBehaviour CallBacks
+        
         private void Awake()
         {
-            _playerInputHandler = gameObject.AddComponent<PlayerInputHandler>();
-            _animator = GetComponent<Animator>();
+            _car = GetComponent<Car>();
             _rigidbody = GetComponent<Rigidbody>();
         }
 
         // Update is called once per frame
         private void Update()
         {
-            if (photonView.IsMine)
-            {
-                AnimateCar(_playerInputHandler.Drive);
-                MoveCar();
-            }
+            // Make sure only local player can control car.
+            if (!_car.photonView.IsMine) return;
+            
+            MoveCar();
         }
+        
+        #endregion
 
+        #region Private Methods
+        
         /// <summary>
         /// handles car movement.
         /// </summary>
         private void MoveCar()
         {
-            var movement = _playerInputHandler.MovementInput;
-            movement *= speed;
+            var movement = _car.PlayerHandler.PlayerInputHandler.MovementInput;
+            movement *= _car.Speed;
             var myTransform = transform;
             var movePos = myTransform.right * movement.x + myTransform.forward * movement.y;
             var direction = new Vector3(movePos.x, _rigidbody.velocity.y, movePos.z);
 
             _rigidbody.velocity = direction;
         }
-
-        /// <summary>
-        /// Handles car animations.
-        /// </summary>
-        /// <param name="driving">bool</param>
-        private void AnimateCar(bool driving)
-        {
-            _animator.SetBool(Driving, driving);
-        }
+        
+        #endregion
     }
 }

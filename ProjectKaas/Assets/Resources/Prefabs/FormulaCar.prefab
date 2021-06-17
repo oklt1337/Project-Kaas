@@ -485,16 +485,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2590594371343083842}
-  - component: {fileID: -5645626369471763574}
-  - component: {fileID: 951231499569297685}
-  - component: {fileID: 5098928451106523045}
+  - component: {fileID: 6431923683429604226}
+  - component: {fileID: 7429925254606426289}
+  - component: {fileID: 9124609323441831879}
   - component: {fileID: 4029141172953185249}
   - component: {fileID: 3855339689753296530}
   - component: {fileID: 6470027840096220154}
   - component: {fileID: 6436844228155763373}
   - component: {fileID: 1260200267698590711}
   m_Layer: 0
-  m_Name: car-formula
+  m_Name: FormulaCar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -520,7 +520,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5645626369471763574
+--- !u!114 &6431923683429604226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2586834310606677940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf0f2890698202e409f0601dd6393f04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  animatorController: {fileID: 9100000, guid: f73e5c32b70f81046a97d71f47bc97c5, type: 2}
+--- !u!114 &7429925254606426289
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -532,8 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c93454ec216af1a439872861815533cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
---- !u!114 &951231499569297685
+--- !u!114 &9124609323441831879
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -542,23 +555,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2586834310606677940}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21c3fc571a3a55649bf02465548d7b8f, type: 3}
+  m_Script: {fileID: 11500000, guid: cebd41594e6b50f4cad9da367bcaaf94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5098928451106523045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2586834310606677940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 820e01063b159d74994b2d3c4fc41a6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 7017989022037011160, guid: b6c1ed8c6eccc1644bcd2aea173d31dd, type: 3}
-  inputHandler: {fileID: 951231499569297685}
 --- !u!114 &4029141172953185249
 MonoBehaviour:
   m_ObjectHideFlags: 0
