@@ -6,7 +6,7 @@ namespace Collection.Cars.Scripts.FormulaCar
     {
         #region Private Serializable Fields
 
-        [Tooltip("Speed of car.")]
+        [Tooltip("Speed of FormulaCar.")]
         [SerializeField] private float speed = 10f;
 
         #endregion

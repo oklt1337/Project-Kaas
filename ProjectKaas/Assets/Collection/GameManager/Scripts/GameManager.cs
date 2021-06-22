@@ -7,6 +7,38 @@ namespace Collection.GameManager.Scripts
 {
     public class GameManager : MonoBehaviourPunCallbacks
     {
+        #region Public Fields
+
+        [Tooltip("The prefab to use for representing the player")]
+        public GameObject playerPrefab;
+
+        #endregion
+
+        #region Private SerializeFields 
+
+        [SerializeField] private Transform[] startPos;
+
+        #endregion
+
+        #region Monobehaviour Callbacks
+
+        private void Start()
+        {
+            if (playerPrefab == null)
+            {
+                Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
+            }
+            else
+            {
+                Debug.LogFormat("We are Instantiating LocalPlayer from {0}", Application.loadedLevelName);
+                
+                // Spawn playerPrefab for the local player.
+                PhotonNetwork.Instantiate("Prefabs/" + playerPrefab.name, startPos[0].position, Quaternion.identity);
+            }
+        }
+
+        #endregion
+        
         #region Photon Callbacks
         
         /// <summary>

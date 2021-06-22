@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Collection.Cars.Scripts
 {
     [RequireComponent(typeof(CarControllerHandler), typeof(CarAnimationHandler))]
-    public abstract class Car : MonoBehaviourPun
+    public abstract class Car : MonoBehaviour
     {
         #region Public Fields
         

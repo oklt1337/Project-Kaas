@@ -2124,6 +2124,32 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1017857731}
     m_Modifications:
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 2475089690927584884, guid: de5d8edcc28a4694bb1e2f929023b4e7,
+        type: 3}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.data[0]
+      value: 
+      objectReference: {fileID: 1868342864}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.data[1]
+      value: 
+      objectReference: {fileID: 1842706296}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.data[2]
+      value: 
+      objectReference: {fileID: 1229601013}
     - target: {fileID: 3745587215911757375, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
         type: 3}
       propertyPath: m_Name
@@ -3882,7 +3908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c2360d56a14d804d9a367851e9ff15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathCar: Prefabs/car-formula
+  pathCar: Prefabs/PlayerFormula
 --- !u!1001 &1617977520
 PrefabInstance:
   m_ObjectHideFlags: 0

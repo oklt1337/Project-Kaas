@@ -1,10 +1,11 @@
 using Collection.Cars.Scripts;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Collection.NetworkPlayer.Scripts
 {
     [RequireComponent(typeof(PlayerInputHandler), typeof(CameraHandler))]
-    public class PlayerHandler : MonoBehaviour
+    public class PlayerHandler : MonoBehaviourPun
     {
         #region Public Fields
 
