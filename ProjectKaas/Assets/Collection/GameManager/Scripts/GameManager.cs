@@ -31,9 +31,12 @@ namespace Collection.GameManager.Scripts
             else
             {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", Application.loadedLevelName);
+
+                // Get random Start pos (need just to test)
+                var pos = Random.Range(0, startPos.Length);
                 
                 // Spawn playerPrefab for the local player.
-                PhotonNetwork.Instantiate("Prefabs/" + playerPrefab.name, startPos[0].position, Quaternion.identity);
+                PhotonNetwork.Instantiate("Prefabs/" + playerPrefab.name, startPos[pos].position, Quaternion.identity);
             }
         }
 
