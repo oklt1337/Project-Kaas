@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 1342488019}
   - component: {fileID: 1342488020}
   m_Layer: 0
-  m_Name: PlayerNetworkManager
+  m_Name: NetworkConnection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,7 +263,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1342488018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8d5cb3922f0059448eecc6ef182a330, type: 3}
+  m_Script: {fileID: 11500000, guid: 043c9a94cf948234bba65db3dcf3489f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1437862246

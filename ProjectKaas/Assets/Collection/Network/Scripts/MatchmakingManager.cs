@@ -2,9 +2,9 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-namespace Collection.Network.Scripts.Lobby
+namespace Collection.Network.Scripts
 {
-    public class Launcher : MonoBehaviourPunCallbacks
+    public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         #region Private Serializable Fields
 
@@ -23,23 +23,16 @@ namespace Collection.Network.Scripts.Lobby
         private GameObject progressLabel;
 
         #endregion
-
-
+        
         #region Private Fields
 
         /// <summary>
-        /// This client's version number. Users are separated from each other by gameVersion.
-        /// </summary>
-        private const string GameVersion = "0.0.0";
-        
-        /// <summary>
         /// Keep track of the current process.
         /// </summary>
-        private bool _isConnecting;
+        private bool _joinMatchmaking;
 
         #endregion
-
-
+        
         #region MonoBehaviour CallBacks
 
         private void Awake()
@@ -55,8 +48,7 @@ namespace Collection.Network.Scripts.Lobby
         }
 
         #endregion
-
-
+        
         #region Public Methods
 
         /// <summary>
@@ -71,68 +63,40 @@ namespace Collection.Network.Scripts.Lobby
 
             // Check if we are connected or not,
             // Join if we are
-            // Else we initiate the connection to the server.
-            if (PhotonNetwork.IsConnected)
-            {
-                // Joining a Random Room.
-                // If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
-                Debug.Log("Joining room...");
-                PhotonNetwork.JoinRandomRoom();
-            }
-            else
-            {
-                // Connect to Photon Online Server.
-                Debug.Log("Connecting to server...");
-                
-                // Keep track of the will to join a room
-                _isConnecting = PhotonNetwork.ConnectUsingSettings();
-                // Set GameVersion.
-                PhotonNetwork.GameVersion = GameVersion;
-            }
+            if (!PhotonNetwork.IsConnected) return;
+            
+            // Joining a Random Room.
+            // If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
+            Debug.Log("Joining room...");
+
+            _joinMatchmaking = true;
+            PhotonNetwork.JoinRandomRoom();
         }
 
         #endregion
 
         #region PhotonNetwork Callbacks
 
-        public override void OnConnectedToMaster()
-        {
-            Debug.Log("Connected to master.");
-
-            // Make sure we want to join a room.
-            if (_isConnecting)
-            {
-                Debug.Log("Joining room...");
-                
-                // Joining a Random Room.
-                // If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
-                PhotonNetwork.JoinRandomRoom();
-                _isConnecting = false;
-            }
-        }
-
         public override void OnDisconnected(DisconnectCause cause)
         {
             progressLabel.SetActive(false);
             controlPanel.SetActive(true);
             
-            _isConnecting = false;
-            Debug.LogWarning("Connection lost. Reason: " + cause);
+            _joinMatchmaking = false;
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            Debug.Log("Failed to join room.");
-
             // Create new room.
-            PhotonNetwork.CreateRoom(null, new RoomOptions {MaxPlayers = maxPlayersPerRoom});
+            if (_joinMatchmaking)
+            {
+                PhotonNetwork.CreateRoom(null, new RoomOptions {MaxPlayers = maxPlayersPerRoom});
+            }
         }
 
 
         public override void OnJoinedRoom()
         {
-            Debug.Log("Joined room: " + PhotonNetwork.CurrentRoom.Name);
-
             // We only load if we are the first player
             // else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1)

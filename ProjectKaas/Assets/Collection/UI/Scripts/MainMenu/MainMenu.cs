@@ -23,12 +23,6 @@ namespace Collection.UI.Scripts.MainMenu
             mainMenuCanvases.SetActive(false);
         }
         
-        public void OnClickLogin()
-        {
-            overlayCanvases.SetActive(true);
-            mainMenuCanvases.SetActive(false);
-        }
-        
         public void OnClickPlay()
         {
             overlayCanvases.SetActive(true);

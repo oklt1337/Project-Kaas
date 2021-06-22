@@ -1,9 +1,8 @@
-using System;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
-namespace Collection.NetworkPlayer.Scripts
+namespace Collection.UI.Scripts
 {
     [RequireComponent(typeof(TMP_InputField))]
     public class PlayerNameInputField : MonoBehaviour
