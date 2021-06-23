@@ -52,8 +52,7 @@ namespace Collection.Network.Scripts
         {
             Debug.Log("Failed to join room.");
         }
-
-
+        
         public override void OnJoinedRoom()
         {
             Debug.Log("Joined room: " + PhotonNetwork.CurrentRoom.Name);

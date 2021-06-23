@@ -56,7 +56,7 @@ namespace Collection.Network.Scripts
         /// - If already connected, attempt joining a random room
         /// - if not yet connected, Connect to Photon Cloud Network
         /// </summary>
-        public void Connect()
+        public void OnClickPlay()
         {
             progressLabel.SetActive(true);
             controlPanel.SetActive(false);
@@ -97,6 +97,8 @@ namespace Collection.Network.Scripts
 
         public override void OnJoinedRoom()
         {
+            if (!_joinMatchmaking) return;
+
             // We only load if we are the first player
             // else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
