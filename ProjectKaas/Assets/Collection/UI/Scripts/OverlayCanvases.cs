@@ -15,10 +15,14 @@ namespace Collection.UI.Scripts
         [Tooltip("Gameobject witch contains RoomList Canvas.")]
         [SerializeField] private GameObject roomListCanvas;
         
+        [Tooltip("Gameobject witch contains Room Canvas.")]
+        [SerializeField] private GameObject currenRoomCanvas;
+        
         #endregion
         
         #region Public Properies
         public GameObject RoomListCanvas => roomListCanvas;
+        public GameObject CurrenRoomCanvas => currenRoomCanvas;
         
         #endregion
 
