@@ -13,8 +13,11 @@ namespace Collection.UI.Scripts.Play
         #endregion
         
         #region MonoBehaviour Callbacks
-        
-        
+
+        private void OnEnable()
+        {
+            toggle.isOn = PhotonNetwork.CurrentRoom.IsVisible;
+        }
 
         #endregion
         
@@ -26,6 +29,10 @@ namespace Collection.UI.Scripts.Play
             {
                 PhotonNetwork.CurrentRoom.IsOpen = toggle.isOn;
                 PhotonNetwork.CurrentRoom.IsVisible = toggle.isOn;
+
+                Debug.Log(PhotonNetwork.CountOfRooms); 
+                Debug.Log("Open = " + PhotonNetwork.CurrentRoom.IsOpen); 
+                Debug.Log("Visible = " + PhotonNetwork.CurrentRoom.IsVisible); 
             }
         }
 

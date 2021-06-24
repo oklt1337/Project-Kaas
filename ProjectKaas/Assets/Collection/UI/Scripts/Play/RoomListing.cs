@@ -9,7 +9,7 @@ namespace Collection.UI.Scripts.Play
         #region Private Serializable Fields
 
         [Tooltip("TextMeshPro text obj for room name.")]
-        [SerializeField] private TextMeshProUGUI roomName;
+        [SerializeField] private TextMeshProUGUI roomNameText;
         
         [Tooltip("TextMeshPro text obj for player count.")]
         [SerializeField] private TextMeshProUGUI playerCount;
@@ -18,11 +18,12 @@ namespace Collection.UI.Scripts.Play
 
         #region Public Fields
 
-        public TextMeshProUGUI RoomName => roomName;
-        
+        public TextMeshProUGUI RoomNameTextText => roomNameText;
         public TextMeshProUGUI PlayerCount => playerCount;
         
         public bool Updated { get; set; }
+        
+        public string RoomName { get; private set; }
 
         #endregion
 
@@ -38,7 +39,7 @@ namespace Collection.UI.Scripts.Play
             var roomListCanvas = roomListCanvasObj.GetComponent<RoomListCanvas>();
 
             var button = GetComponent<Button>();
-            button.onClick.AddListener(() => roomListCanvas.OnClickJoinRoom(RoomName.text));
+            button.onClick.AddListener(() => roomListCanvas.OnClickJoinRoom(RoomNameTextText.text));
         }
 
         private void OnDestroy()
@@ -47,6 +48,16 @@ namespace Collection.UI.Scripts.Play
             button.onClick.RemoveAllListeners();
         }
 
+        #endregion
+        
+        #region Public Methods
+
+        public void SetRoomText(string rName)
+        {
+            RoomName = rName;
+            RoomNameTextText.text = RoomName;
+        }
+        
         #endregion
     }
 }

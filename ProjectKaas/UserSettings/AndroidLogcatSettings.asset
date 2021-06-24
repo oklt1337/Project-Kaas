@@ -1,47 +1,65 @@
 {
     "m_SelectedDeviceId": "emulator-5554",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "emulator-5554",
+        "name": "com.DefaultCompany.ProjectKaas",
+        "processId": 8772,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.ProjectKaas",
-            "processId": 18528,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.ProjectKaas",
-            "processId": 18707,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.ProjectKaas",
-            "processId": 18995,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.ProjectKaas",
-            "processId": 19284,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.ProjectKaas",
-            "processId": 4444,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
             "name": "com.google.android.apps.nexuslauncher",
             "processId": 1050,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 6951,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 7168,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 7365,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 7555,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 7755,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 8313,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 8619,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 8772,
             "exited": false
         }
     ],

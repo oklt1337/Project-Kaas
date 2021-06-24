@@ -1,5 +1,7 @@
 using Collection.UI.Scripts;
+using Collection.UI.Scripts.Play;
 using Photon.Pun;
+using Photon.Pun.Demo.Cockpit;
 using Photon.Realtime;
 using UnityEngine;
 
@@ -11,8 +13,17 @@ namespace Collection.Network.Scripts
 
         public void OnClickCreateRoom()
         {
-            PhotonNetwork.CreateRoom(null, new RoomOptions {MaxPlayers = 8});
+            var roomOptions = new RoomOptions()
+            {
+                IsVisible = true,
+                IsOpen = true,
+                MaxPlayers = 8
+            };
             
+            //PhotonNetwork.CreateRoom(null, roomOptions, TypedLobby.Default);
+
+            PhotonNetwork.JoinOrCreateRoom("Room", roomOptions, TypedLobby.Default);
+
             OverlayCanvases.Instance.CurrenRoomCanvas.SetActive(true);
         }
 

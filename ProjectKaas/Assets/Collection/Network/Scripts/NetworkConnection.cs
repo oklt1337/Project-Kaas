@@ -12,6 +12,11 @@ namespace Collection.Network.Scripts
         /// This client's version number. Users are separated from each other by gameVersion.
         /// </summary>
         private const string GameVersion = "0.0.0";
+        
+        /// <summary>
+        /// This client's version number. Users are separated from each other by gameVersion.
+        /// </summary>
+        private const string AppVersion = "1.0.0";
 
         #endregion
 
@@ -22,11 +27,14 @@ namespace Collection.Network.Scripts
         {
             // Connect to Photon Online Server.
             Debug.Log("Connecting to server...");
-                
+
+            // Set AppVersion.
+            PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = AppVersion;
+
+            PhotonNetwork.ConnectUsingSettings();
+            
             // Set GameVersion.
             PhotonNetwork.GameVersion = GameVersion;
-            
-            PhotonNetwork.ConnectUsingSettings();
             
             // Make sure if LoadLevel is called all clients sync their level automatically
             PhotonNetwork.AutomaticallySyncScene = true;
@@ -40,6 +48,12 @@ namespace Collection.Network.Scripts
         {
             Debug.Log("Connected to master.");
             
+            PhotonNetwork.JoinLobby();
+        }
+
+        public override void OnJoinedLobby()
+        {
+            Debug.Log("Joined Lobby.");
             PhotonNetwork.LoadLevel(1);
         }
 

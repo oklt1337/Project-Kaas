@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df84bdd6e446b64488682da77e14b621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomName: {fileID: 2152231971082504417}
+  roomNameText: {fileID: 2152231971082504417}
   playerCount: {fileID: 7751599658666827054}
 --- !u!114 &2152231972022771121
 MonoBehaviour:
