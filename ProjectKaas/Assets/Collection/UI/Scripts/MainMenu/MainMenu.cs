@@ -7,18 +7,18 @@ namespace Collection.UI.Scripts.MainMenu
     {
         #region Private Serializable Fields
 
-        [Tooltip("Gameobject witch contains MainMenu Canvas.")]
-        [SerializeField] private GameObject mainMenuCanvases;
-        
+        [Tooltip("Gameobject witch contains MainMenu Canvas.")] [SerializeField]
+        private GameObject mainMenuCanvases;
+
         #endregion
 
         #region Public Methods
-        
+
         public void OnClickRoomList()
         {
-            OverlayCanvases.Instance.RoomListCanvas.SetActive(true);
+            OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
         }
-        
+
         public void OnClickSettings()
         {
             mainMenuCanvases.SetActive(false);
@@ -38,7 +38,12 @@ namespace Collection.UI.Scripts.MainMenu
         {
             mainMenuCanvases.SetActive(false);
         }
-        
+
+        public void OnClickLogin()
+        {
+            mainMenuCanvases.SetActive(false);
+        }
+
         #endregion
     }
 }

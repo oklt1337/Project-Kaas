@@ -1,3 +1,4 @@
+using Collection.UI.Scripts.Play;
 using UnityEngine;
 
 namespace Collection.UI.Scripts
@@ -12,8 +13,8 @@ namespace Collection.UI.Scripts
 
         #region Private Serializable Fields
         
-        [Tooltip("Gameobject witch contains RoomList Canvas.")]
-        [SerializeField] private GameObject roomListCanvas;
+        [Tooltip("RoomList Canvas.")]
+        [SerializeField] private RoomListCanvas roomListCanvas;
         
         [Tooltip("Gameobject witch contains Room Canvas.")]
         [SerializeField] private GameObject currenRoomCanvas;
@@ -21,7 +22,7 @@ namespace Collection.UI.Scripts
         #endregion
         
         #region Public Properies
-        public GameObject RoomListCanvas => roomListCanvas;
+        public RoomListCanvas RoomListCanvas => roomListCanvas;
         public GameObject CurrenRoomCanvas => currenRoomCanvas;
         
         #endregion

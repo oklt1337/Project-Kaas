@@ -27,7 +27,7 @@ namespace Collection.Network.Scripts
 
         public override void OnLeftRoom()
         {
-            Debug.Log("Left room: " + PhotonNetwork.CurrentRoom.Name);
+            Debug.Log("Left room.");
         }
 
         #endregion

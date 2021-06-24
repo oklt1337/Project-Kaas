@@ -279,7 +279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2152231972022771116}
-  - component: {fileID: 9165470864934318660}
+  - component: {fileID: 8091547836370167980}
   - component: {fileID: 2152231972022771121}
   - component: {fileID: 2152231972022771118}
   - component: {fileID: 2152231972022771119}
@@ -307,12 +307,12 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1330, y: 150}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -75}
+  m_SizeDelta: {x: 1367.206, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &9165470864934318660
+--- !u!114 &8091547836370167980
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2152231972022771117}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a9df35b2b48cf941ab95370a3cd5755, type: 3}
+  m_Script: {fileID: 11500000, guid: df84bdd6e446b64488682da77e14b621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   roomName: {fileID: 2152231971082504417}
@@ -425,7 +425,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9165470864934318660}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Collection.UI.Scripts.Rooms.RoomListing, Assembly-CSharp
         m_MethodName: OnClickJoinRoom
         m_Mode: 1
