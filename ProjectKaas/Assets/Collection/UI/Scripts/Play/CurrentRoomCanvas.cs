@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Collection.UI.Scripts.Play
 {
-    public class CurrentRoomCanvas : MonoBehaviour
+    public class CurrentRoomCanvas : MonoBehaviourPunCallbacks
     {
         #region Private Serializable Fields
 
@@ -14,7 +14,7 @@ namespace Collection.UI.Scripts.Play
         
         #region MonoBehaviour Callbacks
 
-        private void OnEnable()
+        public override void OnJoinedRoom()
         {
             toggle.isOn = PhotonNetwork.CurrentRoom.IsVisible;
         }
@@ -30,9 +30,7 @@ namespace Collection.UI.Scripts.Play
                 PhotonNetwork.CurrentRoom.IsOpen = toggle.isOn;
                 PhotonNetwork.CurrentRoom.IsVisible = toggle.isOn;
 
-                Debug.Log(PhotonNetwork.CountOfRooms); 
-                Debug.Log("Open = " + PhotonNetwork.CurrentRoom.IsOpen); 
-                Debug.Log("Visible = " + PhotonNetwork.CurrentRoom.IsVisible); 
+                Debug.Log(PhotonNetwork.CurrentRoom.IsVisible ? "Lobby is Open" : "Lobby is Closed");
             }
         }
 

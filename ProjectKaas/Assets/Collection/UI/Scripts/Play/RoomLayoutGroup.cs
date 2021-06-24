@@ -49,6 +49,7 @@ namespace Collection.UI.Scripts.Play
             {
                 var roomListing = RoomListingButtons[index];
                 roomListing.SetRoomText(room.Name);
+                roomListing.SetPlayerCount(room.PlayerCount, room.MaxPlayers);
                 roomListing.Updated = true;
             }
         }
@@ -84,10 +85,8 @@ namespace Collection.UI.Scripts.Play
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             base.OnRoomListUpdate(roomList);
-            Debug.Log("Updated");
             foreach (var room in roomList)
             {
-                Debug.Log(room.Name);
                 RoomReceived(room);
             }
             RemoveOldRooms();

@@ -57,6 +57,11 @@ namespace Collection.UI.Scripts.Play
             RoomName = rName;
             RoomNameTextText.text = RoomName;
         }
+
+        public void SetPlayerCount(int currentCount, int maxPlayer)
+        {
+            PlayerCount.text = currentCount + "/" + maxPlayer;
+        }
         
         #endregion
     }

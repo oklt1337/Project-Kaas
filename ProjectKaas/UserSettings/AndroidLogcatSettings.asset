@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "emulator-5554",
     "m_SelectedPackage": {
-        "deviceId": "emulator-5554",
-        "name": "com.DefaultCompany.ProjectKaas",
-        "processId": 8772,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -17,50 +17,32 @@
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.ProjectKaas",
-            "processId": 6951,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.ProjectKaas",
-            "processId": 7168,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.ProjectKaas",
-            "processId": 7365,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.ProjectKaas",
-            "processId": 7555,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.ProjectKaas",
-            "processId": 7755,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.ProjectKaas",
-            "processId": 8313,
-            "exited": false
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.ProjectKaas",
             "processId": 8619,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.ProjectKaas",
             "processId": 8772,
-            "exited": false
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 9716,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 10095,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 10365,
+            "exited": true
         }
     ],
     "m_Tags": {

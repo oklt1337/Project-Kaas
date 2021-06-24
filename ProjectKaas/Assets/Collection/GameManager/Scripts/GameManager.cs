@@ -30,7 +30,8 @@ namespace Collection.GameManager.Scripts
             }
             else
             {
-                Debug.LogFormat("We are Instantiating LocalPlayer from {0}", Application.loadedLevelName);
+                
+                Debug.Log("Instantiating LocalPlayer.");
 
                 // Get random Start pos (need just to test)
                 var pos = Random.Range(0, startPos.Length);
