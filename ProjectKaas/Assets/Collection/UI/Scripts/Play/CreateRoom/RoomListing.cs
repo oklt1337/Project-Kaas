@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Collection.UI.Scripts.Play
+namespace Collection.UI.Scripts.Play.CreateRoom
 {
     public class RoomListing : MonoBehaviour
     {

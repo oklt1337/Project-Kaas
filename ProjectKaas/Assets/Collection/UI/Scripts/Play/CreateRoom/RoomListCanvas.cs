@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Collection.UI.Scripts.Play
+namespace Collection.UI.Scripts.Play.CreateRoom
 {
     public class RoomListCanvas : MonoBehaviour
     {

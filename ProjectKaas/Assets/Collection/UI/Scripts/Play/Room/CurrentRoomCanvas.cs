@@ -2,7 +2,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Collection.UI.Scripts.Play
+namespace Collection.UI.Scripts.Play.Room
 {
     public class CurrentRoomCanvas : MonoBehaviourPunCallbacks
     {

@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -110.53, y: 0}
-  m_SizeDelta: {x: 531.42, y: 90}
+  m_AnchoredPosition: {x: -106.55, y: 0}
+  m_SizeDelta: {x: 486.91, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3935263978910918509
 CanvasRenderer:
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 4905905002985575100}
   - component: {fileID: 5490708823823378561}
   - component: {fileID: 9176020088210864451}
-  - component: {fileID: 726512898773039618}
+  - component: {fileID: 959578614526839675}
   m_Layer: 5
   m_Name: PlayerListing
   m_TagString: Untagged
@@ -174,7 +174,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 90}
+  m_SizeDelta: {x: 700, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4905905002985575100
 MonoBehaviour:
@@ -231,7 +231,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &726512898773039618
+--- !u!114 &959578614526839675
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -240,12 +240,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2121351120414577968}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e487eb24847e9746bf38e583e6cc64b, type: 3}
+  m_Script: {fileID: 11500000, guid: 66097a6a21f0c6f4493e708f25e70380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: {fileID: 4707782168584007284}
-  ping: {fileID: 1848119663295817391}
-  pingIcon: {fileID: 3124983569182190834}
+  playerPing: {fileID: 1848119663295817391}
+  playerPingImage: {fileID: 3124983569182190834}
 --- !u!1 &3386536733977699530
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,7 +281,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 220.2684, y: 0}
+  m_AnchoredPosition: {x: 202, y: 0}
   m_SizeDelta: {x: 130.1833, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3973381900418138323
