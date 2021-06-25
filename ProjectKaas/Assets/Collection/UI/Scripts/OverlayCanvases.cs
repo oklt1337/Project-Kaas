@@ -1,5 +1,6 @@
 using Collection.UI.Scripts.Play;
 using Collection.UI.Scripts.Play.CreateRoom;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Collection.UI.Scripts

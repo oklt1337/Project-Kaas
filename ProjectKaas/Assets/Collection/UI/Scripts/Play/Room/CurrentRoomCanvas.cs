@@ -8,6 +8,7 @@ namespace Collection.UI.Scripts.Play.Room
     {
         #region Private Serializable Fields
 
+        [Tooltip("Toggle to make room private or public.")]
         [SerializeField] private Toggle toggle;
         
         #endregion
@@ -23,6 +24,9 @@ namespace Collection.UI.Scripts.Play.Room
         
         #region Public Methods
         
+        /// <summary>
+        /// Toggle room private/public.
+        /// </summary>
         public void OnTogglePrivacyRoom()
         {
             if (PhotonNetwork.IsMasterClient)
@@ -30,15 +34,21 @@ namespace Collection.UI.Scripts.Play.Room
                 PhotonNetwork.CurrentRoom.IsOpen = toggle.isOn;
                 PhotonNetwork.CurrentRoom.IsVisible = toggle.isOn;
 
-                Debug.Log(PhotonNetwork.CurrentRoom.IsVisible ? "Lobby is Open" : "Lobby is Closed");
+                Debug.Log(PhotonNetwork.CurrentRoom.IsVisible ? "Lobby is Public" : "Lobby is Private");
             }
         }
 
+        /// <summary>
+        /// Ready.
+        /// </summary>
         public void OnClickReady()
         {
             
         }
 
+        /// <summary>
+        /// Leave current room.
+        /// </summary>
         public void OnClickLeave()
         {
             PhotonNetwork.LeaveRoom();

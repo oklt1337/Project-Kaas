@@ -30,12 +30,15 @@ namespace Collection.UI.Scripts.Play.CreateRoom
 
         private void RoomReceived(RoomInfo room)
         {
+            Debug.Log("Received Room: " + room.Name);
+            
             var index = RoomListingButtons.FindIndex(x => x.RoomName == room.Name);
 
             if (index == -1)
             {
                 if (room.IsVisible && room.PlayerCount < room.MaxPlayers)
                 {
+                    Debug.Log("Room now shown in list.");
                     var roomListingObj = Instantiate(RoomListingPrefab, transform, false);
                     var roomListing = roomListingObj.GetComponent<RoomListing>();
 
@@ -56,6 +59,8 @@ namespace Collection.UI.Scripts.Play.CreateRoom
 
         private void RemoveOldRooms()
         {
+            Debug.Log("Removing old rooms.");
+            
             var removeRooms = new List<RoomListing>();
 
             foreach (var roomListing in RoomListingButtons)
@@ -84,6 +89,7 @@ namespace Collection.UI.Scripts.Play.CreateRoom
 
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
+            Debug.Log("Updated Room List");
             base.OnRoomListUpdate(roomList);
             foreach (var room in roomList)
             {

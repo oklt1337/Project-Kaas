@@ -38,6 +38,9 @@ namespace Collection.Network.Scripts
             
             // Make sure if LoadLevel is called all clients sync their level automatically
             PhotonNetwork.AutomaticallySyncScene = true;
+            
+            // Set Random Default name as long not logged in
+            PhotonNetwork.LocalPlayer.NickName = "MusterName#" + Random.Range(1000, 9999);
         }
 
         #endregion

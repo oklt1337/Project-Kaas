@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 namespace Collection.UI.Scripts.Play.CreateRoom
@@ -6,6 +7,7 @@ namespace Collection.UI.Scripts.Play.CreateRoom
     {
         #region Private Serializable Fields
 
+        [Tooltip("RoomLayoutGroup")]
         [SerializeField] private RoomLayoutGroup roomLayoutGroup;
 
         #endregion
@@ -18,9 +20,21 @@ namespace Collection.UI.Scripts.Play.CreateRoom
         
         #region Public Methods
 
+        /// <summary>
+        /// Join room.
+        /// </summary>
+        /// <param name="roomName">string</param>
         public void OnClickJoinRoom(string roomName)
         {
-            
+            if (PhotonNetwork.JoinRoom(roomName))
+            {
+                OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
+                Debug.Log("Join room successful.");
+            }
+            else
+            {
+                Debug.Log("Join room failed.");
+            }
         }
         
         #endregion

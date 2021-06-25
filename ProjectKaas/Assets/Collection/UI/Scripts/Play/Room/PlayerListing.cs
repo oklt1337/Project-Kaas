@@ -2,6 +2,7 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Realtime;
 
 namespace Collection.UI.Scripts.Play.Room
 {
@@ -26,8 +27,9 @@ namespace Collection.UI.Scripts.Play.Room
 
         #region Public Methods
 
-        public void ApplyPhotonPlayer(Photon.Realtime.Player photonPlayer)
+        public void ApplyPhotonPlayer(Player photonPlayer)
         {
+            PhotonPlayer = photonPlayer;
             PlayerName.text = photonPlayer.NickName;
             PlayerPing.text = null;
         }
