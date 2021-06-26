@@ -63,10 +63,13 @@ namespace Collection.UI.Scripts.Play.Room
             // Instantiate player listing obj.
             var playerListingObj = Instantiate(playerListingPrefab, transform, false);
 
+            // Set Obj name to nickname.
+            playerListingObj.name = player.NickName;
+            
             // find playerListing script and apply player.
             var playerListing = playerListingObj.GetComponent<PlayerListing>();
             playerListing.ApplyPhotonPlayer(player);
-            
+
             // add to list.
             PlayerList.Add(playerListing);
         }

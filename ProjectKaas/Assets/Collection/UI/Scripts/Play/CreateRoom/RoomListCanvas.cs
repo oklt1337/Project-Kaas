@@ -26,8 +26,15 @@ namespace Collection.UI.Scripts.Play.CreateRoom
         /// <param name="roomName">string</param>
         public void OnClickJoinRoom(string roomName)
         {
-            if (PhotonNetwork.JoinRoom(roomName))
+            var join = PhotonNetwork.JoinRoom(roomName);
+
+            if (join)
             {
+                if (PhotonNetwork.CurrentRoom == null)
+                {
+                    OverlayCanvases.Instance.CurrenRoomCanvas.SetActive(false);
+                }
+                
                 OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
                 Debug.Log("Join room successful.");
             }

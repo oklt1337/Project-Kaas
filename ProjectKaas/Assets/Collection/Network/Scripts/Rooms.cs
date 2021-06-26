@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Collection.UI.Scripts;
 using Collection.UI.Scripts.Play;
 using Photon.Pun;
@@ -97,6 +98,21 @@ namespace Collection.Network.Scripts
         }
 
         #endregion
+        
+        #region Private Methods
+
+        private IEnumerator WarningCo(string text)
+        {
+            warning.gameObject.SetActive(true);
+            warning.text = text;
+
+            yield return new WaitForSeconds(5f);
+
+            warning.text = String.Empty;
+            warning.gameObject.SetActive(false);
+        }
+        
+        #endregion
 
         #region Photon Callbacks
 
@@ -112,8 +128,12 @@ namespace Collection.Network.Scripts
         public override void OnLeftRoom()
         {
             Debug.Log("Left room.");
-            warning.text = String.Empty;
-            warning.gameObject.SetActive(false);
+            
+            OverlayCanvases.Instance.CurrenRoomCanvas.SetActive(false);
+            OverlayCanvases.Instance.PlayerInfoCanvas.SetActive(false);
+
+            StartCoroutine(WarningCo("You left the room or got kicked."));
+            
             roomName.text = String.Empty;
         }
 

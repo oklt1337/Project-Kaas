@@ -54,6 +54,13 @@ namespace Collection.UI.Scripts.Play.CreateRoom
                 roomListing.SetRoomText(room.Name);
                 roomListing.SetPlayerCount(room.PlayerCount, room.MaxPlayers);
                 roomListing.Updated = true;
+                
+                // make sure gameobject gets destroyed.
+                if (room.PlayerCount >= room.MaxPlayers || !room.IsOpen || !room.IsVisible)
+                {
+                    RoomListingButtons.Remove(roomListing);
+                    Destroy(roomListing.gameObject);
+                }
             }
         }
 

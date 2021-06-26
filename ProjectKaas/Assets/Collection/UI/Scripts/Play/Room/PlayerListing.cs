@@ -18,10 +18,20 @@ namespace Collection.UI.Scripts.Play.Room
         
         #region Public Field
 
-        public Photon.Realtime.Player PhotonPlayer { get; set; }
+        public Player PhotonPlayer { get; set; }
         public TextMeshProUGUI PlayerName => playerName;
         public TextMeshProUGUI PlayerPing => playerPing;
         public RawImage PlayerPingImage => playerPingImage;
+
+        #endregion
+
+        #region MonoBehaviour Callbacks
+
+        private void Start()
+        {
+            var button = GetComponent<Button>();
+            button.onClick.AddListener(OnClickPlayerInfo);
+        }
 
         #endregion
 
@@ -32,6 +42,21 @@ namespace Collection.UI.Scripts.Play.Room
             PhotonPlayer = photonPlayer;
             PlayerName.text = photonPlayer.NickName;
             PlayerPing.text = null;
+        }
+
+        public void OnClickPlayerInfo()
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (PhotonPlayer.IsLocal)
+                {
+                    Debug.Log("You cant interact with yourself.");
+                    return;
+                }
+                Debug.Log("Player info of: " + PhotonPlayer.NickName);
+                OverlayCanvases.Instance.PlayerInfoCanvas.SetActive(true);
+                OverlayCanvases.Instance.PlayerInfoCanvas.GetComponent<PlayerInfoCanvas>().Initialize(PhotonPlayer);
+            }
         }
 
         #endregion
