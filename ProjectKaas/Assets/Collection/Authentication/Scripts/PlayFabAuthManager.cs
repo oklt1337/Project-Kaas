@@ -1,5 +1,3 @@
-using System;
-using Collection.UI.Scripts.Login;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -17,9 +15,9 @@ namespace Collection.Authentication.Scripts
 
         #region UnityEvents
 
-        public static UnityEvent OnLoginSuccess = new UnityEvent();
-        public static UnityEvent<string> OnLoginFailed = new UnityEvent<string>();
-        public static UnityEvent<string> OnCreateAccountFailed = new UnityEvent<string>();
+        public static readonly UnityEvent OnLoginSuccess = new UnityEvent();
+        public static readonly UnityEvent<string> OnLoginFailed = new UnityEvent<string>();
+        public static readonly UnityEvent<string> OnCreateAccountFailed = new UnityEvent<string>();
 
         #endregion
 

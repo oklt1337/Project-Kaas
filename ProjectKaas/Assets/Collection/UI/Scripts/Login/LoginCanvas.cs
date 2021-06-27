@@ -47,6 +47,7 @@ namespace Collection.UI.Scripts.Login
 
         private void OnLoginSuccess()
         {
+            AuthUIManager.Instance.RegisterCanvas.gameObject.SetActive(false);
             gameObject.SetActive(false);
         }
 
