@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Collection.Authentication.Scripts;
 using TMPro;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Collection.UI.Scripts.Login
     {
         #region Private Serializable Fields
 
-        [SerializeField] private TMP_InputField emailInputField;
+        [SerializeField] private TMP_InputField userNameInputField;
         [SerializeField] private TMP_InputField passwordInputField;
         [SerializeField] private Toggle stayLoggedIn;
         [SerializeField] private TMP_Text loginOutputText;
@@ -19,23 +20,62 @@ namespace Collection.UI.Scripts.Login
 
         #region Public Fields
 
-        public TMP_InputField EmailInputField => emailInputField;
+        public TMP_InputField UserNameInputField => userNameInputField;
         public TMP_InputField PasswordInputField => passwordInputField;
         public Toggle StayLoggedIn => stayLoggedIn;
         public TMP_Text LoginOutputText => loginOutputText;
 
         #endregion
+        
+        #region MonoBehaviour Callbacks
 
-        #region Public Methods
+        private void OnEnable()
+        {
+            PlayFabAuthManager.OnLoginFailed.AddListener(OnLoginFailed);
+            PlayFabAuthManager.OnLoginSuccess.AddListener(OnLoginSuccess);
+        }
 
-        public void ClearUI()
+        private void OnDisable()
+        {
+            PlayFabAuthManager.OnLoginFailed.RemoveListener(OnLoginFailed);
+            PlayFabAuthManager.OnLoginSuccess.AddListener(OnLoginSuccess);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void OnLoginSuccess()
+        {
+            gameObject.SetActive(false);
+        }
+
+        private void OnLoginFailed(string error)
+        {
+            StartCoroutine(WarningCo(error));
+        }
+        
+        private void ClearUI()
         {
             LoginOutputText.text = String.Empty;
         }
+        
+        private IEnumerator WarningCo(string text)
+        {
+            LoginOutputText.text = text;
+
+            yield return new WaitForSeconds(5f);
+            
+            ClearUI();
+        }
+
+        #endregion
+
+        #region Public Methods
 
         public void OnClickLogin()
         {
-            //StartCoroutine(FirebaseAuthManager.Instance.LoginCo(EmailInputField.text, passwordInputField.text));
+            PlayFabAuthManager.Instance.SignIn(userNameInputField.text, passwordInputField.text);
         }
 
         public void OnClickRegister()

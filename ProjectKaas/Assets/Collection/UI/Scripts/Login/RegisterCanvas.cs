@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Collection.Authentication.Scripts;
 using TMPro;
 using UnityEngine;
@@ -27,12 +28,44 @@ namespace Collection.UI.Scripts.Login
 
         #endregion
 
-        #region Public Methods
+        #region MonoBehaviour Callbacks
 
-        public void ClearUI()
+        private void OnEnable()
+        {
+            PlayFabAuthManager.OnCreateAccountFailed.AddListener(OnCreateAccountFailed);
+        }
+
+        private void OnDisable()
+        {
+            PlayFabAuthManager.OnCreateAccountFailed.RemoveListener(OnCreateAccountFailed);
+        }
+
+        #endregion
+        
+        #region Private Methods
+
+        private void OnCreateAccountFailed(string error)
+        {
+            StartCoroutine(WarningCo(error));
+        }
+
+        private void ClearUI()
         {
             RegistryOutputText.text = String.Empty;
         }
+        
+        private IEnumerator WarningCo(string text)
+        {
+            RegistryOutputText.text = text;
+
+            yield return new WaitForSeconds(5f);
+            
+            ClearUI();
+        }
+
+        #endregion
+
+        #region Public Methods
 
         public void OnClickBack()
         {
@@ -42,8 +75,8 @@ namespace Collection.UI.Scripts.Login
 
         public void OnClickRegister()
         {
-            //StartCoroutine(FirebaseAuthManager.Instance.RegistryCo(usernameInputField.text, emailInputField.text,
-               // passwordInputField.text, confirmedPasswordInputField.text));
+            PlayFabAuthManager.Instance.CreateAccount(usernameInputField.text, emailInputField.text,
+                passwordInputField.text, confirmedPasswordInputField.text);
         }
 
         #endregion

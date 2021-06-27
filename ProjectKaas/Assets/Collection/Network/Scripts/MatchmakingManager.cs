@@ -23,7 +23,7 @@ namespace Collection.Network.Scripts
         private GameObject progressLabel;
 
         #endregion
-        
+
         #region Private Fields
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Collection.Network.Scripts
         private bool _joinMatchmaking;
 
         #endregion
-        
+
         #region MonoBehaviour CallBacks
 
         private void Awake()
@@ -48,7 +48,7 @@ namespace Collection.Network.Scripts
         }
 
         #endregion
-        
+
         #region Public Methods
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Collection.Network.Scripts
             // Check if we are connected or not,
             // Join if we are
             if (!PhotonNetwork.IsConnected) return;
-            
+
             // Joining a Random Room.
             // If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
             Debug.Log("Joining room...");
@@ -79,9 +79,16 @@ namespace Collection.Network.Scripts
 
         public override void OnDisconnected(DisconnectCause cause)
         {
-            progressLabel.SetActive(false);
-            controlPanel.SetActive(true);
-            
+            if (progressLabel != null)
+            {
+                progressLabel.SetActive(false);
+            }
+
+            if (controlPanel != null)
+            {
+                controlPanel.SetActive(false);
+            }
+
             _joinMatchmaking = false;
         }
 
@@ -104,7 +111,7 @@ namespace Collection.Network.Scripts
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
                 Debug.Log("Load map...");
-                
+
                 // Load the Map.
                 PhotonNetwork.LoadLevel("Map " + Random.Range(1, 3));
             }
