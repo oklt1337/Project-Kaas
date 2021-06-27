@@ -94,7 +94,7 @@ namespace Collection.UI.Scripts.Play.Room
         public void OnClickLeave()
         {
             PhotonNetwork.LeaveRoom();
-            OverlayCanvases.Instance.CurrenRoomCanvas.SetActive(false);
+            OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
         }
         
         #endregion

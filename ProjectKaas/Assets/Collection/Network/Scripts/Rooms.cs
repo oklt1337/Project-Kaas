@@ -93,7 +93,7 @@ namespace Collection.Network.Scripts
             
                 PhotonNetwork.CreateRoom(roomName.text, roomOptions, TypedLobby.Default);
 
-                OverlayCanvases.Instance.CurrenRoomCanvas.SetActive(true);
+                OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
             }
         }
 
@@ -129,8 +129,8 @@ namespace Collection.Network.Scripts
         {
             Debug.Log("Left room.");
             
-            OverlayCanvases.Instance.CurrenRoomCanvas.SetActive(false);
-            OverlayCanvases.Instance.PlayerInfoCanvas.SetActive(false);
+            OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
+            OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(false);
 
             StartCoroutine(WarningCo("You left the room or got kicked."));
             

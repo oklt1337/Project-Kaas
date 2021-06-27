@@ -32,7 +32,7 @@ namespace Collection.UI.Scripts.Play.CreateRoom
             {
                 if (PhotonNetwork.CurrentRoom == null)
                 {
-                    OverlayCanvases.Instance.CurrenRoomCanvas.SetActive(false);
+                    OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
                 }
                 
                 OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);

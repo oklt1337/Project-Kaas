@@ -1,3 +1,4 @@
+using Collection.UI.Scripts.Login;
 using TMPro;
 using UnityEngine;
 
@@ -24,24 +25,9 @@ namespace Collection.UI.Scripts.MainMenu
             mainMenuCanvases.SetActive(false);
         }
 
-        public void OnClickBonus()
-        {
-            mainMenuCanvases.SetActive(false);
-        }
-
-        public void OnClickReward()
-        {
-            mainMenuCanvases.SetActive(false);
-        }
-
-        public void OnClickObjectives()
-        {
-            mainMenuCanvases.SetActive(false);
-        }
-
         public void OnClickLogin()
         {
-            mainMenuCanvases.SetActive(false);
+            AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(true);
         }
 
         #endregion

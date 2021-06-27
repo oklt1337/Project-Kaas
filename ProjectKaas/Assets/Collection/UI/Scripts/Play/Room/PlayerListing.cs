@@ -54,7 +54,7 @@ namespace Collection.UI.Scripts.Play.Room
                     return;
                 }
                 Debug.Log("Player info of: " + PhotonPlayer.NickName);
-                OverlayCanvases.Instance.PlayerInfoCanvas.SetActive(true);
+                OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(true);
                 OverlayCanvases.Instance.PlayerInfoCanvas.GetComponent<PlayerInfoCanvas>().Initialize(PhotonPlayer);
             }
         }

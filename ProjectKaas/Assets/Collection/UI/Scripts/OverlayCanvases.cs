@@ -1,6 +1,6 @@
-using Collection.UI.Scripts.Play;
+using Collection.UI.Scripts.Login;
 using Collection.UI.Scripts.Play.CreateRoom;
-using Photon.Pun;
+using Collection.UI.Scripts.Play.Room;
 using UnityEngine;
 
 namespace Collection.UI.Scripts
@@ -18,18 +18,19 @@ namespace Collection.UI.Scripts
         [Tooltip("RoomList Canvas.")]
         [SerializeField] private RoomListCanvas roomListCanvas;
         
-        [Tooltip("Gameobject witch contains Room Canvas.")]
-        [SerializeField] private GameObject currenRoomCanvas;
+        [Tooltip("Current Room Canvas.")]
+        [SerializeField] private CurrentRoomCanvas currenRoomCanvas;
         
-        [Tooltip("Gameobject witch contains player info canvas.")]
-        [SerializeField] private GameObject playerInfoCanvas;
-        
+        [Tooltip("Player Info Canvas.")]
+        [SerializeField] private PlayerInfoCanvas playerInfoCanvas;
+
         #endregion
         
         #region Public Properies
+        
         public RoomListCanvas RoomListCanvas => roomListCanvas;
-        public GameObject CurrenRoomCanvas => currenRoomCanvas;
-        public GameObject PlayerInfoCanvas => playerInfoCanvas;
+        public CurrentRoomCanvas CurrenRoomCanvas => currenRoomCanvas;
+        public PlayerInfoCanvas PlayerInfoCanvas => playerInfoCanvas;
         
         #endregion
 
