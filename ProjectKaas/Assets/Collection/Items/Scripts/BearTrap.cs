@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 namespace Collection.Items.Scripts
@@ -6,7 +7,7 @@ namespace Collection.Items.Scripts
     {
         public override void OnUse()
         {
-            Instantiate(onFieldItem,Owner.transform.position+Vector3.back,Quaternion.identity,Owner.transform);
+            PhotonNetwork.Instantiate("Bear Trap",Owner.transform.position+Vector3.back, Quaternion.identity);
             base.OnUse();
         }
     }

@@ -1,11 +1,11 @@
+using Photon.Pun;
 using UnityEngine;
 
 namespace Collection.Items.Scripts
 {
-    public abstract class ItemBehaviour : MonoBehaviour
+    public abstract class ItemBehaviour : MonoBehaviourPun
     {
         protected GameObject Owner;
-        [SerializeField] protected GameObject onFieldItem;
         
         private void Start()
         {
