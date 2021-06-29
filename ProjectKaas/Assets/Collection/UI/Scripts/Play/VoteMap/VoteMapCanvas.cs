@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Collection.UI.Scripts.Play.VoteMap
 {
@@ -21,7 +22,7 @@ namespace Collection.UI.Scripts.Play.VoteMap
         [SerializeField] private TextMeshProUGUI timer;
 
         #endregion
-        
+
         #region Private Fields
 
         private float _timer;
@@ -71,9 +72,10 @@ namespace Collection.UI.Scripts.Play.VoteMap
         private void ForceMapVetoEnd()
         {
             if (!PhotonNetwork.IsMasterClient) return;
-            var mapWon = string.Empty;
+            var mapWon = String.Empty;
 
-                if (_mapVeto[Map1] > _mapVeto[Map2] && _mapVeto[Map1] > _mapVeto[Map3])
+            // check witch map got the most votes
+            if (_mapVeto[Map1] > _mapVeto[Map2] && _mapVeto[Map1] > _mapVeto[Map3])
             {
                 mapWon = Map1;
             }
@@ -85,12 +87,25 @@ namespace Collection.UI.Scripts.Play.VoteMap
             {
                 mapWon = Map3;
             }
-            
+
+            // if no one votes generate random map.
+            if (mapWon == String.Empty)
+            {
+                var randomMap = Random.Range(0, 3);
+                mapWon = randomMap switch
+                {
+                    0 => Map1,
+                    1 => Map2,
+                    2 => Map3,
+                    _ => Map1
+                };
+            }
+
             // Load the Map.
             PhotonNetwork.LoadLevel(mapWon);
             Debug.Log($"Loading {mapWon}");
         }
-        
+
         private void VoteMap(string map)
         {
             _mapVeto[map]++;
@@ -98,31 +113,31 @@ namespace Collection.UI.Scripts.Play.VoteMap
 
             Debug.Log(_numberOfVoters);
             Debug.Log(PhotonNetwork.CurrentRoom.MaxPlayers);
-            
+
             if (_numberOfVoters == PhotonNetwork.CurrentRoom.MaxPlayers)
             {
                 ForceMapVetoEnd();
             }
         }
-        
+
         [PunRPC]
         private void RPCVetoMap(string map)
         {
             VoteMap(map);
         }
-        
+
         #region Public Methods
 
         public void OnClickMap1()
         {
             photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map1);
         }
-        
+
         public void OnClickMap2()
         {
             photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map2);
         }
-        
+
         public void OnClickMap3()
         {
             photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map3);
@@ -131,6 +146,5 @@ namespace Collection.UI.Scripts.Play.VoteMap
         #endregion
 
         #endregion
-        
     }
 }
