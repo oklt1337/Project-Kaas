@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
-using Collection.ReadyUpManager.Scripts;
 
 namespace Collection.UI.Scripts.Play.Room
 {
@@ -21,7 +20,9 @@ namespace Collection.UI.Scripts.Play.Room
 
         #region Private Fields
 
-        private bool _ready = false;
+        private bool _ready;
+        private Color _defaultColor;
+        private Color _notReadyColor;
 
         #endregion
 
@@ -67,6 +68,8 @@ namespace Collection.UI.Scripts.Play.Room
 
         public void ApplyPhotonPlayer(Player photonPlayer)
         {
+            ColorUtility.TryParseHtmlString("#39393d", out _defaultColor);
+            playerBackgroundImage.color = _defaultColor;
             PhotonPlayer = photonPlayer;
             PlayerName.text = photonPlayer.NickName;
             StartCoroutine(ShowPing());
@@ -106,7 +109,9 @@ namespace Collection.UI.Scripts.Play.Room
 
         private void SetReadyStatus()
         {
-            playerBackgroundImage.color = Ready ? Color.green : new Color(0,173, 181, 150);
+            ColorUtility.TryParseHtmlString("#39393d", out _defaultColor);
+            ColorUtility.TryParseHtmlString("#00ADB5", out _notReadyColor);
+            playerBackgroundImage.color = Ready ? _notReadyColor : _defaultColor;
         }
 
         private void SetPingColor(int ping)

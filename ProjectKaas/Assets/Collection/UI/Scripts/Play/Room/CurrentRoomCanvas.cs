@@ -3,7 +3,9 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
+using Toggle = UnityEngine.UI.Toggle;
 
 namespace Collection.UI.Scripts.Play.Room
 {
@@ -11,24 +13,22 @@ namespace Collection.UI.Scripts.Play.Room
     {
         #region Private Serializable Fields
 
-        [Tooltip("Toggle to make room private or public.")]
-        [SerializeField] private Toggle toggle;
-        
-        [Tooltip("Room name")]
-        [SerializeField] private TextMeshProUGUI roomName;
-        
-        [Tooltip("Current Max Player Count")]
-        [SerializeField] private TextMeshProUGUI playerCount;
-
         [SerializeField] private PlayerLayoutGroup playerLayoutGroup;
+
+        [Tooltip("Room name")] [SerializeField]
+        private TextMeshProUGUI roomName;
+
+        [Tooltip("Current Max Player Count")] [SerializeField]
+        private TextMeshProUGUI playerCount;
+
+        [Header("Intractable Objects")]
+        [Tooltip("Toggle to make room private or public.")] [SerializeField]
+        private Toggle toggle;
         
-        [SerializeField] private CountDown.CountDown countDown;
-
-        #endregion
-
-        #region Public Fields
-
-        public CountDown.CountDown CountDown => countDown;
+        [SerializeField] private Button readyButton;
+        [SerializeField] private Button leaveButton;
+        [SerializeField] private Button addButton;
+        [SerializeField] private Button removeButton;
 
         #endregion
 
@@ -38,12 +38,19 @@ namespace Collection.UI.Scripts.Play.Room
 
         #endregion
 
+        #region Public Fields
+
+        public PlayerLayoutGroup PlayerLayoutGroup => playerLayoutGroup;
+
+        #endregion
+
         #region Photon Callbacks
 
         public override void OnEnable()
         {
             base.OnEnable();
             SetReadyState(false);
+            SetTouchableState(true);
         }
 
         public override void OnJoinedRoom()
@@ -74,9 +81,9 @@ namespace Collection.UI.Scripts.Play.Room
         }
 
         #endregion
-        
+
         #region Public Methods
-        
+
         /// <summary>
         /// Toggle room private/public.
         /// </summary>
@@ -100,11 +107,12 @@ namespace Collection.UI.Scripts.Play.Room
                 {
                     PhotonNetwork.CurrentRoom.MaxPlayers = 8;
                 }
+                ReadyUpManager.Scripts.ReadyUpManager.Instance.LobbySize = PhotonNetwork.CurrentRoom.MaxPlayers;
             }
-            
+
             playerCount.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
         }
-        
+
         public void OnClickRemove()
         {
             if (PhotonNetwork.IsMasterClient)
@@ -119,8 +127,9 @@ namespace Collection.UI.Scripts.Play.Room
                 {
                     PhotonNetwork.CurrentRoom.MaxPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
                 }
+                ReadyUpManager.Scripts.ReadyUpManager.Instance.LobbySize = PhotonNetwork.CurrentRoom.MaxPlayers;
             }
-            
+
             playerCount.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
         }
 
@@ -141,7 +150,25 @@ namespace Collection.UI.Scripts.Play.Room
             PhotonNetwork.LeaveRoom();
             OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
         }
-        
+
+        /// <summary>
+        /// Set Interactable Status of obj.
+        /// </summary>
+        /// <param name="state">bool</param>
+        public void SetTouchableState(bool state)
+        {
+            toggle.interactable = state;
+            readyButton.interactable = state;
+            leaveButton.interactable = state;
+            addButton.interactable = state;
+            removeButton.interactable = state;
+
+            foreach (var playerListing in playerLayoutGroup.PlayerList)
+            {
+                playerListing.GetComponent<Button>().interactable = state;
+            }
+        }
+
         #endregion
     }
 }

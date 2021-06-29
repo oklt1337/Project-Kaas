@@ -1,6 +1,7 @@
 using Collection.UI.Scripts.Login;
 using Collection.UI.Scripts.Play.CreateRoom;
 using Collection.UI.Scripts.Play.Room;
+using Collection.UI.Scripts.Play.VoteMap;
 using UnityEngine;
 
 namespace Collection.UI.Scripts
@@ -23,6 +24,9 @@ namespace Collection.UI.Scripts
         
         [Tooltip("Player Info Canvas.")]
         [SerializeField] private PlayerInfoCanvas playerInfoCanvas;
+        
+        [Tooltip("Vote Map Canvas.")]
+        [SerializeField] private VoteMapCanvas voteMapCanvas;
 
         #endregion
         
@@ -31,6 +35,7 @@ namespace Collection.UI.Scripts
         public RoomListCanvas RoomListCanvas => roomListCanvas;
         public CurrentRoomCanvas CurrenRoomCanvas => currenRoomCanvas;
         public PlayerInfoCanvas PlayerInfoCanvas => playerInfoCanvas;
+        public VoteMapCanvas VoteMapCanvas => voteMapCanvas;
         
         #endregion
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Collection.UI.Scripts;
 using Collection.UI.Scripts.Play.CountDown;
 using Collection.UI.Scripts.Play.Room;
 using Photon.Pun;
@@ -41,12 +42,9 @@ namespace Collection.ReadyUpManager.Scripts
 
         #region Private Methods
 
-        private void StartGame()
+        private void StartMapVeto()
         {
-            Debug.Log("Load map...");
-
-            // Load the Map.
-            PhotonNetwork.LoadLevel("Map " + Random.Range(1, 3));
+            OverlayCanvases.Instance.VoteMapCanvas.gameObject.SetActive(true);
         }
 
         #endregion
@@ -67,7 +65,7 @@ namespace Collection.ReadyUpManager.Scripts
 
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    CountDown.Instance.OnTimerFinished += StartGame;
+                    CountDown.Instance.OnTimerFinished += StartMapVeto;
                 }
             }
         }
@@ -85,7 +83,7 @@ namespace Collection.ReadyUpManager.Scripts
                 
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    CountDown.Instance.OnTimerFinished -= StartGame;
+                    CountDown.Instance.OnTimerFinished -= StartMapVeto;
                 }
                 CountDown.Instance.CancelTimer();
             }
