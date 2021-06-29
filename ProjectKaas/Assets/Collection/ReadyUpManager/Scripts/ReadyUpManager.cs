@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Collection.UI.Scripts.Play.CountDown;
 using Collection.UI.Scripts.Play.Room;
+using Photon.Pun;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -37,6 +39,18 @@ namespace Collection.ReadyUpManager.Scripts
 
         #endregion
 
+        #region Private Methods
+
+        private void StartGame()
+        {
+            Debug.Log("Load map...");
+
+            // Load the Map.
+            PhotonNetwork.LoadLevel("Map " + Random.Range(1, 3));
+        }
+
+        #endregion
+
         #region Public Methods
 
         public void AddReadyPlayer(PlayerListing playerListing)
@@ -49,7 +63,12 @@ namespace Collection.ReadyUpManager.Scripts
             if (ReadyPlayer.Count == LobbySize)
             {
                 Debug.Log("All Ready");
-                //StartGameCountDown
+                CountDown.Instance.StartTimer(11f);
+
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    CountDown.Instance.OnTimerFinished += StartGame;
+                }
             }
         }
         
@@ -63,7 +82,12 @@ namespace Collection.ReadyUpManager.Scripts
             if (ReadyPlayer.Count != LobbySize)
             {
                 Debug.Log("Sb is not ready anymore.");
-                //StopGameCountDown
+                
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    CountDown.Instance.OnTimerFinished -= StartGame;
+                }
+                CountDown.Instance.CancelTimer();
             }
         }
         

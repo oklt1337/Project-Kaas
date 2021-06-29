@@ -106,14 +106,7 @@ namespace Collection.UI.Scripts.Play.Room
 
         private void SetReadyStatus()
         {
-            if (Ready)
-            {
-                playerBackgroundImage.color = Color.green;
-            }
-            else
-            {
-                playerBackgroundImage.color = Color.red;
-            }
+            playerBackgroundImage.color = Ready ? Color.green : new Color(0,173, 181, 150);
         }
 
         private void SetPingColor(int ping)

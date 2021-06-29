@@ -21,6 +21,14 @@ namespace Collection.UI.Scripts.Play.Room
         [SerializeField] private TextMeshProUGUI playerCount;
 
         [SerializeField] private PlayerLayoutGroup playerLayoutGroup;
+        
+        [SerializeField] private CountDown.CountDown countDown;
+
+        #endregion
+
+        #region Public Fields
+
+        public CountDown.CountDown CountDown => countDown;
 
         #endregion
 
