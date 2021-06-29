@@ -92,6 +92,7 @@ namespace Collection.Network.Scripts
                 };
             
                 PhotonNetwork.CreateRoom(roomName.text, roomOptions, TypedLobby.Default);
+                ReadyUpManager.Scripts.ReadyUpManager.Instance.LobbySize = _maxPlayer;
 
                 OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
             }

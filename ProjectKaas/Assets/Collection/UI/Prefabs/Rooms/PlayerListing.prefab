@@ -192,6 +192,7 @@ MonoBehaviour:
   playerName: {fileID: 4707782168584007284}
   playerPing: {fileID: 1848119663295817391}
   playerPingImage: {fileID: 3124983569182190834}
+  playerBackgroundImage: {fileID: 9176020088210864451}
 --- !u!114 &4905905002985575100
 MonoBehaviour:
   m_ObjectHideFlags: 0

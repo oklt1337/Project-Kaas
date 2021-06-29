@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,15 +20,49 @@ namespace Collection.UI.Scripts.Play.Room
         [Tooltip("Current Max Player Count")]
         [SerializeField] private TextMeshProUGUI playerCount;
 
+        [SerializeField] private PlayerLayoutGroup playerLayoutGroup;
+
         #endregion
-        
-        #region MonoBehaviour Callbacks
+
+        #region Private Fields
+
+        private bool _ready;
+
+        #endregion
+
+        #region Photon Callbacks
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            SetReadyState(false);
+        }
 
         public override void OnJoinedRoom()
         {
             playerCount.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
             roomName.text = PhotonNetwork.CurrentRoom.Name;
             toggle.isOn = PhotonNetwork.CurrentRoom.IsVisible;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void SetReadyState(bool state)
+        {
+            _ready = state;
+        }
+
+        [PunRPC]
+        private void RPCChangeReadyState(Player player, bool ready)
+        {
+            var index = playerLayoutGroup.PlayerList.FindIndex(x => x.PhotonPlayer == player);
+
+            if (index != -1)
+            {
+                playerLayoutGroup.PlayerList[index].Ready = ready;
+            }
         }
 
         #endregion
@@ -85,7 +121,8 @@ namespace Collection.UI.Scripts.Play.Room
         /// </summary>
         public void OnClickReady()
         {
-            
+            SetReadyState(!_ready);
+            photonView.RPC("RPCChangeReadyState", RpcTarget.All, PhotonNetwork.LocalPlayer, _ready);
         }
 
         /// <summary>

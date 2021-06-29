@@ -1,8 +1,10 @@
+using System.Collections;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
+using Collection.ReadyUpManager.Scripts;
 
 namespace Collection.UI.Scripts.Play.Room
 {
@@ -13,15 +15,41 @@ namespace Collection.UI.Scripts.Play.Room
         [SerializeField] private TextMeshProUGUI playerName;
         [SerializeField] private TextMeshProUGUI playerPing;
         [SerializeField] private RawImage playerPingImage;
+        [SerializeField] private RawImage playerBackgroundImage;
 
         #endregion
-        
+
+        #region Private Fields
+
+        private bool _ready = false;
+
+        #endregion
+
         #region Public Field
 
         public Player PhotonPlayer { get; set; }
         public TextMeshProUGUI PlayerName => playerName;
         public TextMeshProUGUI PlayerPing => playerPing;
         public RawImage PlayerPingImage => playerPingImage;
+
+        public bool Ready
+        {
+            get => _ready;
+            set
+            {
+                _ready = value;
+                SetReadyStatus();
+
+                if (_ready)
+                {
+                    ReadyUpManager.Scripts.ReadyUpManager.Instance.AddReadyPlayer(this);
+                }
+                else
+                {
+                    ReadyUpManager.Scripts.ReadyUpManager.Instance.RemoveReadyPlayer(this);
+                }
+            } 
+        }
 
         #endregion
 
@@ -41,7 +69,7 @@ namespace Collection.UI.Scripts.Play.Room
         {
             PhotonPlayer = photonPlayer;
             PlayerName.text = photonPlayer.NickName;
-            PlayerPing.text = null;
+            StartCoroutine(ShowPing());
         }
 
         public void OnClickPlayerInfo()
@@ -56,6 +84,51 @@ namespace Collection.UI.Scripts.Play.Room
                 Debug.Log("Player info of: " + PhotonPlayer.NickName);
                 OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(true);
                 OverlayCanvases.Instance.PlayerInfoCanvas.GetComponent<PlayerInfoCanvas>().Initialize(PhotonPlayer);
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private IEnumerator ShowPing()
+        {
+            while (PhotonNetwork.IsConnected)
+            {
+                var ping = (int) PhotonPlayer.CustomProperties["Ping"];
+
+                SetPingColor(ping);
+                PlayerPing.text = ping.ToString();
+
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
+        private void SetReadyStatus()
+        {
+            if (Ready)
+            {
+                playerBackgroundImage.color = Color.green;
+            }
+            else
+            {
+                playerBackgroundImage.color = Color.red;
+            }
+        }
+
+        private void SetPingColor(int ping)
+        {
+            if (ping < 50)
+            {
+                PlayerPingImage.color = Color.green;
+            }
+            else if (ping < 100)
+            {
+                PlayerPingImage.color = Color.yellow;
+            }
+            else
+            {
+                PlayerPingImage.color = Color.red;
             }
         }
 

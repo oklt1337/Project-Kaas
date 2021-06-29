@@ -42,6 +42,9 @@ MonoBehaviour:
   - RPC_MasterClientGranted
   - RPC_ReceivePing
   - RPC_RequestMasterClient
+  - RPCChangeReadyState
+  - Rpctest
+  - ChatMessage
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

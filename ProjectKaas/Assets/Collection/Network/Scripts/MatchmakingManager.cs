@@ -1,6 +1,9 @@
+using System;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Collection.Network.Scripts
 {

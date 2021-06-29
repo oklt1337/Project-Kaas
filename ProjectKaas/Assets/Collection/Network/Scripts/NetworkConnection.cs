@@ -1,6 +1,9 @@
+using System.Collections;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Collection.Network.Scripts
 {
@@ -19,8 +22,7 @@ namespace Collection.Network.Scripts
         private const string AppVersion = "1.0.0";
 
         #endregion
-
-
+        
         #region MonoBehaviour CallBacks
 
         private void Awake()

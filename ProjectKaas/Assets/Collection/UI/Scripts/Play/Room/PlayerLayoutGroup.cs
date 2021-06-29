@@ -17,7 +17,12 @@ namespace Collection.UI.Scripts.Play.Room
         #region Private Fields
 
         private GameObject PlayerListingPrefab => playerListingPrefab;
-        private List<PlayerListing> PlayerList { get; set; } = new List<PlayerListing>();
+        
+        #endregion
+
+        #region Public Fields
+
+        public List<PlayerListing> PlayerList { get; set; } = new List<PlayerListing>();
 
         #endregion
 
