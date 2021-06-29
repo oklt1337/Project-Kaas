@@ -93,8 +93,6 @@ namespace Collection.Network.Scripts
             
                 PhotonNetwork.CreateRoom(roomName.text, roomOptions, TypedLobby.Default);
                 ReadyUpManager.Scripts.ReadyUpManager.Instance.LobbySize = _maxPlayer;
-
-                OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
             }
         }
 
@@ -120,6 +118,8 @@ namespace Collection.Network.Scripts
         public override void OnCreatedRoom()
         {
             Debug.Log("Created room: " + PhotonNetwork.CurrentRoom.Name);
+            
+            OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
             
             warning.text = String.Empty;
             warning.gameObject.SetActive(false);
