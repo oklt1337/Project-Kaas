@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -29,6 +30,8 @@ namespace Collection.UI.Scripts.Play.VoteMap
         private bool _timerStart;
         private int _numberOfVoters;
 
+
+        private List<Player> _didVote = new List<Player>();
         private readonly Dictionary<string, int> _mapVeto = new Dictionary<string, int>
         {
             [Map1] = 0,
@@ -106,13 +109,14 @@ namespace Collection.UI.Scripts.Play.VoteMap
             Debug.Log($"Loading {mapWon}");
         }
 
-        private void VoteMap(string map)
+        private void VoteMap(string map, Player player)
         {
-            _mapVeto[map]++;
-            _numberOfVoters++;
-
-            Debug.Log(_numberOfVoters);
-            Debug.Log(PhotonNetwork.CurrentRoom.MaxPlayers);
+            if (!_didVote.Contains(player))
+            {
+                _mapVeto[map]++;
+                _numberOfVoters++;
+                _didVote.Add(player);
+            }
 
             if (_numberOfVoters == PhotonNetwork.CurrentRoom.MaxPlayers)
             {
@@ -121,26 +125,26 @@ namespace Collection.UI.Scripts.Play.VoteMap
         }
 
         [PunRPC]
-        private void RPCVetoMap(string map)
+        private void RPCVetoMap(string map, Player player)
         {
-            VoteMap(map);
+            VoteMap(map, player);
         }
 
         #region Public Methods
 
         public void OnClickMap1()
         {
-            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map1);
+            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map1, PhotonNetwork.LocalPlayer);
         }
 
         public void OnClickMap2()
         {
-            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map2);
+            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map2, PhotonNetwork.LocalPlayer);
         }
 
         public void OnClickMap3()
         {
-            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map3);
+            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map3, PhotonNetwork.LocalPlayer);
         }
 
         #endregion

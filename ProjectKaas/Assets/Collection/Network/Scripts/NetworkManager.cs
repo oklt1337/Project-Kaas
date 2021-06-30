@@ -10,11 +10,6 @@ namespace Collection.Network.Scripts
         #region Private Fields
 
         /// <summary>
-        /// Custom Properties for LocalPlayer
-        /// </summary>
-        private Hashtable _playerProperties = new Hashtable();
-        
-        /// <summary>
         /// Coroutine for setting the ping.
         /// </summary>
         private Coroutine _pingCo;
@@ -40,8 +35,16 @@ namespace Collection.Network.Scripts
         {
             while (PhotonNetwork.IsConnected)
             {
-                _playerProperties["Ping"] = PhotonNetwork.GetPing();
-                PhotonNetwork.LocalPlayer.SetCustomProperties(_playerProperties);
+                var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+                if (!hashtable.ContainsKey("Ping"))
+                {
+                    hashtable.Add("Ping", PhotonNetwork.GetPing());
+                }
+                else
+                {
+                    hashtable["Ping"] = PhotonNetwork.GetPing();
+                }
+                PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
 
                 yield return new WaitForSeconds(5f);
             }

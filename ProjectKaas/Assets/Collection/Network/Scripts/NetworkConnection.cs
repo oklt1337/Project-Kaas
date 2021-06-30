@@ -34,7 +34,7 @@ namespace Collection.Network.Scripts
             PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = AppVersion;
 
             PhotonNetwork.ConnectUsingSettings();
-            
+
             // Set GameVersion.
             PhotonNetwork.GameVersion = GameVersion;
             

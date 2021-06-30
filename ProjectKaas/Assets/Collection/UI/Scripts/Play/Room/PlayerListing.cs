@@ -4,10 +4,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Collection.UI.Scripts.Play.Room
 {
-    public class PlayerListing : MonoBehaviourPun
+    public class PlayerListing : MonoBehaviourPunCallbacks
     {
         #region Private Serializable Fields
 
@@ -60,6 +61,11 @@ namespace Collection.UI.Scripts.Play.Room
         {
             var button = GetComponent<Button>();
             button.onClick.AddListener(OnClickPlayerInfo);
+        }
+
+        public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+        {
+            base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
         }
 
         #endregion

@@ -1,29 +1,20 @@
 using System.Collections;
+using System.Globalization;
 using System.Timers;
+using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Collection.UI.Scripts.Play.CountDown
 {
     public class CountDown : MonoBehaviour
     {
-        #region Singleton
-
-        public static CountDown Instance;
-
-        #endregion
-        
         #region private Serializeable Fields
 
-        [SerializeField] private TextMeshProUGUI guiTimer;
-        [SerializeField] private TextMeshProUGUI startText;
-
-        #endregion
-
-        #region Private Fields
-
-        private float _timer;
-        private bool _startTimer;
+        [SerializeField] private Text guiTimer;
+        [SerializeField] private CountdownTimer timer;
 
         #endregion
 
@@ -36,50 +27,55 @@ namespace Collection.UI.Scripts.Play.CountDown
         
         #region MonoBehaviour Callbacks
 
-        private void Awake()
+        private void OnEnable()
         {
-            if (Instance != null)
+            timer.OnEnable();
+            CountdownTimer.OnCountdownTimerHasExpired += TimerEvent;
+            
+            if (PhotonNetwork.IsMasterClient)
             {
-                Destroy(gameObject);
-            }
-            else
-            {
-                Instance = this;
+                CountdownTimer.SetStartTime();
             }
         }
 
-        private void FixedUpdate()
+        private void Start()
         {
-            if (_startTimer)
-            {
-                _timer -= Time.deltaTime;
-                guiTimer.text = ((int) _timer).ToString();
-                if (_timer < 0)
-                {
-                    OnTimerFinished?.Invoke();
-                    _startTimer = false;
-                }
-            }
+            timer.Start();
+        }
+
+        private void Update()
+        {
+            timer.Update();
+        }
+
+        private void OnDisable()
+        {
+            timer.OnDisable();
+            CountdownTimer.OnCountdownTimerHasExpired -= TimerEvent;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void TimerEvent()
+        {
+            Debug.Log("Timer Expired");
+            OnTimerFinished?.Invoke();
         }
 
         #endregion
 
         #region Public Methods
 
-        public void StartTimer(float startTime)
+        public void StartTimer()
         {
-            _timer = startTime;
-            guiTimer.text = ((int) _timer).ToString();
-            guiTimer.gameObject.SetActive(true);
-            startText.gameObject.SetActive(true);
-            _startTimer = true;
+            gameObject.SetActive(true);
         }
 
         public void CancelTimer()
         {
-            _startTimer = false;
-            guiTimer.gameObject.SetActive(false);
-            startText.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         #endregion
