@@ -7,39 +7,18 @@ namespace Collection.Authentication.Scripts
 {
     public class PlayFabAuthManager : MonoBehaviour
     {
-        #region Public Singleton
-
-        public static PlayFabAuthManager Instance;
-
-        #endregion
-
         #region UnityEvents
 
         public static readonly UnityEvent OnLoginSuccess = new UnityEvent();
         public static readonly UnityEvent<string> OnLoginFailed = new UnityEvent<string>();
         public static readonly UnityEvent<string> OnCreateAccountFailed = new UnityEvent<string>();
-
-        #endregion
-
-        #region MonoBehaviour Callbacks
-
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
+        public static readonly UnityEvent OnLogOut = new UnityEvent();
 
         #endregion
 
         #region Public Methods
 
-        public void CreateAccount(string username, string email, string password, string confirmationPassword)
+        public static void CreateAccount(string username, string email, string password, string confirmationPassword)
         {
             if (confirmationPassword != password)
             {
@@ -51,7 +30,7 @@ namespace Collection.Authentication.Scripts
                 PlayFabClientAPI.RegisterPlayFabUser(
                     new RegisterPlayFabUserRequest
                     {
-                        Email = email, Password = password, Username = username
+                        Email = email, Password = password, Username = username, DisplayName = username
                     },
                     response =>
                     {
@@ -66,7 +45,7 @@ namespace Collection.Authentication.Scripts
             }
         }
 
-        public void SignIn(string username, string password)
+        public static void SignIn(string username, string password)
         {
             // login user.
             PlayFabClientAPI.LoginWithPlayFab(new LoginWithPlayFabRequest
@@ -83,6 +62,12 @@ namespace Collection.Authentication.Scripts
                     Debug.Log($"Failed to Login: {username} \n {error.ErrorMessage}");
                     OnLoginFailed?.Invoke(error.ErrorMessage);
                 });
+        }
+
+        public static void LogOut()
+        {
+            PlayFabClientAPI.ForgetAllCredentials();
+            OnLogOut?.Invoke();
         }
 
         #endregion

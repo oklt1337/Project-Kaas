@@ -1,7 +1,9 @@
 using System.Collections;
+using Collection.Authentication.Scripts;
 using Photon.Pun;
+using PlayFab;
+using PlayFab.ClientModels;
 using UnityEngine;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Collection.Network.Scripts
 {
@@ -13,6 +15,16 @@ namespace Collection.Network.Scripts
         /// Coroutine for setting the ping.
         /// </summary>
         private Coroutine _pingCo;
+
+        #endregion
+
+        #region MonoBehaviour Callbacks
+
+        private void Awake()
+        {
+            PlayFabAuthManager.OnLoginSuccess.AddListener(SetProfileData);
+            PlayFabAuthManager.OnLogOut.AddListener(SetRandomDefaultNickName);
+        }
 
         #endregion
 
@@ -31,7 +43,7 @@ namespace Collection.Network.Scripts
         
         #region Private Methods
 
-        private IEnumerator SetPingCo()
+        private static IEnumerator SetPingCo()
         {
             while (PhotonNetwork.IsConnected)
             {
@@ -48,6 +60,31 @@ namespace Collection.Network.Scripts
 
                 yield return new WaitForSeconds(5f);
             }
+        }
+
+        /// <summary>
+        /// Set Photon Nickname to PlayFab displayName.
+        /// </summary>
+        private static void SetProfileData()
+        {
+            PlayFabClientAPI.GetPlayerProfile(new GetPlayerProfileRequest(), 
+                result =>
+                {
+                    PhotonNetwork.LocalPlayer.NickName = result.PlayerProfile.DisplayName;
+                }, 
+                error =>
+            {
+                Debug.LogError($"Cant Get UserProfile: {error.ErrorMessage}");
+            });
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public static void SetRandomDefaultNickName()
+        {
+            PhotonNetwork.LocalPlayer.NickName = "MusterName#" + Random.Range(1000, 9999);
         }
 
         #endregion

@@ -42,7 +42,7 @@ namespace Collection.Network.Scripts
             PhotonNetwork.AutomaticallySyncScene = true;
             
             // Set Random Default name as long not logged in
-            PhotonNetwork.LocalPlayer.NickName = "MusterName#" + Random.Range(1000, 9999);
+            NetworkManager.SetRandomDefaultNickName();
         }
 
         #endregion

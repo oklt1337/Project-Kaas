@@ -38,6 +38,33 @@ namespace Collection.Network.Scripts
         }
 
         #endregion
+        
+        #region Photon Callbacks
+
+        public override void OnCreatedRoom()
+        {
+            Debug.Log("Created room: " + PhotonNetwork.CurrentRoom.Name);
+            
+            OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
+            
+            warning.text = String.Empty;
+            warning.gameObject.SetActive(false);
+            roomName.text = String.Empty;
+        }
+
+        public override void OnLeftRoom()
+        {
+            Debug.Log("Left room.");
+            
+            OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
+            OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(false);
+
+            StartCoroutine(WarningCo("You left the room or got kicked."));
+            
+            roomName.text = String.Empty;
+        }
+
+        #endregion
 
         #region Public Methods
 
@@ -96,6 +123,11 @@ namespace Collection.Network.Scripts
             }
         }
 
+        public void OnClickBack()
+        {
+            OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(false);
+        }
+
         #endregion
         
         #region Private Methods
@@ -111,33 +143,6 @@ namespace Collection.Network.Scripts
             warning.gameObject.SetActive(false);
         }
         
-        #endregion
-
-        #region Photon Callbacks
-
-        public override void OnCreatedRoom()
-        {
-            Debug.Log("Created room: " + PhotonNetwork.CurrentRoom.Name);
-            
-            OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
-            
-            warning.text = String.Empty;
-            warning.gameObject.SetActive(false);
-            roomName.text = String.Empty;
-        }
-
-        public override void OnLeftRoom()
-        {
-            Debug.Log("Left room.");
-            
-            OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
-            OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(false);
-
-            StartCoroutine(WarningCo("You left the room or got kicked."));
-            
-            roomName.text = String.Empty;
-        }
-
         #endregion
     }
 }

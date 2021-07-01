@@ -1,4 +1,5 @@
 using Collection.UI.Scripts.Login;
+using PlayFab;
 using TMPro;
 using UnityEngine;
 
@@ -6,13 +7,6 @@ namespace Collection.UI.Scripts.MainMenu
 {
     public class MainMenu : MonoBehaviour
     {
-        #region Private Serializable Fields
-
-        [Tooltip("Gameobject witch contains MainMenu Canvas.")] [SerializeField]
-        private GameObject mainMenuCanvases;
-
-        #endregion
-
         #region Public Methods
 
         public void OnClickRoomList()
@@ -22,12 +16,19 @@ namespace Collection.UI.Scripts.MainMenu
 
         public void OnClickSettings()
         {
-            mainMenuCanvases.SetActive(false);
+            // Settings
         }
 
         public void OnClickLogin()
         {
-            AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(true);
+            if (!PlayFabClientAPI.IsClientLoggedIn())
+            {
+                AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(true);
+            }
+            else
+            {
+                MainMenuCanvases.Instance.LogOutCanvas.gameObject.SetActive(true);
+            }
         }
 
         #endregion

@@ -75,7 +75,7 @@ namespace Collection.UI.Scripts.Login
 
         public void OnClickRegister()
         {
-            PlayFabAuthManager.Instance.CreateAccount(usernameInputField.text, emailInputField.text,
+            PlayFabAuthManager.CreateAccount(usernameInputField.text, emailInputField.text,
                 passwordInputField.text, confirmedPasswordInputField.text);
         }
 
