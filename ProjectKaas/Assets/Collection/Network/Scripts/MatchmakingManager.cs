@@ -1,4 +1,5 @@
 using System;
+using Collection.UI.Scripts;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
@@ -19,12 +20,6 @@ namespace Collection.Network.Scripts
         [SerializeField]
         private byte maxPlayersPerRoom = 8;
 
-        [Tooltip("UI Panel to let the user enter name, connect and play")] [SerializeField]
-        private GameObject controlPanel;
-
-        [Tooltip("UI Label to inform the user that the connection is in progress")] [SerializeField]
-        private GameObject progressLabel;
-
         #endregion
 
         #region Private Fields
@@ -43,13 +38,7 @@ namespace Collection.Network.Scripts
             // Make sure if LoadLevel is called all clients sync their level automatically
             PhotonNetwork.AutomaticallySyncScene = true;
         }
-
-        private void Start()
-        {
-            progressLabel.SetActive(false);
-            controlPanel.SetActive(true);
-        }
-
+        
         #endregion
 
         #region Public Methods
@@ -61,8 +50,8 @@ namespace Collection.Network.Scripts
         /// </summary>
         public void OnClickPlay()
         {
-            progressLabel.SetActive(true);
-            controlPanel.SetActive(false);
+            MainMenuCanvases.Instance.MainMenu.InfoText.gameObject.SetActive(true);
+            MainMenuCanvases.Instance.MainMenu.InfoText.text = "Connecting...";
 
             // Check if we are connected or not,
             // Join if we are
@@ -82,15 +71,7 @@ namespace Collection.Network.Scripts
 
         public override void OnDisconnected(DisconnectCause cause)
         {
-            if (progressLabel != null)
-            {
-                progressLabel.SetActive(false);
-            }
-
-            if (controlPanel != null)
-            {
-                controlPanel.SetActive(false);
-            }
+            MainMenuCanvases.Instance.MainMenu.InfoText.gameObject.SetActive(false);
 
             _joinMatchmaking = false;
         }

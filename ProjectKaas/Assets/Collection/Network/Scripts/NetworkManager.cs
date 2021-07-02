@@ -73,7 +73,6 @@ namespace Collection.Network.Scripts
             PhotonNetwork.LocalPlayer.NickName = profileModel.DisplayName;
             var authenticationValues = new AuthenticationValues(profileModel.PlayerId);
             PhotonNetwork.AuthValues = authenticationValues;
-            
         }
 
         #endregion

@@ -1,3 +1,4 @@
+using System.Collections;
 using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using UnityEngine;
@@ -37,7 +38,29 @@ namespace Collection.Cars.Scripts
         {
             PlayerHandler = playerHandler;
         }
+
+        /// <summary>
+        /// Changing speed for a set time, and then change it back to normal.
+        /// </summary>
+        /// <param name="speed">float</param>
+        /// <param name="duration">float</param>
+        public void ChangeSpeed(float speed, float duration)
+        {
+            StartCoroutine(ChangeSpeedCo(speed, duration));
+        }
         
+        #endregion
+
+        #region Private Methods
+
+        private IEnumerator ChangeSpeedCo(float speed, float duration)
+        {
+            var oldSpeed = Speed;
+            Speed = speed;
+            yield return new WaitForSeconds(duration);
+            Speed = oldSpeed;
+        }
+
         #endregion
     }
 }

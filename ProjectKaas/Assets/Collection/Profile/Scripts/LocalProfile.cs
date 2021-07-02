@@ -12,7 +12,12 @@ namespace Collection.Profile.Scripts
 {
     public class LocalProfile : MonoBehaviour
     {
+        #region Singleton
 
+        public static LocalProfile Instance;
+
+        #endregion
+        
         #region Private Fields
 
         private List<FriendInfo> _friendList = new List<FriendInfo>();
@@ -30,6 +35,15 @@ namespace Collection.Profile.Scripts
 
         private void Awake()
         {
+            if (Instance != null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                Instance = this;
+            }
+            
             PlayFabAuthManager.OnLoginSuccess.AddListener(InitializeProfile);
         }
 
@@ -42,13 +56,14 @@ namespace Collection.Profile.Scripts
         /// </summary>
         private void InitializeProfile()
         {
+            Debug.Log("Initialize...");
+            
             PlayFabClientAPI.GetPlayerProfile(new GetPlayerProfileRequest(), 
                 result =>
                 {
+                    Debug.Log("Initializing Profile Successful");
+                    
                     PlayerProfileModel = result.PlayerProfile;
-                    PhotonNetwork.LocalPlayer.NickName = result.PlayerProfile.DisplayName;
-                    var authenticationValues = new Photon.Realtime.AuthenticationValues(result.PlayerProfile.PlayerId);
-                    PhotonNetwork.AuthValues = authenticationValues;
                 }, 
                 error =>
                 {
@@ -64,6 +79,8 @@ namespace Collection.Profile.Scripts
                 {
                     Debug.LogError($"FriendList not found: {error.ErrorMessage}");
                 });
+            
+            OnProfileInitialized?.Invoke(PlayerProfileModel);
         }
 
         #endregion

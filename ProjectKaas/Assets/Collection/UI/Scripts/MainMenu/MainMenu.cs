@@ -1,13 +1,35 @@
+using Collection.Authentication.Scripts;
 using Collection.UI.Scripts.Login;
 using PlayFab;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Collection.UI.Scripts.MainMenu
 {
     public class MainMenu : MonoBehaviour
     {
+        #region Private Serializable Fields
+
+        [Tooltip("UI Label to inform the user")] [SerializeField]
+        private TextMeshProUGUI infoText;
+
+        [SerializeField] private Button friendListButton;
+
+        #endregion
+
+        #region Public Fields
+
+        public TextMeshProUGUI InfoText => infoText;
+
+        #endregion
+
         #region Public Methods
+
+        public void ToggleFriendListButton()
+        {
+            friendListButton.gameObject.SetActive(!friendListButton.gameObject.activeSelf);
+        }
 
         public void OnClickFriendList()
         {

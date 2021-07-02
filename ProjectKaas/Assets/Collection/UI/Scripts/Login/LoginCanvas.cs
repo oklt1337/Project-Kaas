@@ -125,7 +125,7 @@ namespace Collection.UI.Scripts.Login
             AuthUIManager.Instance.RegisterCanvas.gameObject.SetActive(true);
         }
 
-        public void OnClickOffline()
+        public void OnClickGuest()
         {
             AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(false);
             MainMenuCanvases.Instance.MainMenu.gameObject.SetActive(true);

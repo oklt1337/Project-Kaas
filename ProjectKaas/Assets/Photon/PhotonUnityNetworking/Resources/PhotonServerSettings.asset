@@ -46,6 +46,9 @@ MonoBehaviour:
   - Rpctest
   - ChatMessage
   - RPCVetoMap
+  - AcceptFriendRPC
+  - DeclineFriendRPC
+  - FriendRequestRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
