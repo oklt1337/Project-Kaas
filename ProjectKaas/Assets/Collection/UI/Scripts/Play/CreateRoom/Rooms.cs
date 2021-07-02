@@ -1,15 +1,12 @@
 using System;
 using System.Collections;
-using Collection.UI.Scripts;
-using Collection.UI.Scripts.Play;
 using Photon.Pun;
-using Photon.Pun.Demo.Cockpit;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Collection.Network.Scripts
+namespace Collection.UI.Scripts.Play.CreateRoom
 {
     public class Rooms : MonoBehaviourPunCallbacks
     {
@@ -111,13 +108,14 @@ namespace Collection.Network.Scripts
             }
             else
             {
-                var roomOptions = new RoomOptions()
+                var roomOptions = new RoomOptions
                 {
-                    IsVisible = @public.isOn,
-                    IsOpen = @public.isOn,
-                    MaxPlayers = _maxPlayer
+                    IsVisible = @public.isOn, 
+                    IsOpen = @public.isOn, 
+                    MaxPlayers = _maxPlayer, 
+                    PublishUserId = true
                 };
-            
+                
                 PhotonNetwork.CreateRoom(roomName.text, roomOptions, TypedLobby.Default);
                 ReadyUpManager.Scripts.ReadyUpManager.Instance.LobbySize = _maxPlayer;
             }

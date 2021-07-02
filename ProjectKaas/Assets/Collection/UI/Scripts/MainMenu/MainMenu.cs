@@ -9,6 +9,11 @@ namespace Collection.UI.Scripts.MainMenu
     {
         #region Public Methods
 
+        public void OnClickFriendList()
+        {
+            MainMenuCanvases.Instance.FriendListCanvas.gameObject.SetActive(!MainMenuCanvases.Instance.FriendListCanvas.gameObject.activeSelf);
+        }
+        
         public void OnClickRoomList()
         {
             OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);

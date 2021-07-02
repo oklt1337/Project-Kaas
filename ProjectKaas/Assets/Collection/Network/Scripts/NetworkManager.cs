@@ -1,6 +1,8 @@
 using System.Collections;
 using Collection.Authentication.Scripts;
+using Collection.Profile.Scripts;
 using Photon.Pun;
+using Photon.Realtime;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -22,8 +24,8 @@ namespace Collection.Network.Scripts
 
         private void Awake()
         {
-            PlayFabAuthManager.OnLoginSuccess.AddListener(SetProfileData);
             PlayFabAuthManager.OnLogOut.AddListener(SetRandomDefaultNickName);
+            LocalProfile.OnProfileInitialized.AddListener(SetPhotonProfileValues);
         }
 
         #endregion
@@ -64,18 +66,14 @@ namespace Collection.Network.Scripts
 
         /// <summary>
         /// Set Photon Nickname to PlayFab displayName.
+        /// Set authValue to PlayFab playerId
         /// </summary>
-        private static void SetProfileData()
+        private static void SetPhotonProfileValues(PlayerProfileModel profileModel)
         {
-            PlayFabClientAPI.GetPlayerProfile(new GetPlayerProfileRequest(), 
-                result =>
-                {
-                    PhotonNetwork.LocalPlayer.NickName = result.PlayerProfile.DisplayName;
-                }, 
-                error =>
-            {
-                Debug.LogError($"Cant Get UserProfile: {error.ErrorMessage}");
-            });
+            PhotonNetwork.LocalPlayer.NickName = profileModel.DisplayName;
+            var authenticationValues = new AuthenticationValues(profileModel.PlayerId);
+            PhotonNetwork.AuthValues = authenticationValues;
+            
         }
 
         #endregion

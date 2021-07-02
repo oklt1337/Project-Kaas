@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Collection.Authentication.Scripts;
+using Photon.Chat;
 using Photon.Pun;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.Events;
 
 namespace Collection.Profile.Scripts
 {
@@ -20,6 +22,7 @@ namespace Collection.Profile.Scripts
         #region Public Fields
 
         public PlayerProfileModel PlayerProfileModel { get; private set; } = new PlayerProfileModel();
+        public static readonly UnityEvent<PlayerProfileModel> OnProfileInitialized = new UnityEvent<PlayerProfileModel>();
 
         #endregion
 
@@ -27,14 +30,29 @@ namespace Collection.Profile.Scripts
 
         private void Awake()
         {
+            PlayFabAuthManager.OnLoginSuccess.AddListener(InitializeProfile);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Initialize userprofile
+        /// </summary>
+        private void InitializeProfile()
+        {
             PlayFabClientAPI.GetPlayerProfile(new GetPlayerProfileRequest(), 
                 result =>
                 {
                     PlayerProfileModel = result.PlayerProfile;
+                    PhotonNetwork.LocalPlayer.NickName = result.PlayerProfile.DisplayName;
+                    var authenticationValues = new Photon.Realtime.AuthenticationValues(result.PlayerProfile.PlayerId);
+                    PhotonNetwork.AuthValues = authenticationValues;
                 }, 
                 error =>
                 {
-                    Debug.LogError($"Profile Not Found: {error.ErrorMessage}");
+                    Debug.LogError($"Cant Get UserProfile: {error.ErrorMessage}");
                 });
             
             PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest(), 
@@ -43,9 +61,9 @@ namespace Collection.Profile.Scripts
                     _friendList = result.Friends;
                 }, 
                 error =>
-            {
-                Debug.LogError($"FriendList not found: {error.ErrorMessage}");
-            });
+                {
+                    Debug.LogError($"FriendList not found: {error.ErrorMessage}");
+                });
         }
 
         #endregion

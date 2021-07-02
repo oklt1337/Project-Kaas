@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcce2fdf104a73f4bbe95e6e5295a34b, type: 3}
   m_Name: LoginData
   m_EditorClassIdentifier: 
-  stayLogin: 1
+  stayLogin: 0

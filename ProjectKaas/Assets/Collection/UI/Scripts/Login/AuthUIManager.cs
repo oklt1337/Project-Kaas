@@ -57,7 +57,6 @@ namespace Collection.UI.Scripts.Login
         {
             LoginCanvas.gameObject.SetActive(false);
             RegisterCanvas.gameObject.SetActive(false);
-            //FirebaseAuthManager.Instance.ClearOutputs();
         }
 
         #endregion

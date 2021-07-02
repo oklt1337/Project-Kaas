@@ -1,4 +1,5 @@
 using Collection.UI.Scripts.MainMenu;
+using Collection.UI.Scripts.MainMenu.FriendList;
 using UnityEngine;
 
 namespace Collection.UI.Scripts
@@ -15,6 +16,8 @@ namespace Collection.UI.Scripts
 
         [SerializeField] private MainMenu.MainMenu mainMenu;
         [SerializeField] private LogOutCanvas logOutCanvas;
+        [SerializeField] private FriendListCanvas friendListCanvas;
+        [SerializeField] private FriendInfoCanvas friendInfoCanvas;
 
         #endregion
 
@@ -22,6 +25,8 @@ namespace Collection.UI.Scripts
 
         public MainMenu.MainMenu MainMenu => mainMenu;
         public LogOutCanvas LogOutCanvas => logOutCanvas;
+        public FriendListCanvas FriendListCanvas => friendListCanvas;
+        public FriendInfoCanvas FriendInfoCanvas => friendInfoCanvas;
 
         #endregion
 

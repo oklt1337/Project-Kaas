@@ -35,8 +35,7 @@ namespace Collection.UI.Scripts
         private const string PlayerNamePrefKey = "PlayerName";
         
         #endregion
-
-
+        
         #region MonoBehaviour CallBacks
 
         private void Start () 
@@ -60,8 +59,7 @@ namespace Collection.UI.Scripts
         }
 
         #endregion
-
-
+        
         #region Public Methods
         
         /// <summary>
