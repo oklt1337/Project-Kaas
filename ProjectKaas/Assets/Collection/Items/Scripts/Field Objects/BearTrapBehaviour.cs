@@ -6,15 +6,17 @@ namespace Collection.Items.Scripts.Field_Objects
 {
     public class BearTrapBehaviour : MonoBehaviour
     {
+        [SerializeField] private float duration;
+    
         private void OnCollisionEnter(Collision other)
         {
             PhotonNetwork.Destroy(gameObject);
 
-            if (other.gameObject.CompareTag("Player"))
-            {
-                var hitPlayer = other.gameObject.GetComponent<PlayerHandler>();
-                // TODO: Stop Car from driving for x seconds.
-            }
+            if (!other.gameObject.CompareTag("Player")) 
+                return;
+            
+            var hitPlayer = other.gameObject.GetComponent<PlayerHandler>();
+            hitPlayer.Car.ChangeSpeed(-hitPlayer.Car.Speed,duration);
         }
     }
 }

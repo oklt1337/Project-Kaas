@@ -56,7 +56,7 @@ namespace Collection.Cars.Scripts
         private IEnumerator ChangeSpeedCo(float speed, float duration)
         {
             var oldSpeed = Speed;
-            Speed = speed;
+            Speed += speed;
             yield return new WaitForSeconds(duration);
             Speed = oldSpeed;
         }

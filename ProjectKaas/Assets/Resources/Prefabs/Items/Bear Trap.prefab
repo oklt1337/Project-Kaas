@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4541598284767493213}
   - component: {fileID: 7592562308777334261}
   - component: {fileID: 2328630945665570527}
+  - component: {fileID: -8241486852132777162}
   m_Layer: 0
   m_Name: Bear Trap
   m_TagString: Untagged
@@ -137,3 +138,16 @@ MonoBehaviour:
   m_SynchronizeRotation: 0
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &-8241486852132777162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4605381834694180717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652e84ddae6bdb943aabda8094eb1dce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 3
