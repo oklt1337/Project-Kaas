@@ -1,4 +1,5 @@
 using Collection.Authentication.Scripts;
+using Collection.Profile.Scripts;
 using Collection.UI.Scripts.MainMenu;
 using Collection.UI.Scripts.MainMenu.FriendList;
 using UnityEngine;
@@ -48,6 +49,7 @@ namespace Collection.UI.Scripts
             
             PlayFabAuthManager.OnLoginSuccess.AddListener(MainMenu.ToggleFriendListButton);
             PlayFabAuthManager.OnLogOut.AddListener(MainMenu.ToggleFriendListButton);
+            LocalProfile.OnProfileInitialized.AddListener(FriendListCanvas.SetIDText);
         }
 
         #endregion

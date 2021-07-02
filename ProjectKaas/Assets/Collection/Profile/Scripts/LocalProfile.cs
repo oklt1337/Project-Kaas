@@ -64,6 +64,7 @@ namespace Collection.Profile.Scripts
                     Debug.Log("Initializing Profile Successful");
                     
                     PlayerProfileModel = result.PlayerProfile;
+                    OnProfileInitialized?.Invoke(PlayerProfileModel);
                 }, 
                 error =>
                 {
@@ -79,8 +80,6 @@ namespace Collection.Profile.Scripts
                 {
                     Debug.LogError($"FriendList not found: {error.ErrorMessage}");
                 });
-            
-            OnProfileInitialized?.Invoke(PlayerProfileModel);
         }
 
         #endregion

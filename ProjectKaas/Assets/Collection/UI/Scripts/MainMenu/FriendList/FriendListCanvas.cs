@@ -20,15 +20,6 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
 
         #endregion
 
-        #region Monobehaviour Callbacks
-
-        private void Awake()
-        {
-            LocalProfile.OnProfileInitialized.AddListener(SetIDText);
-        }
-
-        #endregion
-
         #region Photon Callbacks
 
         public override void OnEnable()
@@ -58,7 +49,7 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
 
         #region Private Methods
 
-        private void SetIDText(PlayerProfileModel profileModel)
+        public void SetIDText(PlayerProfileModel profileModel)
         {
             Debug.Log("Set ID text");
             playerID.text = profileModel.PlayerId;
