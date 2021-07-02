@@ -1,3 +1,5 @@
+using System;
+using Collection.NetworkPlayer.Scripts;
 using UnityEngine;
 
 namespace Collection.Items.Scripts.Field_Objects
@@ -26,6 +28,14 @@ namespace Collection.Items.Scripts.Field_Objects
         private void CalculateFlyPath(Vector3 user)
         {
             direction = (thisTransform.position - user).normalized;
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            if (!other.gameObject.CompareTag("Player"))
+                return;
+            
+            var hitPlayer = other.gameObject.GetComponent<PlayerHandler>();
         }
     }
 }
