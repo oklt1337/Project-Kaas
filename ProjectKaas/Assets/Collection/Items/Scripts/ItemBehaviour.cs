@@ -1,15 +1,15 @@
+using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
-using UnityEngine;
 
 namespace Collection.Items.Scripts
 {
     public abstract class ItemBehaviour : MonoBehaviourPun
     {
-        protected GameObject Owner;
+        protected PlayerHandler Owner;
         
         private void Start()
         {
-            Owner = transform.parent.gameObject;
+            Owner = gameObject.GetComponentInParent<PlayerHandler>();
         }
 
         /// <summary>

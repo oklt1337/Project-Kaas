@@ -1,3 +1,4 @@
+using Collection.Items.Scripts.Field_Objects;
 using Photon.Pun;
 using UnityEngine;
 
@@ -7,7 +8,9 @@ namespace Collection.Items.Scripts
     {
         public override void OnUse()
         { 
-            PhotonNetwork.Instantiate("Homing Rocket",Owner.transform.position+Vector3.forward, Quaternion.identity);
+            var rocket = PhotonNetwork.Instantiate("Homing Rocket",Owner.transform.position+Vector3.forward, Quaternion.identity);
+            var homingRocket = rocket.GetComponent<HomingRocketBehaviour>();
+            homingRocket.AcquireTarget(Owner);
             base.OnUse();
         }
     }

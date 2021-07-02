@@ -49,6 +49,14 @@ namespace Collection.Cars.Scripts
             StartCoroutine(ChangeSpeedCo(speed, duration));
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        public void OnHit()
+        {
+            
+        }
+        
         #endregion
 
         #region Private Methods
