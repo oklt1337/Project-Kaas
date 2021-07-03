@@ -71,8 +71,11 @@ namespace Collection.Network.Scripts
 
         public override void OnDisconnected(DisconnectCause cause)
         {
-            MainMenuCanvases.Instance.MainMenu.InfoText.gameObject.SetActive(false);
-
+            if (MainMenuCanvases.Instance.MainMenu.InfoText.gameObject != null)
+            {
+                MainMenuCanvases.Instance.MainMenu.InfoText.gameObject.SetActive(false);
+            }
+            
             _joinMatchmaking = false;
         }
 

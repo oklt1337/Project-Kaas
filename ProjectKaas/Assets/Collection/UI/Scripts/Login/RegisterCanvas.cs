@@ -47,11 +47,20 @@ namespace Collection.UI.Scripts.Login
         private void OnCreateAccountFailed(string error)
         {
             StartCoroutine(WarningCo(error));
+            ClearInputFields();
         }
 
         private void ClearUI()
         {
             RegistryOutputText.text = String.Empty;
+        }
+
+        private void ClearInputFields()
+        {
+            EmailInputField.text = String.Empty;
+            UsernameInputField.text = String.Empty;
+            PasswordInputField.text = String.Empty;
+            ConfirmedPasswordInputField.text = String.Empty;
         }
         
         private IEnumerator WarningCo(string text)
@@ -77,6 +86,7 @@ namespace Collection.UI.Scripts.Login
         {
             PlayFabAuthManager.CreateAccount(usernameInputField.text, emailInputField.text,
                 passwordInputField.text, confirmedPasswordInputField.text);
+            ClearInputFields();
         }
 
         #endregion

@@ -1,11 +1,18 @@
+using System;
+using System.Collections.Generic;
+using Collection.Authentication.Scripts;
+using Photon.Pun;
 using Photon.Realtime;
+using PlayFab;
+using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using FriendInfo = Photon.Realtime.FriendInfo;
 
 namespace Collection.UI.Scripts.MainMenu.FriendList
 {
-    public class FriendListings : MonoBehaviour
+    public class FriendListings : MonoBehaviourPunCallbacks
     {
         #region Private Serialisable Fields
 
@@ -16,7 +23,8 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
 
         #region Public Fields
 
-        public FriendInfo Friend { get; set; }
+        public PlayFab.ClientModels.FriendInfo Friend { get; set; }
+        public FriendInfo PhotonFriend { get; set; }
         public RawImage OnlineStatus => onlineStatus;
         public TextMeshProUGUI DisplayName => displayName;
 
@@ -24,7 +32,7 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
 
         #region Private Fields
 
-        private float _buffer = 5f;
+        private float _buffer = 60f;
 
         #endregion
         
@@ -40,8 +48,16 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
         {
             if (_buffer <= 0)
             {
-                SetOnlineStatus(Friend.IsOnline, Friend.IsInRoom);
-                _buffer = 5f;
+                if (PhotonFriend != null)
+                {
+                    SetOnlineStatus(PhotonFriend.IsOnline, PhotonFriend.IsInRoom);
+                }
+                else
+                {
+                    SetOnlineStatus(false, false);
+                }
+
+                _buffer = 60f;
             }
             else
             {
@@ -51,26 +67,52 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
 
         #endregion
 
+        #region Photon Callbacks
+
+        public override void OnFriendListUpdate(List<FriendInfo> friendList)
+        {
+            base.OnFriendListUpdate(friendList);
+
+            var index = friendList.FindIndex(x => x.UserId == Friend.FriendPlayFabId);
+
+            if (index != -1)
+            {
+                PhotonFriend = friendList[index];
+                SetOnlineStatus(PhotonFriend.IsOnline, PhotonFriend.IsInRoom);
+            }
+            else
+            {
+                Debug.Log("Friend is not in list.");
+            }
+        }
+
+        #endregion
+
         #region Public Methods
 
-        public void ApplyFriend(FriendInfo friend)
+        public void ApplyFriend(PlayFab.ClientModels.FriendInfo friend)
         {
             Friend = friend;
-            DisplayName.text = friend.UserId;
-            SetOnlineStatus(friend.IsOnline, friend.IsInRoom);
+            DisplayName.text = friend.TitleDisplayName;
+            
+            SetOnlineStatus(false,false);
+            
+            var friendArray = new string[1];
+            friendArray[0] = friend.FriendPlayFabId;
+            PhotonNetwork.FindFriends(friendArray);
         }
 
         #endregion
         
         #region Private Methods
 
-        private void SetOnlineStatus(bool online, bool isInRoom)
+        private void SetOnlineStatus(bool online, bool inRoom)
         {
-            if (online && !isInRoom)
+            if (online && !inRoom)
             {
                 OnlineStatus.color = Color.green;
             }
-            else if (isInRoom)
+            else if (inRoom && !online)
             {
                 OnlineStatus.color = Color.yellow;
             }

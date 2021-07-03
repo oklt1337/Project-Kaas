@@ -11,13 +11,21 @@ namespace Collection.UI.Scripts.Play.Room
 
         [SerializeField] private Button add;
         [SerializeField] private Button kick;
-        [SerializeField] private Button back;
 
         #endregion
 
         #region Private Fields
 
         private Player _player;
+
+        #endregion
+
+        #region MonoBehaviour Callbacks
+
+        private void OnEnable()
+        {
+            kick.gameObject.SetActive(PhotonNetwork.IsMasterClient);
+        }
 
         #endregion
 

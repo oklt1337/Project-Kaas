@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using Collection.Authentication.Scripts;
-using Photon.Chat;
-using Photon.Pun;
+using Collection.FriendList.Scripts;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -20,7 +18,7 @@ namespace Collection.Profile.Scripts
         
         #region Private Fields
 
-        private List<FriendInfo> _friendList = new List<FriendInfo>();
+        public static List<FriendInfo> FriendList = new List<FriendInfo>();
 
         #endregion
         
@@ -28,6 +26,7 @@ namespace Collection.Profile.Scripts
 
         public PlayerProfileModel PlayerProfileModel { get; private set; } = new PlayerProfileModel();
         public static readonly UnityEvent<PlayerProfileModel> OnProfileInitialized = new UnityEvent<PlayerProfileModel>();
+        public static readonly UnityEvent<List<FriendInfo>> OnFriendListUpdated = new UnityEvent<List<FriendInfo>>();
 
         #endregion
 
@@ -35,6 +34,8 @@ namespace Collection.Profile.Scripts
 
         private void Awake()
         {
+            FriendList.Clear();
+            
             if (Instance != null)
             {
                 Destroy(gameObject);
@@ -43,8 +44,9 @@ namespace Collection.Profile.Scripts
             {
                 Instance = this;
             }
-            
             PlayFabAuthManager.OnLoginSuccess.AddListener(InitializeProfile);
+            FriendRequester.OnAddSuccess.AddListener(UpdateFriendList);
+            FriendRequester.OnRemoveSuccess.AddListener(UpdateFriendList);
         }
 
         #endregion
@@ -70,11 +72,20 @@ namespace Collection.Profile.Scripts
                 {
                     Debug.LogError($"Cant Get UserProfile: {error.ErrorMessage}");
                 });
+
+            UpdateFriendList(null);
+        }
+
+        private static void UpdateFriendList(string id)
+        {
+            FriendList.Clear();
             
             PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest(), 
                 result =>
                 {
-                    _friendList = result.Friends;
+                    FriendList = result.Friends;
+                    Debug.Log("Friend list updated.");
+                    OnFriendListUpdated?.Invoke(FriendList);
                 }, 
                 error =>
                 {

@@ -44,6 +44,8 @@ namespace Collection.UI.Scripts.Login
                 if (username != String.Empty || password != String.Empty)
                 {
                     PlayFabAuthManager.SignIn(username,password);
+
+                    ClearInputFields();
                 }
             }
             
@@ -84,11 +86,18 @@ namespace Collection.UI.Scripts.Login
             StartCoroutine(WarningCo(error));
             LocalPlayerDataManager.DeleteLoginData();
             loginData.stayLogin = false;
+            ClearInputFields();
         }
         
         private void ClearUI()
         {
             LoginOutputText.text = String.Empty;
+        }
+
+        private void ClearInputFields()
+        {
+            UserNameInputField.text = String.Empty;
+            PasswordInputField.text = String.Empty;
         }
         
         private IEnumerator WarningCo(string text)
@@ -117,6 +126,8 @@ namespace Collection.UI.Scripts.Login
             {
                 LocalPlayerDataManager.DeleteLoginData();
             }
+
+            ClearInputFields();
         }
 
         public void OnClickRegister()

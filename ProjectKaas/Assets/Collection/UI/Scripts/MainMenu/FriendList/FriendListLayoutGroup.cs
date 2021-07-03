@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Collection.Profile.Scripts;
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Collection.UI.Scripts.MainMenu.FriendList
 {
@@ -21,32 +22,18 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
 
         #region Public Fields
 
-        public List<FriendListings> FriendList { get; set; } = new List<FriendListings>();
+        public static List<FriendListings> FriendList { get; } = new List<FriendListings>();
 
         #endregion
 
-        #region Photon Callbacks
-
-        public override void OnFriendListUpdate(List<FriendInfo> friendList)
-        {
-            foreach (var friend in friendList)
-            {
-                FriendAdded(friend);
-            }
-            
-            base.OnFriendListUpdate(friendList);
-        }
-
-        #endregion
-        
-        
         #region Private Methods
         
-        private void FriendAdded(FriendInfo friend)
+        private void FriendAdded(PlayFab.ClientModels.FriendInfo friend)
         {
             if (friend == null)
                 return;
             
+            Debug.Log("Inistant Friend");
             // just to make sure to not add duplicates.
             FriendDeleted(friend);
 
@@ -54,7 +41,7 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
             var friendListingObj = Instantiate(FriendListingPrefab, transform, false);
 
             // Set Obj name to nickname.
-            friendListingObj.name = friend.UserId;
+            friendListingObj.name = friend.TitleDisplayName;
             
             // find playerListing script and apply player.
             var friendListings = friendListingObj.GetComponent<FriendListings>();
@@ -67,7 +54,7 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
         /// <summary>
         /// Destroy listing obj and remove from list.
         /// </summary>
-        private void FriendDeleted(FriendInfo friend)
+        private void FriendDeleted(PlayFab.ClientModels.FriendInfo friend)
         {
             // Find player in list.
             var index = FriendList.FindIndex(x => x.Friend == friend);
@@ -78,6 +65,39 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
                 Destroy(FriendList[index].gameObject);
                 // Remove from list.
                 FriendList.RemoveAt(index);
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void UpdateFriendList(List<PlayFab.ClientModels.FriendInfo> friends)
+        {
+            Debug.Log("Updating FriendsListings");
+            FriendList.Clear();
+
+            if (friends.Count == 0)
+            {
+                var children = new List<GameObject>();
+                for (var i = 0; i < transform.childCount - 1; i++)
+                {
+                    var child = transform.GetChild(i);
+                    children.Add(child.gameObject);
+                }
+
+                if (children.Count > 0)
+                {
+                    foreach (var child in children)
+                    {
+                        Destroy(child);
+                    }
+                }
+            }
+            
+            foreach (var friend in friends)
+            {
+                FriendAdded(friend);
             }
         }
 

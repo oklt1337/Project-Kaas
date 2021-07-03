@@ -35,7 +35,6 @@ namespace Collection.UI.Scripts.Play.CreateRoom
                     OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
                 }
                 
-                OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
                 Debug.Log("Join room successful.");
             }
             else

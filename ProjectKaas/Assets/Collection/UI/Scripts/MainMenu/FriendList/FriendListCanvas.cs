@@ -1,31 +1,44 @@
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using Collection.FriendList.Scripts;
-using Collection.Profile.Scripts;
 using Photon.Pun;
-using Photon.Realtime;
-using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;
 
 namespace Collection.UI.Scripts.MainMenu.FriendList
 {
-    public class FriendListCanvas : MonoBehaviourPunCallbacks
+    public class FriendListCanvas : MonoBehaviour
     {
         #region Private Serializeable Fields
 
+        [SerializeField] private FriendListLayoutGroup friendListLayoutGroup;
         [SerializeField] private TMP_InputField usernameInputField;
         [SerializeField] private TextMeshProUGUI playerID;
+        [SerializeField] private GameObject copyText;
 
         #endregion
 
-        #region Photon Callbacks
+        #region Private Fields
 
-        public override void OnEnable()
+        private string _copiedText;
+
+        #endregion
+
+        #region Public Fields
+
+        public FriendListLayoutGroup FriendListLayoutGroup => friendListLayoutGroup;
+
+        #endregion
+
+        #region MonoBehaviour Callbacks
+
+        private void OnDisable()
         {
-            base.OnEnable();
-            //SetIDText(LocalProfile.Instance.PlayerProfileModel);
+            if (MainMenuCanvases.Instance.FriendInfoCanvas.gameObject.activeSelf)
+            {
+                MainMenuCanvases.Instance.FriendInfoCanvas.gameObject.SetActive(false);
+            }
         }
 
         #endregion
@@ -36,23 +49,30 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
         {
             if (usernameInputField.text == String.Empty)
                 return;
+            
+            FriendRequester.AddFriend(usernameInputField.text);
+        }
 
-            PlayFabClientAPI.GetPlayerProfile(new GetPlayerProfileRequest
-                {
-                    PlayFabId = usernameInputField.text
-                },
-                result => { FriendRequester.Instance.SendFriendRequest(result.PlayerProfile); },
-                    error => { Debug.LogError($"Get Profile Error: {error.ErrorMessage}"); });
+        public void SetIDText(PlayerProfileModel profileModel)
+        {
+            playerID.text = profileModel.PlayerId;
+        }
+
+        public void OnClickCopyID()
+        {
+            _copiedText = playerID.text;
+            StartCoroutine(CopyCo());
         }
 
         #endregion
 
         #region Private Methods
 
-        public void SetIDText(PlayerProfileModel profileModel)
+        private IEnumerator CopyCo()
         {
-            Debug.Log("Set ID text");
-            playerID.text = profileModel.PlayerId;
+            copyText.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            copyText.SetActive(false);
         }
 
         #endregion

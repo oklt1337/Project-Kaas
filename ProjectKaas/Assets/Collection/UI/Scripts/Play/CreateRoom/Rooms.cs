@@ -58,6 +58,18 @@ namespace Collection.UI.Scripts.Play.CreateRoom
 
             StartCoroutine(WarningCo("You left the room or got kicked."));
             
+            var customProp = PhotonNetwork.LocalPlayer.CustomProperties;
+            if (customProp.ContainsKey("Room"))
+            {
+                customProp["Room"] = String.Empty;
+            }
+            else
+            {
+                customProp.Add("Room", String.Empty);
+            }
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(customProp);
+            
             roomName.text = String.Empty;
         }
 

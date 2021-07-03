@@ -20,7 +20,6 @@ namespace Collection.UI.Scripts
         [SerializeField] private LogOutCanvas logOutCanvas;
         [SerializeField] private FriendListCanvas friendListCanvas;
         [SerializeField] private FriendInfoCanvas friendInfoCanvas;
-        [SerializeField] private FriendRequestCanvas friendRequestCanvas;
 
         #endregion
 
@@ -30,7 +29,6 @@ namespace Collection.UI.Scripts
         public LogOutCanvas LogOutCanvas => logOutCanvas;
         public FriendListCanvas FriendListCanvas => friendListCanvas;
         public FriendInfoCanvas FriendInfoCanvas => friendInfoCanvas;
-        public FriendRequestCanvas FriendRequestCanvas => friendRequestCanvas;
 
         #endregion
 
@@ -50,6 +48,7 @@ namespace Collection.UI.Scripts
             PlayFabAuthManager.OnLoginSuccess.AddListener(MainMenu.ToggleFriendListButton);
             PlayFabAuthManager.OnLogOut.AddListener(MainMenu.ToggleFriendListButton);
             LocalProfile.OnProfileInitialized.AddListener(FriendListCanvas.SetIDText);
+            LocalProfile.OnFriendListUpdated.AddListener(FriendListCanvas.FriendListLayoutGroup.UpdateFriendList);
         }
 
         #endregion

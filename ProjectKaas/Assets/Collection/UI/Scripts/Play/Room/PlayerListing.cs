@@ -50,7 +50,7 @@ namespace Collection.UI.Scripts.Play.Room
                 {
                     ReadyUpManager.Scripts.ReadyUpManager.Instance.RemoveReadyPlayer(this);
                 }
-            } 
+            }
         }
 
         #endregion
@@ -83,17 +83,15 @@ namespace Collection.UI.Scripts.Play.Room
 
         public void OnClickPlayerInfo()
         {
-            if (PhotonNetwork.IsMasterClient)
+            if (PhotonPlayer.IsLocal)
             {
-                if (PhotonPlayer.IsLocal)
-                {
-                    Debug.Log("You cant interact with yourself.");
-                    return;
-                }
-                Debug.Log("Player info of: " + PhotonPlayer.NickName);
-                OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(true);
-                OverlayCanvases.Instance.PlayerInfoCanvas.GetComponent<PlayerInfoCanvas>().Initialize(PhotonPlayer);
+                Debug.Log("You cant interact with yourself.");
+                return;
             }
+
+            Debug.Log("Player info of: " + PhotonPlayer.NickName);
+            OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(true);
+            OverlayCanvases.Instance.PlayerInfoCanvas.GetComponent<PlayerInfoCanvas>().Initialize(PhotonPlayer);
         }
 
         #endregion

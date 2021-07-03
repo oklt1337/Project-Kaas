@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Collection.Profile.Scripts;
-using Collection.UI.Scripts;
 using Photon.Pun;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -22,9 +17,9 @@ namespace Collection.FriendList.Scripts
         #region UnityEvents
 
         public static readonly UnityEvent<string> OnAddSuccess = new UnityEvent<string>();
+        public static readonly UnityEvent<string> OnRemoveSuccess = new UnityEvent<string>();
+        public static readonly UnityEvent<string> OnRemoveFailed = new UnityEvent<string>();
         public static readonly UnityEvent<string> OnAddFriendFailed = new UnityEvent<string>();
-        public static readonly UnityEvent<string> OnFriendRequestAccepted = new UnityEvent<string>();
-        public static readonly UnityEvent<string> OnFriendRequestDeclined = new UnityEvent<string>();
 
         #endregion
 
@@ -40,22 +35,11 @@ namespace Collection.FriendList.Scripts
             {
                 Destroy(gameObject);
             }
-            
-            OnFriendRequestAccepted.AddListener(AddFriend);
         }
 
         #endregion
 
         #region Public Methods
-
-        public void SendFriendRequest(PlayerProfileModel friend)
-        {
-            Debug.Log($"Friend request send to {friend.DisplayName}");
-            
-            // find requester user.
-            var index = PhotonNetwork.PlayerList.ToList().FindIndex(x => x.UserId == friend.PlayerId);
-            photonView.RPC("FriendRequestRPC", PhotonNetwork.PlayerList[index].Get(int.Parse(friend.PlayerId)), LocalProfile.Instance.PlayerProfileModel); 
-        }
 
         /// <summary>
         /// Add Friend.
@@ -80,23 +64,30 @@ namespace Collection.FriendList.Scripts
                         Debug.Log($"add failed {friendID}");
                         OnAddFriendFailed?.Invoke($"Failed to add {friendID}");
                     }
-                }, 
+                },
                 error =>
-            {
-                Debug.Log($"Add friend Failed: {error.ErrorMessage}");
-                OnAddFriendFailed?.Invoke(error.ErrorMessage);
-            });
+                {
+                    Debug.Log($"Add friend Failed: {error.ErrorMessage}");
+                    OnAddFriendFailed?.Invoke(error.ErrorMessage);
+                });
         }
 
-        #endregion
-
-        #region Photon RPC
-
-        [PunRPC]
-        public void FriendRequestRPC(PlayerProfileModel requester)
+        public static void DeleteFriend(string id)
         {
-            MainMenuCanvases.Instance.FriendRequestCanvas.gameObject.SetActive(true);
-            MainMenuCanvases.Instance.FriendRequestCanvas.Initialize(requester);
+            PlayFabClientAPI.RemoveFriend(new RemoveFriendRequest
+                {
+                    FriendPlayFabId = id
+                }, 
+                result =>
+            {
+                Debug.Log("Friend removed");
+                OnRemoveSuccess?.Invoke(id);
+            }, 
+                error =>
+            {
+                Debug.Log($"Remove friend Failed: {error.ErrorMessage}");
+                OnRemoveFailed?.Invoke(id);
+            });
         }
 
         #endregion
