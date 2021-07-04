@@ -1,17 +1,23 @@
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
+using static Collection.Maps.Scripts.PositionManager;
 
 namespace Collection.Items.Scripts.Field_Objects
 {
-    public class GrenadeBehaviour : ItemBehaviour
+    public class GrenadeBehaviour : MonoBehaviourPun
     {
-        public override void OnUse()
+        [SerializeField] private float range;
+                
+        private void OnCollisionEnter()
         {
-            // Spawns a grenade and launches it forward.
-            var grenade = PhotonNetwork.Instantiate("Grenade",Owner.transform.position, Quaternion.identity);
-            var grenadeRb = grenade.gameObject.GetComponent<Rigidbody>();
-            grenadeRb.AddForce(0,10,10);
-            base.OnUse();
+            // Checks every distance to every player to decide hit.
+            foreach (var player in PositionManagerInstance.AllPlayers.Where(player => (player.transform.position - transform.position).magnitude < range))
+            {
+                player.Car.OnHit();
+            }
+
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 }
