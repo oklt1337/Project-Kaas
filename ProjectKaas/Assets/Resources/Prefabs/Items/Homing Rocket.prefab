@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7713437813320292246}
   - component: {fileID: 6844661908241390817}
   - component: {fileID: 3389549973399122687}
+  - component: {fileID: 5160381510891958438}
   m_Layer: 0
   m_Name: Homing Rocket
   m_TagString: Untagged
@@ -110,3 +111,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6561b145299094c42ac2a2945196c432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  agent: {fileID: 0}
+--- !u!195 &5160381510891958438
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7713437813322484054}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.0092082685
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 0
+  m_AutoRepath: 1
+  m_Height: 0.001
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

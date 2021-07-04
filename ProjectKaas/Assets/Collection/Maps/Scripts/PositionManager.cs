@@ -10,7 +10,8 @@ namespace Collection.Maps.Scripts
         
         [SerializeField] private List<PlayerHandler> allPlayers;
 
-
+        public List<PlayerHandler> AllPlayers => allPlayers;
+        
         private void Awake()
         {
             if(PositionManagerInstance != null)

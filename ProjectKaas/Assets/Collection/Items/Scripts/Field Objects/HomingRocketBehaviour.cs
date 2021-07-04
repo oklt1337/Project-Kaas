@@ -1,5 +1,6 @@
 using Collection.Maps.Scripts;
 using Collection.NetworkPlayer.Scripts;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,12 +29,18 @@ namespace Collection.Items.Scripts.Field_Objects
 
         private void OnCollisionEnter(Collision other)
         {
+            // Checks tag.
             if (!other.gameObject.CompareTag("Player"))
-                return;
-        
-            var hitPlayer = other.gameObject.GetComponent<PlayerHandler>();
-            hitPlayer.Car.OnHit();
-            Destroy(this);
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
+            else
+            {
+                // Makes the player tumble on hit.
+                var hitPlayer = other.gameObject.GetComponent<PlayerHandler>();
+                hitPlayer.Car.OnHit();
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
     }
 }
