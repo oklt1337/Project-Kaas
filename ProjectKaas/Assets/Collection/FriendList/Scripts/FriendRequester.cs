@@ -42,54 +42,49 @@ namespace Collection.FriendList.Scripts
         #region Public Methods
 
         /// <summary>
-        /// Add Friend.
+        /// Send FriendRequest.
         /// </summary>
         /// <param name="friendID">string</param>
-        public static void AddFriend(string friendID)
+        public static void SendFriendRequest(string friendID)
         {
-            // Add friend
-            PlayFabClientAPI.AddFriend(new AddFriendRequest
+            PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest
                 {
-                    FriendPlayFabId = friendID
+                    FunctionName = "SendFriendRequest",
+                    FunctionParameter = new
+                    {
+                        FriendPlayFabId = friendID
+                    }
                 },
                 result =>
                 {
-                    // check if successful
-                    if (result.Created)
-                    {
-                        OnAddSuccess?.Invoke(friendID);
-                    }
-                    else
-                    {
-                        Debug.Log($"add failed {friendID}");
-                        OnAddFriendFailed?.Invoke($"Failed to add {friendID}");
-                    }
+                    Debug.Log(result.FunctionResult);
+                    OnAddSuccess?.Invoke(friendID);
                 },
                 error =>
                 {
-                    Debug.Log($"Add friend Failed: {error.ErrorMessage}");
+                    Debug.LogError($"Failed execute Cloud Script: {error.ErrorMessage}");
                     OnAddFriendFailed?.Invoke(error.ErrorMessage);
                 });
         }
 
         public static void DeleteFriend(string id)
-        {
-            PlayFabClientAPI.RemoveFriend(new RemoveFriendRequest
-                {
-                    FriendPlayFabId = id
-                }, 
-                result =>
             {
-                Debug.Log("Friend removed");
-                OnRemoveSuccess?.Invoke(id);
-            }, 
-                error =>
-            {
-                Debug.Log($"Remove friend Failed: {error.ErrorMessage}");
-                OnRemoveFailed?.Invoke(id);
-            });
-        }
+                PlayFabClientAPI.RemoveFriend(new RemoveFriendRequest
+                    {
+                        FriendPlayFabId = id
+                    },
+                    result =>
+                    {
+                        Debug.Log("Friend removed");
+                        OnRemoveSuccess?.Invoke(id);
+                    },
+                    error =>
+                    {
+                        Debug.Log($"Remove friend Failed: {error.ErrorMessage}");
+                        OnRemoveFailed?.Invoke(id);
+                    });
+            }
 
-        #endregion
+            #endregion
+        }
     }
-}

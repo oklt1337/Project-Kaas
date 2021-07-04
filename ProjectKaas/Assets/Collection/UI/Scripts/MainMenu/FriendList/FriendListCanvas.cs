@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Collection.FriendList.Scripts;
+using Collection.Profile.Scripts;
 using Photon.Pun;
 using PlayFab.ClientModels;
 using TMPro;
@@ -50,12 +51,12 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
             if (usernameInputField.text == String.Empty)
                 return;
             
-            FriendRequester.AddFriend(usernameInputField.text);
+            FriendRequester.SendFriendRequest(usernameInputField.text);
         }
 
-        public void SetIDText(PlayerProfileModel profileModel)
+        public void SetIDText()
         {
-            playerID.text = profileModel.PlayerId;
+            playerID.text = LocalProfile.Instance.PlayerProfileModel.PlayerId;
         }
 
         public void OnClickCopyID()

@@ -8,6 +8,13 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
 {
     public class FriendListLayoutGroup : MonoBehaviourPunCallbacks
     {
+        #region Const Tags
+
+        private const string Requestee = "requestee";
+        private const string Requester = "requester";
+
+        #endregion
+        
         #region Private Serializable Fields
         
         [SerializeField] private GameObject friendListingPrefab;
@@ -32,8 +39,10 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
         {
             if (friend == null)
                 return;
+
+            if (friend.Tags.Contains(Requestee) || friend.Tags.Contains(Requester))
+                return;
             
-            Debug.Log("Inistant Friend");
             // just to make sure to not add duplicates.
             FriendDeleted(friend);
 

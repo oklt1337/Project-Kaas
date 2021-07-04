@@ -24,7 +24,7 @@ namespace Collection.Network.Scripts
         private void Awake()
         {
             PlayFabAuthManager.OnLogOut.AddListener(SetRandomDefaultNickName);
-            LocalProfile.OnProfileFullyInitialized.AddListener(SetPhotonProfileValues);
+            LocalProfile.OnProfileInitialized.AddListener(SetPhotonProfileValues);
         }
 
         #endregion
@@ -67,10 +67,10 @@ namespace Collection.Network.Scripts
         /// Set Photon Nickname to PlayFab displayName.
         /// Set authValue to PlayFab playerId
         /// </summary>
-        private static void SetPhotonProfileValues(PlayerProfileModel profileModel)
+        private static void SetPhotonProfileValues()
         {
-            PhotonNetwork.LocalPlayer.NickName = profileModel.DisplayName;
-            var authenticationValues = new AuthenticationValues(profileModel.PlayerId);
+            PhotonNetwork.LocalPlayer.NickName = LocalProfile.Instance.PlayerProfileModel.DisplayName;
+            var authenticationValues = new AuthenticationValues(LocalProfile.Instance.PlayerProfileModel.PlayerId);
             PhotonNetwork.AuthValues = authenticationValues;
         }
 

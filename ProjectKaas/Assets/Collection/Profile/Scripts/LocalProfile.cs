@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Collection.Authentication.Scripts;
 using Collection.FriendList.Scripts;
-using Collection.UI.Scripts.Play.Room;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -28,26 +26,19 @@ namespace Collection.Profile.Scripts
 
         public PlayerProfileModel PlayerProfileModel { get; private set; } = new PlayerProfileModel();
         public UserAccountInfo AccountInfo { get; private set; } = new UserAccountInfo();
+        public Dictionary<string, UserDataRecord> UserData { get; private set; } = new Dictionary<string, UserDataRecord>();
 
+        #endregion
+        
         #region Events
-
-        #region Public Events
-
-        public static readonly UnityEvent<PlayerProfileModel> OnProfileFullyInitialized =
-            new UnityEvent<PlayerProfileModel>();
+        
+        public static readonly UnityEvent OnProfileInitialized = new UnityEvent();
+        public static readonly UnityEvent OnAccountInfoInitialized = new UnityEvent();
+        public static readonly UnityEvent OnUserDataInitialized = new UnityEvent();
         public static readonly UnityEvent<List<FriendInfo>> OnFriendListUpdated = new UnityEvent<List<FriendInfo>>();
-        public static readonly UnityEvent OnDisplayNameChanged = new UnityEvent();
-
-        #endregion
-
-        #region Private Events
-
-        private readonly UnityEvent _onProfileInitialized = new UnityEvent();
-
-        #endregion
-
-        #endregion
-
+        public static readonly UnityEvent OnDisplayNameUpdated = new UnityEvent();
+        public static readonly UnityEvent OnUserDataUpdated = new UnityEvent();
+        
         #endregion
 
         #region MonoBehaviour Callbacks
@@ -68,12 +59,13 @@ namespace Collection.Profile.Scripts
             PlayFabAuthManager.OnLoginSuccess.AddListener(InitializeProfile);
             FriendRequester.OnAddSuccess.AddListener(UpdateFriendList);
             FriendRequester.OnRemoveSuccess.AddListener(UpdateFriendList);
-            _onProfileInitialized.AddListener(GetAccountInfo);
         }
 
         #endregion
 
         #region Private Methods
+
+        #region Initializing Methods
 
         /// <summary>
         /// Initialize userprofile
@@ -81,21 +73,9 @@ namespace Collection.Profile.Scripts
         private void InitializeProfile()
         {
             GetProfile();
+            GetAccountInfo();
+            GetUserData();
             UpdateFriendList(null);
-        }
-
-        private void UpdateFriendList(string id)
-        {
-            friendList.Clear();
-
-            PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest(),
-                result =>
-                {
-                    friendList = result.Friends;
-                    Debug.Log("Friend list updated.");
-                    OnFriendListUpdated?.Invoke(friendList);
-                },
-                error => { Debug.LogError($"FriendList not found: {error.ErrorMessage}"); });
         }
 
         private void GetProfile()
@@ -103,8 +83,8 @@ namespace Collection.Profile.Scripts
             PlayFabClientAPI.GetPlayerProfile(new GetPlayerProfileRequest(),
                 result =>
                 {
-                    PlayerProfileModel = result.PlayerProfile;
-                    _onProfileInitialized?.Invoke();
+                    PlayerProfileModel = result.PlayerProfile; 
+                    OnProfileInitialized?.Invoke();
                 },
                 error => { Debug.LogError($"Cant Get UserProfile: {error.ErrorMessage}"); });
         }
@@ -117,16 +97,36 @@ namespace Collection.Profile.Scripts
                 },
                 result =>
                 {
-                    AccountInfo = result.AccountInfo;
-
-                    OnProfileFullyInitialized?.Invoke(PlayerProfileModel);
+                    AccountInfo = result.AccountInfo; 
+                    OnAccountInfoInitialized?.Invoke();
                 },
-                error =>
+                error => { { Debug.LogError($"Cant Get AccountInfo: {error.ErrorMessage}"); } });
+        }
+
+        private void GetUserData()
+        {
+            PlayFabClientAPI.GetUserData(new GetUserDataRequest(),
+                result =>
                 {
-                    {
-                        Debug.LogError($"Cant Get AccountInfo: {error.ErrorMessage}");
-                    }
-                });
+                    UserData = result.Data;
+                    OnUserDataInitialized?.Invoke();
+                },
+                error => { Debug.LogError($"Cant Get UserData: {error.ErrorMessage}"); });
+        }
+
+        #endregion
+
+        private void UpdateFriendList(string id)
+        {
+            friendList.Clear();
+
+            PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest(),
+                result =>
+                {
+                    friendList = result.Friends;
+                    Debug.Log("Friend list updated.");
+                    OnFriendListUpdated?.Invoke(friendList);
+                }, error => { Debug.LogError($"FriendList not found: {error.ErrorMessage}"); });
         }
 
         #endregion
@@ -138,19 +138,26 @@ namespace Collection.Profile.Scripts
             if (string.IsNullOrEmpty(newName)) return;
 
             PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest
-                {
-                    DisplayName = newName
-                },
+                { DisplayName = newName },
                 result =>
                 {
                     if (result.DisplayName == newName)
                     {
-                        OnDisplayNameChanged?.Invoke();
+                        OnDisplayNameUpdated?.Invoke();
                     }
-                },
-                error => { Debug.LogError(error.ErrorMessage); });
+                }, error => { Debug.LogError($"Failed to update UserDisplayName: {error.ErrorMessage}"); });
         }
 
+        public void UpdateUserData(Dictionary<string, string> updatedData)
+        {
+            PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest
+                {
+                    Data = updatedData
+                }, 
+                result => { OnUserDataUpdated?.Invoke(); }, 
+                error => { Debug.LogError($"Failed to update UserData: {error.ErrorMessage}"); });
+        }
+        
         #endregion
     }
 }
