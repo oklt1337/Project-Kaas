@@ -1,3 +1,5 @@
+using Collection.FriendList.Scripts;
+using Collection.Profile.Scripts;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -55,7 +57,11 @@ namespace Collection.UI.Scripts.Play.Room
             
             if (PhotonNetwork.CurrentRoom.Players.ContainsValue(_player))
             {
-                Debug.Log("Add friend" + _player.NickName);
+                var index = LocalProfile.Instance.friendList.FindIndex(x => x.FriendPlayFabId == _player.UserId);
+                if (index == -1)
+                {
+                    FriendRequester.SendFriendRequest(_player.UserId);
+                }
             }
             
             _player = null;
