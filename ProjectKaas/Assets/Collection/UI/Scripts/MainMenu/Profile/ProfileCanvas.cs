@@ -15,6 +15,10 @@ namespace Collection.UI.Scripts.MainMenu.Profile
         [SerializeField] private TextMeshProUGUI displayNamePlaceholderText;
         [SerializeField] private RawImage profilePicImage;
         
+        [Header("Stats")]
+        [SerializeField] private RawImage mostUsedMapImage;
+        [SerializeField] private TextMeshProUGUI mostUsedMapText;
+        
         [Header("Placements")]
         [SerializeField] private TextMeshProUGUI firstCountText;
         [SerializeField] private TextMeshProUGUI secondCountText;
@@ -25,11 +29,7 @@ namespace Collection.UI.Scripts.MainMenu.Profile
         [SerializeField] private TextMeshProUGUI topThreePercentageText;
         [SerializeField] private Slider percentageSlider;
         [SerializeField] private RawImage mostUsedCarImage;
-        
-        [Header("Stats")]
-        [SerializeField] private RawImage mostUsedMapImage;
-        [SerializeField] private TextMeshProUGUI mostUsedMapText;
-        
+
         #endregion
 
         #region MonoBehaviour Callbacks
