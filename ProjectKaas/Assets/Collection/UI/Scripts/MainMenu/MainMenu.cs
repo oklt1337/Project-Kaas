@@ -15,6 +15,7 @@ namespace Collection.UI.Scripts.MainMenu
         private TextMeshProUGUI infoText;
 
         [SerializeField] private Button friendListButton;
+        [SerializeField] private Button profileButton;
 
         #endregion
 
@@ -26,9 +27,10 @@ namespace Collection.UI.Scripts.MainMenu
 
         #region Public Methods
 
-        public void ToggleFriendListButton()
+        public void ToggleButtonOnlyForLoggedUser()
         {
             friendListButton.gameObject.SetActive(!friendListButton.gameObject.activeSelf);
+            profileButton.gameObject.SetActive(!profileButton.gameObject.activeSelf);
         }
 
         public void OnClickFriendList()
@@ -39,6 +41,11 @@ namespace Collection.UI.Scripts.MainMenu
         public void OnClickRoomList()
         {
             OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
+        }
+
+        public void OnClickProfile()
+        {
+            MainMenuCanvases.Instance.ProfileCanvas.gameObject.SetActive(true);
         }
 
         public void OnClickSettings()

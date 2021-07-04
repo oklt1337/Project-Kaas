@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Collection.Authentication.Scripts;
 using Collection.FriendList.Scripts;
+using Collection.UI.Scripts.Play.Room;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -15,18 +17,36 @@ namespace Collection.Profile.Scripts
         public static LocalProfile Instance;
 
         #endregion
-        
+
         #region Private Fields
 
-        public static List<FriendInfo> FriendList = new List<FriendInfo>();
+        public List<FriendInfo> friendList = new List<FriendInfo>();
 
         #endregion
-        
+
         #region Public Fields
 
         public PlayerProfileModel PlayerProfileModel { get; private set; } = new PlayerProfileModel();
-        public static readonly UnityEvent<PlayerProfileModel> OnProfileInitialized = new UnityEvent<PlayerProfileModel>();
+        public UserAccountInfo AccountInfo { get; private set; } = new UserAccountInfo();
+
+        #region Events
+
+        #region Public Events
+
+        public static readonly UnityEvent<PlayerProfileModel> OnProfileFullyInitialized =
+            new UnityEvent<PlayerProfileModel>();
         public static readonly UnityEvent<List<FriendInfo>> OnFriendListUpdated = new UnityEvent<List<FriendInfo>>();
+        public static readonly UnityEvent OnDisplayNameChanged = new UnityEvent();
+
+        #endregion
+
+        #region Private Events
+
+        private readonly UnityEvent _onProfileInitialized = new UnityEvent();
+
+        #endregion
+
+        #endregion
 
         #endregion
 
@@ -34,8 +54,8 @@ namespace Collection.Profile.Scripts
 
         private void Awake()
         {
-            FriendList.Clear();
-            
+            friendList.Clear();
+
             if (Instance != null)
             {
                 Destroy(gameObject);
@@ -44,9 +64,11 @@ namespace Collection.Profile.Scripts
             {
                 Instance = this;
             }
+
             PlayFabAuthManager.OnLoginSuccess.AddListener(InitializeProfile);
             FriendRequester.OnAddSuccess.AddListener(UpdateFriendList);
             FriendRequester.OnRemoveSuccess.AddListener(UpdateFriendList);
+            _onProfileInitialized.AddListener(GetAccountInfo);
         }
 
         #endregion
@@ -58,39 +80,75 @@ namespace Collection.Profile.Scripts
         /// </summary>
         private void InitializeProfile()
         {
-            Debug.Log("Initialize...");
-            
-            PlayFabClientAPI.GetPlayerProfile(new GetPlayerProfileRequest(), 
-                result =>
-                {
-                    Debug.Log("Initializing Profile Successful");
-                    
-                    PlayerProfileModel = result.PlayerProfile;
-                    OnProfileInitialized?.Invoke(PlayerProfileModel);
-                }, 
-                error =>
-                {
-                    Debug.LogError($"Cant Get UserProfile: {error.ErrorMessage}");
-                });
-
+            GetProfile();
             UpdateFriendList(null);
         }
 
-        private static void UpdateFriendList(string id)
+        private void UpdateFriendList(string id)
         {
-            FriendList.Clear();
-            
-            PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest(), 
+            friendList.Clear();
+
+            PlayFabClientAPI.GetFriendsList(new GetFriendsListRequest(),
                 result =>
                 {
-                    FriendList = result.Friends;
+                    friendList = result.Friends;
                     Debug.Log("Friend list updated.");
-                    OnFriendListUpdated?.Invoke(FriendList);
-                }, 
+                    OnFriendListUpdated?.Invoke(friendList);
+                },
+                error => { Debug.LogError($"FriendList not found: {error.ErrorMessage}"); });
+        }
+
+        private void GetProfile()
+        {
+            PlayFabClientAPI.GetPlayerProfile(new GetPlayerProfileRequest(),
+                result =>
+                {
+                    PlayerProfileModel = result.PlayerProfile;
+                    _onProfileInitialized?.Invoke();
+                },
+                error => { Debug.LogError($"Cant Get UserProfile: {error.ErrorMessage}"); });
+        }
+
+        private void GetAccountInfo()
+        {
+            PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest
+                {
+                    PlayFabId = PlayerProfileModel.PlayerId
+                },
+                result =>
+                {
+                    AccountInfo = result.AccountInfo;
+
+                    OnProfileFullyInitialized?.Invoke(PlayerProfileModel);
+                },
                 error =>
                 {
-                    Debug.LogError($"FriendList not found: {error.ErrorMessage}");
+                    {
+                        Debug.LogError($"Cant Get AccountInfo: {error.ErrorMessage}");
+                    }
                 });
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void ChangeProfileDisplayName(string newName)
+        {
+            if (string.IsNullOrEmpty(newName)) return;
+
+            PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest
+                {
+                    DisplayName = newName
+                },
+                result =>
+                {
+                    if (result.DisplayName == newName)
+                    {
+                        OnDisplayNameChanged?.Invoke();
+                    }
+                },
+                error => { Debug.LogError(error.ErrorMessage); });
         }
 
         #endregion

@@ -3,7 +3,6 @@ using Collection.Authentication.Scripts;
 using Collection.Profile.Scripts;
 using Photon.Pun;
 using Photon.Realtime;
-using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 
@@ -25,7 +24,7 @@ namespace Collection.Network.Scripts
         private void Awake()
         {
             PlayFabAuthManager.OnLogOut.AddListener(SetRandomDefaultNickName);
-            LocalProfile.OnProfileInitialized.AddListener(SetPhotonProfileValues);
+            LocalProfile.OnProfileFullyInitialized.AddListener(SetPhotonProfileValues);
         }
 
         #endregion

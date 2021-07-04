@@ -2,6 +2,7 @@ using Collection.Authentication.Scripts;
 using Collection.Profile.Scripts;
 using Collection.UI.Scripts.MainMenu;
 using Collection.UI.Scripts.MainMenu.FriendList;
+using Collection.UI.Scripts.MainMenu.Profile;
 using UnityEngine;
 
 namespace Collection.UI.Scripts
@@ -20,6 +21,7 @@ namespace Collection.UI.Scripts
         [SerializeField] private LogOutCanvas logOutCanvas;
         [SerializeField] private FriendListCanvas friendListCanvas;
         [SerializeField] private FriendInfoCanvas friendInfoCanvas;
+        [SerializeField] private ProfileCanvas profileCanvas;
 
         #endregion
 
@@ -29,6 +31,7 @@ namespace Collection.UI.Scripts
         public LogOutCanvas LogOutCanvas => logOutCanvas;
         public FriendListCanvas FriendListCanvas => friendListCanvas;
         public FriendInfoCanvas FriendInfoCanvas => friendInfoCanvas;
+        public ProfileCanvas ProfileCanvas => profileCanvas;
 
         #endregion
 
@@ -45,9 +48,9 @@ namespace Collection.UI.Scripts
                 Instance = this;
             }
             
-            PlayFabAuthManager.OnLoginSuccess.AddListener(MainMenu.ToggleFriendListButton);
-            PlayFabAuthManager.OnLogOut.AddListener(MainMenu.ToggleFriendListButton);
-            LocalProfile.OnProfileInitialized.AddListener(FriendListCanvas.SetIDText);
+            PlayFabAuthManager.OnLoginSuccess.AddListener(MainMenu.ToggleButtonOnlyForLoggedUser);
+            PlayFabAuthManager.OnLogOut.AddListener(MainMenu.ToggleButtonOnlyForLoggedUser);
+            LocalProfile.OnProfileFullyInitialized.AddListener(FriendListCanvas.SetIDText);
             LocalProfile.OnFriendListUpdated.AddListener(FriendListCanvas.FriendListLayoutGroup.UpdateFriendList);
         }
 
