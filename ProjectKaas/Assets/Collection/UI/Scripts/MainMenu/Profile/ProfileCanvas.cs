@@ -54,6 +54,11 @@ namespace Collection.UI.Scripts.MainMenu.Profile
 
         #region Public Methods
 
+        public void ClearPlaceHolderText()
+        {
+            displayNamePlaceholderText.text = String.Empty;
+        }
+        
         public void ChangeName()
         {
             displayNamePlaceholderText.text = displayNameText.text;
