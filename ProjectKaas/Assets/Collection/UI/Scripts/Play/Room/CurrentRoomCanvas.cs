@@ -60,6 +60,12 @@ namespace Collection.UI.Scripts.Play.Room
             toggle.isOn = PhotonNetwork.CurrentRoom.IsVisible;
         }
 
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(false);
+        }
+
         #endregion
 
         #region Private Methods

@@ -18,12 +18,14 @@ namespace Collection.Profile.Scripts
 
         #region Private Fields
 
-        public List<FriendInfo> friendList = new List<FriendInfo>();
+        private float _updateInterval;
+        private const float StartInterval = 300f;
 
         #endregion
 
         #region Public Fields
-
+        
+        public List<FriendInfo> friendList = new List<FriendInfo>();
         public PlayerProfileModel PlayerProfileModel { get; private set; } = new PlayerProfileModel();
         public UserAccountInfo AccountInfo { get; private set; } = new UserAccountInfo();
         public Dictionary<string, UserDataRecord> UserData { get; private set; } = new Dictionary<string, UserDataRecord>();
@@ -46,6 +48,7 @@ namespace Collection.Profile.Scripts
         private void Awake()
         {
             friendList.Clear();
+            _updateInterval = StartInterval;
 
             if (Instance != null)
             {
@@ -57,8 +60,15 @@ namespace Collection.Profile.Scripts
             }
 
             PlayFabAuthManager.OnLoginSuccess.AddListener(InitializeProfile);
-            FriendRequester.OnAddSuccess.AddListener(UpdateFriendList);
+            FriendRequester.OnSendFriendRequest.AddListener(UpdateFriendList);
             FriendRequester.OnRemoveSuccess.AddListener(UpdateFriendList);
+            FriendRequester.OnFriendRequestAccepted.AddListener(UpdateFriendList);
+            FriendRequester.OnFriendRequestDenied.AddListener(UpdateFriendList);
+        }
+
+        private void Update()
+        {
+            ConstUpdates();
         }
 
         #endregion
@@ -127,6 +137,14 @@ namespace Collection.Profile.Scripts
                     Debug.Log("Friend list updated.");
                     OnFriendListUpdated?.Invoke(friendList);
                 }, error => { Debug.LogError($"FriendList not found: {error.ErrorMessage}"); });
+        }
+
+        private void ConstUpdates()
+        {
+            _updateInterval -= Time.deltaTime;
+            if (!(_updateInterval <= 0)) return;
+            UpdateFriendList(null);
+            _updateInterval = StartInterval;
         }
 
         #endregion

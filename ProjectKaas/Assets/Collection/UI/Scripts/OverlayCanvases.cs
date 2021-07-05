@@ -1,3 +1,4 @@
+using Collection.UI.Scripts.General;
 using Collection.UI.Scripts.Login;
 using Collection.UI.Scripts.Play.CreateRoom;
 using Collection.UI.Scripts.Play.Room;
@@ -27,6 +28,9 @@ namespace Collection.UI.Scripts
         
         [Tooltip("Vote Map Canvas.")]
         [SerializeField] private VoteMapCanvas voteMapCanvas;
+        
+        [Tooltip("Friend Request Popup Canvas.")]
+        [SerializeField] private FriendRequestCanvas friendRequestCanvas;
 
         #endregion
         
@@ -36,6 +40,7 @@ namespace Collection.UI.Scripts
         public CurrentRoomCanvas CurrenRoomCanvas => currenRoomCanvas;
         public PlayerInfoCanvas PlayerInfoCanvas => playerInfoCanvas;
         public VoteMapCanvas VoteMapCanvas => voteMapCanvas;
+        public FriendRequestCanvas FriendRequestCanvas => friendRequestCanvas;
         
         #endregion
 

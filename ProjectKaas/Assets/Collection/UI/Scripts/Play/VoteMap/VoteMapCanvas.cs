@@ -63,6 +63,8 @@ namespace Collection.UI.Scripts.Play.VoteMap
         public override void OnEnable()
         {
             base.OnEnable();
+            OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(false);
+            
             _timerStart = true;
             _timer = 60;
             timer.text = ((int) _timer).ToString();

@@ -41,23 +41,33 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
                 return;
 
             if (friend.Tags.Contains(Requestee) || friend.Tags.Contains(Requester))
-                return;
+            {
+                Debug.Log("not accepted yet");
+                
+                if (friend.Tags.Contains(Requester))
+                {
+                    Debug.Log("accepted request open");
+                    OverlayCanvases.Instance.FriendRequestCanvas.AddNewFriendRequest(friend);
+                }
+            }
+            else
+            {
+                // just to make sure to not add duplicates.
+                FriendDeleted(friend);
+
+                // Instantiate player listing obj.
+                var friendListingObj = Instantiate(FriendListingPrefab, transform, false);
+
+                // Set Obj name to nickname.
+                friendListingObj.name = friend.TitleDisplayName;
             
-            // just to make sure to not add duplicates.
-            FriendDeleted(friend);
+                // find playerListing script and apply player.
+                var friendListings = friendListingObj.GetComponent<FriendListings>();
+                friendListings.ApplyFriend(friend);
 
-            // Instantiate player listing obj.
-            var friendListingObj = Instantiate(FriendListingPrefab, transform, false);
-
-            // Set Obj name to nickname.
-            friendListingObj.name = friend.TitleDisplayName;
-            
-            // find playerListing script and apply player.
-            var friendListings = friendListingObj.GetComponent<FriendListings>();
-            friendListings.ApplyFriend(friend);
-
-            // add to list.
-            FriendList.Add(friendListings);
+                // add to list.
+                FriendList.Add(friendListings);
+            }
         }
 
         /// <summary>
