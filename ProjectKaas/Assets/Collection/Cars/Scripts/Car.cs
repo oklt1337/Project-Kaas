@@ -1,4 +1,5 @@
 using System.Collections;
+using Collection.Maps.Scripts;
 using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using UnityEngine;
@@ -19,6 +20,10 @@ namespace Collection.Cars.Scripts
         
         // Depends on car type.
         public float Speed { get; internal set; }
+        
+        // For the position manager.
+        public byte LapCount { get; internal set; }
+        public byte ZoneCount { get; internal set; }
 
         #endregion
         
@@ -50,11 +55,33 @@ namespace Collection.Cars.Scripts
         }
         
         /// <summary>
-        /// 
+        /// How the car reacts to a hit.
         /// </summary>
         public void OnHit()
         {
             
+        }
+
+        /// <summary>
+        /// Increases the lap count. 
+        /// </summary>
+        private void OnNextLap()
+        {
+            LapCount++;
+            ZoneCount = 0;
+        }
+        
+        /// <summary>
+        /// Increases the lap count. 
+        /// </summary>
+        public void OnNextZone()
+        {
+            ZoneCount++;
+
+            if (ZoneCount > PositionManager.PositionManagerInstance.Zones.Length)
+            {
+                OnNextLap();
+            }
         }
         
         #endregion

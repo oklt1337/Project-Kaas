@@ -9,6 +9,9 @@ namespace Collection.Maps.Scripts
         public static PositionManager PositionManagerInstance;
         
         [SerializeField] private List<PlayerHandler> allPlayers;
+        [SerializeField] private List<PlayerHandler> allPlayersPositions;
+
+        [field: SerializeField] public GameObject[] Zones { get; }
 
         public List<PlayerHandler> AllPlayers => allPlayers;
         
@@ -26,7 +29,18 @@ namespace Collection.Maps.Scripts
         /// <returns></returns>
         public PlayerHandler FindNextPlayer(PlayerHandler currentPlayer)
         {
-            return null;
+            PlayerHandler nextPlayer = null;
+
+            // Goes through every player and finds the current one.
+            for (var i = 0; i < allPlayersPositions.Count; i++)
+            {
+                if (currentPlayer == allPlayersPositions[i] && i > 0)
+                {
+                    nextPlayer = allPlayersPositions[i - 1];
+                }
+            }
+            
+            return nextPlayer;
         }
     }
 }
