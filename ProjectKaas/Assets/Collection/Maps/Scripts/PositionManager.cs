@@ -33,7 +33,7 @@ namespace Collection.Maps.Scripts
         }
 
         /// <summary>
-        /// Updates the List of all player positions.
+        /// Updates the List of all player positions. (Probably way to complicated but I hope it doesn't lag too much)
         /// </summary>
         private void DeterminePositions()
         {
@@ -41,6 +41,7 @@ namespace Collection.Maps.Scripts
             if(allPlayers.Count == 1)
                 return;
             
+            allPlayersPositions = null;
             var players = SeparatedByLaps(allPlayersPositions);
             allPlayersPositions = SeparatedByZones(players);
         }
@@ -82,7 +83,7 @@ namespace Collection.Maps.Scripts
             List<PlayerHandler> sortedPlayers = null;
             
             // Repeated for every lap backwards.
-            for (int i = LapCount; i > 0; i--)
+            for (int i = LapCount; i <= 0; i--)
             {
                 // Skips process when no player is at that lap. 
                 if(players[i,0] == null)
@@ -95,16 +96,90 @@ namespace Collection.Maps.Scripts
                     continue;
                 }
                 
-                
+                Sorter(ref players, i);
+
+                for (var j = 0; j < allPlayers.Count; j++)
+                {
+                    // Adds to list if existing and stops for when null.
+                    if (players[i, j] != null)
+                    {
+                        sortedPlayers.Add(players[i,j]);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
             
             
             return sortedPlayers;
         }
 
-        private List<PlayerHandler> FinalList(PlayerHandler[,] players)
+        /// <summary>
+        /// Sorts a array at its index.
+        /// </summary>
+        /// <param name="array"> The array you want to have sorted. </param>
+        /// <param name="index"> The index of its first value. </param>
+        private void Sorter(ref PlayerHandler[,] array, int index)
         {
-            return null;
+            var sortedPlayers = new PlayerHandler[allPlayers.Count];
+            for (var i = Zones.Length; i <= 0; i--)
+            {
+                byte playersInSameZone = 0;
+                var passedAllChecks = true;
+                for (var j = 0; j < array.Length; j++)
+                {
+                    // Ends for-loop when there is no car anymore.
+                    if(array[index,j] == null)
+                        break;
+
+                    // Skips car if it isn't in the Zone.
+                    if (array[index, j].Car.ZoneCount != i) 
+                        continue;
+
+                    playersInSameZone++;
+                    // Searches for a free space in the new array.
+                    for (var k = 0; k < sortedPlayers.Length; k++)
+                    {
+                        // Checks if spot is free.
+                        if (sortedPlayers[k] != null)
+                        {
+                            // Checks if both cars are in the same zone.
+                            if (sortedPlayers[k].Car.ZoneCount != i)
+                                continue;
+
+                            passedAllChecks = false;
+                            var currentCarDistance = (Zones[i+1].transform.position - array[index,j].transform.position).magnitude;
+                            // Compares Distance to next Zone with the other cars.
+                            for (var l = 0; l < playersInSameZone; l++)
+                            {
+                                var carDistance = (Zones[i + 1].transform.position - sortedPlayers[k+l].transform.position)
+                                    .magnitude;
+                                if (currentCarDistance < carDistance)
+                                {
+                                    // Swaps both cars when the current car is closer then the older car.
+                                    var tempPlayer = sortedPlayers[k+l];
+                                    sortedPlayers[k + l] = array[index, j];
+                                    array[index, j] = tempPlayer;
+                                }
+                                else if (l == playersInSameZone-1)
+                                {
+                                    sortedPlayers[k + 1] = array[index, j];
+                                }
+                            }
+                        }
+                        
+                        if(!passedAllChecks)
+                            break;
+                        
+                        sortedPlayers[k] = array[index, j];
+                        break;
+                    }
+                }
+            }
+            
+            array.SetValue(sortedPlayers,index);
         }
 
         /// <summary>
