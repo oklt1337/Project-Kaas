@@ -6,9 +6,16 @@ using UnityEngine;
 
 namespace Collection.Cars.Scripts
 {
-    [RequireComponent(typeof(CarControllerHandler), typeof(CarAnimationHandler))]
+    //[RequireComponent(typeof(CarControllerHandler), typeof(CarAnimationHandler))]
     public abstract class Car : MonoBehaviour
     {
+        public enum CarStates
+        {
+            Drive,
+            Idle,
+            Hit
+        }
+        
         #region Public Fields
         
         /// <summary>
@@ -18,13 +25,25 @@ namespace Collection.Cars.Scripts
         public CarAnimationHandler CarAnimationHandler { get; private set; }
         public PlayerHandler PlayerHandler { get;  private set; }
         
+        public CarStates MyCarStates  { get; private set; }
+
         // Depends on car type.
-        public float Speed { get; internal set; }
+        public float MaxSpeed { get; internal set; }
+        public float ForwardAccel { get; internal set; }
+        public float ReverseAccel { get; internal set; }
+        public float TurnStrength { get; internal set; }
+        public float GravityForce { get; internal set; }
         
         // For the position manager.
         public byte LapCount { get; internal set; }
         public byte ZoneCount { get; internal set; }
 
+        #endregion
+        
+        #region Internal Fields
+
+        internal const float HitFloat = 1.5f;
+        
         #endregion
         
         #region MonoBehaviour CallBacks
@@ -33,6 +52,7 @@ namespace Collection.Cars.Scripts
         {
             CarControllerHandler = GetComponent<CarControllerHandler>();
             CarAnimationHandler = GetComponent<CarAnimationHandler>();
+            PlayerHandler = GetComponentInParent<PlayerHandler>();
         }
 
         #endregion
@@ -59,7 +79,7 @@ namespace Collection.Cars.Scripts
         /// </summary>
         public void OnHit()
         {
-            
+            MyCarStates = CarStates.Hit;
         }
 
         /// <summary>
@@ -90,10 +110,10 @@ namespace Collection.Cars.Scripts
 
         private IEnumerator ChangeSpeedCo(float speed, float duration)
         {
-            var oldSpeed = Speed;
-            Speed += speed;
+            var oldSpeed = MaxSpeed;
+            MaxSpeed += speed;
             yield return new WaitForSeconds(duration);
-            Speed = oldSpeed;
+            MaxSpeed = oldSpeed;
         }
 
         #endregion
