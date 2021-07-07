@@ -6,8 +6,12 @@ namespace Collection.Cars.Scripts.FormulaCar
     {
         #region Private Serializable Fields
 
-        [Tooltip("Speed of FormulaCar.")]
-        [SerializeField] private float speed = 10f;
+        [Tooltip("MaxSpeed of FormulaCar.")]
+        [SerializeField] private float maxSpeed = 50f;
+        [SerializeField] private float forwardAccel = 8f;
+        [SerializeField] private float reverseAccel = 4f;
+        [SerializeField] private float turnStrength = 180f;
+        [SerializeField] private float gravityForce = 10f;
 
         #endregion
 
@@ -15,7 +19,11 @@ namespace Collection.Cars.Scripts.FormulaCar
 
         private void Start()
         {
-            Speed = speed;
+            MaxSpeed = maxSpeed;
+            ForwardAccel = forwardAccel;
+            ReverseAccel = reverseAccel;
+            TurnStrength = turnStrength;
+            GravityForce = gravityForce;
         }
 
         #endregion

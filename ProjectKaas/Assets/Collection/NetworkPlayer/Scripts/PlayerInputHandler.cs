@@ -51,6 +51,8 @@ namespace Collection.NetworkPlayer.Scripts
         // Update is called once per frame
         private void Update()
         {
+            MovementInput = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
+
             if (_gotInst)
             {
                 MovementInput = new Vector2(_joystick.Horizontal, _joystick.Vertical);

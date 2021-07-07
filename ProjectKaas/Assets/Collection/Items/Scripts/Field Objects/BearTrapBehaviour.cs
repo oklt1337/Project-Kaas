@@ -16,7 +16,7 @@ namespace Collection.Items.Scripts.Field_Objects
                 return;
             
             var hitPlayer = other.gameObject.GetComponent<PlayerHandler>();
-            hitPlayer.Car.ChangeSpeed(-hitPlayer.Car.Speed,duration);
+            hitPlayer.Car.ChangeSpeed(-hitPlayer.Car.MaxSpeed,duration);
         }
     }
 }
