@@ -17,6 +17,7 @@ namespace Collection.GameManager.Scripts
         #region Private SerializeFields 
 
         [SerializeField] private Transform[] startPos;
+        [SerializeField] private GameObject pauseMenu;
 
         #endregion
 
@@ -87,9 +88,20 @@ namespace Collection.GameManager.Scripts
         #region Public Methods
 
 
+        public void Continue()
+        {
+            pauseMenu.SetActive(false);
+        }
+        
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
+        }
+
+        public void Quit()
+        {
+            LeaveRoom();
+            Application.Quit();
         }
 
         #endregion
