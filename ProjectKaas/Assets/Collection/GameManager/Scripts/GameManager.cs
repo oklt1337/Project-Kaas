@@ -1,3 +1,5 @@
+using System.Linq;
+using Collection.Maps.Scripts;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -35,10 +37,11 @@ namespace Collection.GameManager.Scripts
                 Debug.Log("Instantiating LocalPlayer.");
 
                 // Get random Start pos (need just to test)
-                var pos = Random.Range(0, startPos.Length);
-                
+                var list = PhotonNetwork.CurrentRoom.Players.Values.ToList();
+                var index = list.FindIndex(x => x == PhotonNetwork.LocalPlayer);
+
                 // Spawn playerPrefab for the local player.
-                PhotonNetwork.Instantiate("Prefabs/Player", startPos[pos].position, Quaternion.identity);
+                PhotonNetwork.Instantiate("Prefabs/Player", startPos[index].position, Quaternion.identity);
             }
         }
 

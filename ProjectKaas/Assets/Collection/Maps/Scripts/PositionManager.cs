@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using Collection.NetworkPlayer.Scripts;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Collection.Maps.Scripts
 {
-    public class PositionManager : MonoBehaviour
+    public class PositionManager : MonoBehaviourPunCallbacks
     {
         public static PositionManager PositionManagerInstance;
         
