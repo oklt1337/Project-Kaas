@@ -37,7 +37,7 @@ namespace Collection.Cars.Scripts
             // Make sure only local player can control car.
             //if (!_car.PlayerHandler.photonView.IsMine) return;
 
-            AnimateCar(_car.PlayerHandler.PlayerInputHandler.Drive);
+            AnimateCar(_car.CarControllerHandler.Speed != 0);
         }
 
         #endregion

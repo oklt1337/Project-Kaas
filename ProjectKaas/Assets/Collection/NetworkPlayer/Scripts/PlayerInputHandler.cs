@@ -1,4 +1,5 @@
 using Photon.Pun;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,54 +9,45 @@ namespace Collection.NetworkPlayer.Scripts
     public class PlayerInputHandler : MonoBehaviourPun
     {
         private Joystick _joystick;
-        private Button _gas;
+        private Button _item;
+        private PlayerHandler _playerHandler;
 
-        public bool Drive { get; private set; }
-        
         public Vector2 MovementInput { get; private set; }
 
         private bool _gotInst;
+
+        private void Awake()
+        {
+            _playerHandler = GetComponent<PlayerHandler>();
+        }
 
         public void Initialize(GameObject obj)
         {
             if (photonView.IsMine)
             {
                 _joystick = obj.GetComponentInChildren<Joystick>();
-                _gas = obj.GetComponentInChildren<Button>();
-
-                var trigger = _gas.GetComponent<EventTrigger>();
-
-                var pointerDown = new EventTrigger.Entry {eventID = EventTriggerType.PointerDown};
-                pointerDown.callback.AddListener(OnButtonGas);
-                trigger.triggers.Add(pointerDown);
-
-                var pointerUp = new EventTrigger.Entry {eventID = EventTriggerType.PointerUp};
-                pointerUp.callback.AddListener(OnButtonGasRelease);
-                trigger.triggers.Add(pointerUp);
-
+                _item = obj.GetComponentInChildren<Button>();
+                _item.onClick.AddListener(OnClickItem);
+                
                 _gotInst = true;
             }
         }
-        private void OnButtonGasRelease(BaseEventData arg0)
+        private void OnClickItem()
         {
-            Debug.Log("up");
-            Drive = false;
-        }
-
-        private void OnButtonGas(BaseEventData arg0)
-        {
-            Debug.Log("down");
-            Drive = true;
+            _playerHandler.UseItem();
         }
 
         // Update is called once per frame
         private void Update()
         {
-            MovementInput = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
-
-            if (_gotInst)
+            if (_playerHandler.LocalRaceState == RaceState.Race)
             {
-                MovementInput = new Vector2(_joystick.Horizontal, _joystick.Vertical);
+                MovementInput = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
+
+                if (_gotInst)
+                {
+                    MovementInput = new Vector2(_joystick.Horizontal, _joystick.Vertical);
+                }
             }
         }
     }

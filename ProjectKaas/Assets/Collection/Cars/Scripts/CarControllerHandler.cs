@@ -23,6 +23,12 @@ namespace Collection.Cars.Scripts
 
         #endregion
 
+        #region internal Fields
+
+        internal float Speed => _speed;
+
+        #endregion
+
         #region MonoBehaviour CallBacks
 
         private void Awake()
