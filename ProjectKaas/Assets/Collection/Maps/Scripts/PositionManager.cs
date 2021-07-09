@@ -74,13 +74,6 @@ namespace Collection.Maps.Scripts
 
         private List<PlayerHandler> SeparatedByZones(PlayerHandler[,] players)
         {
-            /*
-             * car8, car1, car2, car5 
-             * car7,car3
-             * car4,car6
-             *
-             * Go Through ONE lap count -> compare Zones -> sort by Zones
-             */
             List<PlayerHandler> sortedPlayers = null;
             
             // Repeated for every lap backwards.
@@ -105,6 +98,9 @@ namespace Collection.Maps.Scripts
                     if (players[i, j] != null)
                     {
                         sortedPlayers.Add(players[i,j]);
+                        
+                        // Sets their position.
+                        players[i, j].Position = (byte)sortedPlayers.Count;
                     }
                     else
                     {

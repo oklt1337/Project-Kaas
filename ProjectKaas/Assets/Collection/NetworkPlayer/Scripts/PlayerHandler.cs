@@ -29,6 +29,8 @@ namespace Collection.NetworkPlayer.Scripts
         public ItemBehaviour Item { get; private set; }
         
         public RaceState LocalRaceState { get; set; }
+        
+        public byte Position { get; set; }
 
         #endregion
 

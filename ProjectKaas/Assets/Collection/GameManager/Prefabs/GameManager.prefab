@@ -46,4 +46,12 @@ MonoBehaviour:
   playerPrefab: {fileID: 8858221689215960697, guid: b2a505681cd21724e9eaac9176613e77,
     type: 3}
   startPos: []
+  allItems:
+  - {fileID: 6076611315978686253, guid: c800d580923f0334da65fed9db8b18ba, type: 3}
+  - {fileID: 1788105733039842337, guid: 607b72f3f52e5ca48a9e890b7a4d80f0, type: 3}
+  - {fileID: 1788105733039842337, guid: 2cce0bdb50e421143947f4f5f02d36a2, type: 3}
+  - {fileID: 7933887761048289222, guid: 197e65fe0a8a29a40914180181e0503a, type: 3}
+  - {fileID: 1169941365443404690, guid: 7fa420b400beab24588ee79e09c43328, type: 3}
+  - {fileID: 2661107788075169882, guid: a7daed5a34a38ef43824936c3178ca09, type: 3}
+  - {fileID: 1019855666688183801, guid: 7a806e042d71f0248a4867445884da67, type: 3}
   pauseMenu: {fileID: 0}

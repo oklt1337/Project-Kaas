@@ -1,9 +1,12 @@
+using System;
 using System.Linq;
+using Collection.Items.Scripts;
 using Collection.Maps.Scripts;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 namespace Collection.GameManager.Scripts
 {
@@ -11,19 +14,29 @@ namespace Collection.GameManager.Scripts
     {
         #region Public Fields
 
+        public static GameManager Gm;
+        
         [Tooltip("The prefab to use for representing the player")]
         public GameObject playerPrefab;
 
+        public ItemBehaviour[] AllItems => allItems;
+        
         #endregion
 
         #region Private SerializeFields 
 
         [SerializeField] private Transform[] startPos;
+        [SerializeField] private ItemBehaviour[] allItems;
         [SerializeField] private GameObject pauseMenu;
 
         #endregion
 
         #region Monobehaviour Callbacks
+
+        private void Awake()
+        {
+            Gm = this;
+        }
 
         private void Start()
         {
