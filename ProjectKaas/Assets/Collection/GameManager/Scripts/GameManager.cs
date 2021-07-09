@@ -38,7 +38,7 @@ namespace Collection.GameManager.Scripts
                 var pos = Random.Range(0, startPos.Length);
                 
                 // Spawn playerPrefab for the local player.
-                PhotonNetwork.Instantiate("Prefabs/" + playerPrefab.name, startPos[pos].position, Quaternion.identity);
+                PhotonNetwork.Instantiate("Prefabs/Player", startPos[pos].position, Quaternion.identity);
             }
         }
 
@@ -116,7 +116,16 @@ namespace Collection.GameManager.Scripts
                 Debug.LogError("PhotonNetwork: Trying to Load a level but we are not the master Client");
             }
             Debug.LogFormat("PhotonNetwork: Loading Level: {0}", PhotonNetwork.CurrentRoom.PlayerCount);
-            PhotonNetwork.LoadLevel("Map " + Random.Range(1,3));
+            
+            var randomMap = Random.Range(0, 3);
+            var map = randomMap switch
+            {
+                0 => "City",
+                1 => "Japan",
+                2 => "Mountains",
+                _ => "City"
+            };
+            PhotonNetwork.LoadLevel(map);
         }
 
         #endregion

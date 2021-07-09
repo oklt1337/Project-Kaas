@@ -99,8 +99,18 @@ namespace Collection.Network.Scripts
             {
                 Debug.Log("Load map...");
 
+
+                var randomMap = Random.Range(0, 3);
+                var map = randomMap switch
+                {
+                    0 => "City",
+                    1 => "Japan",
+                    2 => "Mountains",
+                    _ => "City"
+                };
+                
                 // Load the Map.
-                PhotonNetwork.LoadLevel("Map " + Random.Range(1, 3));
+                PhotonNetwork.LoadLevel(map);
             }
         }
 

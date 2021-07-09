@@ -580,6 +580,54 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 241943070}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &241943072 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1809600410581212268, guid: 759e976cc5c42bc4eb1fb5efbc5d4755,
+    type: 3}
+  m_PrefabInstance: {fileID: 241943070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &241943073 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7815668802251739860, guid: 759e976cc5c42bc4eb1fb5efbc5d4755,
+    type: 3}
+  m_PrefabInstance: {fileID: 241943070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &241943074 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2646324418807439024, guid: 759e976cc5c42bc4eb1fb5efbc5d4755,
+    type: 3}
+  m_PrefabInstance: {fileID: 241943070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &241943075 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4463351218298526994, guid: 759e976cc5c42bc4eb1fb5efbc5d4755,
+    type: 3}
+  m_PrefabInstance: {fileID: 241943070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &241943076 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3009031209876545737, guid: 759e976cc5c42bc4eb1fb5efbc5d4755,
+    type: 3}
+  m_PrefabInstance: {fileID: 241943070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &241943077 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6170055020269078060, guid: 759e976cc5c42bc4eb1fb5efbc5d4755,
+    type: 3}
+  m_PrefabInstance: {fileID: 241943070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &241943078 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8388572100393322294, guid: 759e976cc5c42bc4eb1fb5efbc5d4755,
+    type: 3}
+  m_PrefabInstance: {fileID: 241943070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &241943079 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5018583885122309222, guid: 759e976cc5c42bc4eb1fb5efbc5d4755,
+    type: 3}
+  m_PrefabInstance: {fileID: 241943070}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &245402225
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1644,7 +1692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allPlayers: []
   allPlayersPositions: []
-  lapCount: 0
+  lapCount: 3
 --- !u!1001 &1047095196
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3199,8 +3247,53 @@ PrefabInstance:
         type: 3}
       propertyPath: playerPrefab
       value: 
-      objectReference: {fileID: 2475089690927584884, guid: de5d8edcc28a4694bb1e2f929023b4e7,
+      objectReference: {fileID: 8858221689215960697, guid: b2a505681cd21724e9eaac9176613e77,
         type: 3}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.data[0]
+      value: 
+      objectReference: {fileID: 241943079}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.data[1]
+      value: 
+      objectReference: {fileID: 241943078}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.data[2]
+      value: 
+      objectReference: {fileID: 241943077}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.data[3]
+      value: 
+      objectReference: {fileID: 241943076}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.data[4]
+      value: 
+      objectReference: {fileID: 241943075}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.data[5]
+      value: 
+      objectReference: {fileID: 241943074}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.data[6]
+      value: 
+      objectReference: {fileID: 241943073}
+    - target: {fileID: 3646901708803614330, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
+        type: 3}
+      propertyPath: startPos.Array.data[7]
+      value: 
+      objectReference: {fileID: 241943072}
     - target: {fileID: 3745587215911757375, guid: 37db0e35c9d3de545aeed549ad9f7d7b,
         type: 3}
       propertyPath: m_Name

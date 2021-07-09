@@ -12,9 +12,9 @@ namespace Collection.UI.Scripts.Play.VoteMap
     {
         #region Const
 
-        private const string Map1 = "Map 1";
-        private const string Map2 = "Map 2";
-        private const string Map3 = "Map 3";
+        private const string City = "City";
+        private const string Japan = "Japan";
+        private const string Mountains = "Mountains";
 
         #endregion
 
@@ -31,12 +31,12 @@ namespace Collection.UI.Scripts.Play.VoteMap
         private int _numberOfVoters;
 
 
-        private List<Player> _didVote = new List<Player>();
+        private readonly List<Player> _didVote = new List<Player>();
         private readonly Dictionary<string, int> _mapVeto = new Dictionary<string, int>
         {
-            [Map1] = 0,
-            [Map2] = 0,
-            [Map3] = 0
+            [City] = 0,
+            [Japan] = 0,
+            [Mountains] = 0
         };
 
         #endregion
@@ -80,17 +80,17 @@ namespace Collection.UI.Scripts.Play.VoteMap
             var mapWon = String.Empty;
 
             // check witch map got the most votes
-            if (_mapVeto[Map1] > _mapVeto[Map2] && _mapVeto[Map1] > _mapVeto[Map3])
+            if (_mapVeto[City] > _mapVeto[Japan] && _mapVeto[City] > _mapVeto[Mountains])
             {
-                mapWon = Map1;
+                mapWon = City;
             }
-            else if (_mapVeto[Map2] > _mapVeto[Map1] && _mapVeto[Map2] > _mapVeto[Map3])
+            else if (_mapVeto[Japan] > _mapVeto[City] && _mapVeto[Japan] > _mapVeto[Mountains])
             {
-                mapWon = Map2;
+                mapWon = Japan;
             }
-            else if (_mapVeto[Map3] > _mapVeto[Map1] && _mapVeto[Map3] > _mapVeto[Map2])
+            else if (_mapVeto[Mountains] > _mapVeto[City] && _mapVeto[Mountains] > _mapVeto[Japan])
             {
-                mapWon = Map3;
+                mapWon = Mountains;
             }
 
             // if no one votes generate random map.
@@ -99,10 +99,10 @@ namespace Collection.UI.Scripts.Play.VoteMap
                 var randomMap = Random.Range(0, 3);
                 mapWon = randomMap switch
                 {
-                    0 => Map1,
-                    1 => Map2,
-                    2 => Map3,
-                    _ => Map1
+                    0 => City,
+                    1 => Japan,
+                    2 => Mountains,
+                    _ => City
                 };
             }
 
@@ -136,17 +136,17 @@ namespace Collection.UI.Scripts.Play.VoteMap
 
         public void OnClickMap1()
         {
-            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map1, PhotonNetwork.LocalPlayer);
+            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, City, PhotonNetwork.LocalPlayer);
         }
 
         public void OnClickMap2()
         {
-            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map2, PhotonNetwork.LocalPlayer);
+            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Japan, PhotonNetwork.LocalPlayer);
         }
 
         public void OnClickMap3()
         {
-            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Map3, PhotonNetwork.LocalPlayer);
+            photonView.RPC("RPCVetoMap", RpcTarget.MasterClient, Mountains, PhotonNetwork.LocalPlayer);
         }
 
         #endregion

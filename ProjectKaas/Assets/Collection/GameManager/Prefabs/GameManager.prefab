@@ -43,3 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6279fcc0b31e1324a8a83aa03d6738d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 8858221689215960697, guid: b2a505681cd21724e9eaac9176613e77,
+    type: 3}
+  startPos: []
+  pauseMenu: {fileID: 0}

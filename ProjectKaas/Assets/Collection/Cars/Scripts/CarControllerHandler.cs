@@ -39,7 +39,7 @@ namespace Collection.Cars.Scripts
         // Update is called once per frame
         private void Update()
         {
-            var myTransform = transform;
+            var myTransform = _car.PlayerHandler.gameObject.transform;
             var xInput = _car.PlayerHandler.PlayerInputHandler.MovementInput.x;
             var yInput = _car.PlayerHandler.PlayerInputHandler.MovementInput.y;
             
@@ -64,7 +64,7 @@ namespace Collection.Cars.Scripts
 
             _car.CarAnimationHandler.TurnWheels(_turn);
             _car.CarAnimationHandler.RotateWheels(_speed);
-                
+
             myTransform.position = rigidbody.transform.position;
 
             // Make sure only local player can control car.
@@ -75,7 +75,7 @@ namespace Collection.Cars.Scripts
 
         private void FixedUpdate()
         {
-            var myTransform = transform;
+            var myTransform = _car.PlayerHandler.gameObject.transform;
             _grounded = false;
 
             if (Physics.Raycast(groundRayPoint.position, -myTransform.up, out var hit, groundRayLenght, ground))

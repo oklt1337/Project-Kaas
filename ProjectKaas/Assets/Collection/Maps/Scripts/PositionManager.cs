@@ -53,7 +53,7 @@ namespace Collection.Maps.Scripts
         /// <returns> a list of players that is separated by their laps</returns>
         private PlayerHandler[,] SeparatedByLaps(List<PlayerHandler> players)
         {
-            var separatedPlayers = new PlayerHandler[lapCount,players.Count];
+            var separatedPlayers = new PlayerHandler[lapCount, players.Count];
 
             for (var i = 0; i < players.Count; i++)
             {
