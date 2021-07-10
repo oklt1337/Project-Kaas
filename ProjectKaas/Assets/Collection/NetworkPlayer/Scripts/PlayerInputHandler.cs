@@ -1,7 +1,5 @@
 using Photon.Pun;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Collection.NetworkPlayer.Scripts
@@ -42,11 +40,16 @@ namespace Collection.NetworkPlayer.Scripts
         {
             if (_playerHandler.LocalRaceState == RaceState.Race)
             {
-                MovementInput = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
-
-                if (_gotInst)
+                if (_playerHandler.developerMode)
                 {
-                    MovementInput = new Vector2(_joystick.Horizontal, _joystick.Vertical);
+                    MovementInput = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
+                }
+                else
+                {
+                    if (_gotInst)
+                    {
+                        MovementInput = new Vector2(_joystick.Vertical, _joystick.Horizontal);
+                    }
                 }
             }
         }

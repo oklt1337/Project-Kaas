@@ -20,6 +20,7 @@ namespace Collection.Cars.Scripts
         private float _turn;
         private bool _grounded;
         private float _defaultDrag;
+        private float _hitFloat;
 
         #endregion
 
@@ -40,10 +41,48 @@ namespace Collection.Cars.Scripts
         {
             rigidbody.transform.parent = null;
             _defaultDrag = rigidbody.drag;
+            _car.MyCarStates = Car.CarStates.Drive;
+            _hitFloat = Car.HitFloat;
         }
 
         // Update is called once per frame
         private void Update()
+        {
+            // Make sure only local player can control car.
+            if (!_car.PlayerHandler.photonView.IsMine) return;
+            
+            if (_car.MyCarStates == Car.CarStates.Hit)
+            {
+                _hitFloat -= Time.deltaTime;
+                if (_hitFloat < 0)
+                {
+                    _car.MyCarStates = Car.CarStates.Drive;
+                    _hitFloat = Car.HitFloat;
+                }
+            }
+            
+            GetSpeed();
+        }
+
+        private void FixedUpdate()
+        {
+            // Make sure only local player can control car.
+            if (!_car.PlayerHandler.photonView.IsMine) return;
+
+            if (_car.MyCarStates == Car.CarStates.Drive)
+            {
+                MoveCar();
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// handles car movement.
+        /// </summary>
+        private void GetSpeed()
         {
             var myTransform = _car.PlayerHandler.gameObject.transform;
             var xInput = _car.PlayerHandler.PlayerInputHandler.MovementInput.x;
@@ -72,14 +111,9 @@ namespace Collection.Cars.Scripts
             _car.CarAnimationHandler.RotateWheels(_speed);
 
             myTransform.position = rigidbody.transform.position;
-
-            // Make sure only local player can control car.
-            //if (!_car.PlayerHandler.photonView.IsMine) return;
-
-            //MoveCar();
         }
 
-        private void FixedUpdate()
+        private void MoveCar()
         {
             var myTransform = _car.PlayerHandler.gameObject.transform;
             _grounded = false;
@@ -105,24 +139,6 @@ namespace Collection.Cars.Scripts
                 rigidbody.drag = 0.1f;
                 rigidbody.AddForce(Vector3.up * (-_car.GravityForce * 100f));
             }
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// handles car movement.
-        /// </summary>
-        private void MoveCar()
-        {
-            var movement = _car.PlayerHandler.PlayerInputHandler.MovementInput;
-            movement *= _car.MaxSpeed;
-            var myTransform = transform;
-            var movePos = myTransform.right * movement.x + myTransform.forward * movement.y;
-            var direction = new Vector3(movePos.x, rigidbody.velocity.y, movePos.z);
-
-            rigidbody.velocity = direction;
         }
 
         #endregion

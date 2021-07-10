@@ -35,7 +35,7 @@ namespace Collection.Cars.Scripts
         private void Update()
         {
             // Make sure only local player can control car.
-            //if (!_car.PlayerHandler.photonView.IsMine) return;
+            if (!_car.PlayerHandler.photonView.IsMine) return;
 
             AnimateCar(_car.CarControllerHandler.Speed != 0);
         }

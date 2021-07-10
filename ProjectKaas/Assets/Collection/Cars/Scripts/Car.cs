@@ -12,7 +12,6 @@ namespace Collection.Cars.Scripts
         public enum CarStates
         {
             Drive,
-            Idle,
             Hit
         }
         
@@ -25,7 +24,7 @@ namespace Collection.Cars.Scripts
         public CarAnimationHandler CarAnimationHandler { get; private set; }
         public PlayerHandler PlayerHandler { get;  private set; }
         
-        public CarStates MyCarStates  { get; private set; }
+        public CarStates MyCarStates  { get; internal set; }
 
         // Depends on car type.
         public float MaxSpeed { get; internal set; }
@@ -33,7 +32,7 @@ namespace Collection.Cars.Scripts
         public float ReverseAccel { get; internal set; }
         public float TurnStrength { get; internal set; }
         public float GravityForce { get; internal set; }
-        
+
         // For the position manager.
         public byte LapCount { get; internal set; }
         public byte ZoneCount { get; internal set; }
@@ -62,6 +61,11 @@ namespace Collection.Cars.Scripts
         public void Initialize(PlayerHandler playerHandler)
         {
             PlayerHandler = playerHandler;
+        }
+        
+        public virtual void ActivateCamera()
+        {
+            
         }
 
         /// <summary>

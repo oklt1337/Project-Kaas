@@ -311,7 +311,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6989383088607185216
 Transform:
   m_ObjectHideFlags: 0
@@ -648,6 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf0f2890698202e409f0601dd6393f04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myCamera: {fileID: 2223946783767071363}
   maxSpeed: 50
   forwardAccel: 4
   reverseAccel: 2
@@ -722,8 +723,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: Driving
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!1 &5661500408780921905
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,8 @@ namespace Collection.Cars.Scripts.FormulaCar
     {
         #region Private Serializable Fields
 
+        [SerializeField] private GameObject myCamera;
+        
         [Tooltip("MaxSpeed of FormulaCar.")]
         [SerializeField] private float maxSpeed = 50f;
         [SerializeField] private float forwardAccel = 8f;
@@ -24,6 +26,15 @@ namespace Collection.Cars.Scripts.FormulaCar
             ReverseAccel = reverseAccel;
             TurnStrength = turnStrength;
             GravityForce = gravityForce;
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public override void ActivateCamera()
+        {
+            myCamera.SetActive(true);
         }
 
         #endregion
