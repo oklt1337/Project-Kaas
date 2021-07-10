@@ -89,6 +89,12 @@ namespace Collection.Cars.Scripts
         {
             LapCount++;
             ZoneCount = 0;
+
+            // Triggers event when finished.
+            if (PositionManager.PositionManagerInstance.LapCount < LapCount)
+            {
+                PositionManager.PositionManagerInstance.OnFinish.Invoke(PlayerHandler);
+            }
         }
         
         /// <summary>
@@ -98,7 +104,7 @@ namespace Collection.Cars.Scripts
         {
             ZoneCount++;
 
-            if (ZoneCount > PositionManager.PositionManagerInstance.Zones.Length)
+            if (ZoneCount == PositionManager.PositionManagerInstance.Zones.Length)
             {
                 OnNextLap();
             }
