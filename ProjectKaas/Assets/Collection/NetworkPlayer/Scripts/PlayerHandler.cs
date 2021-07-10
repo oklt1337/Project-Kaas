@@ -3,7 +3,6 @@ using Collection.Cars.Scripts.FormulaCar;
 using Collection.Items.Scripts;
 using Collection.Maps.Scripts;
 using Photon.Pun;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Collection.NetworkPlayer.Scripts
@@ -12,6 +11,12 @@ namespace Collection.NetworkPlayer.Scripts
     {
         PreStart,
         Race
+    }
+
+    public enum Controls
+    {
+        Joystick,
+        Tilt
     }
     
     [RequireComponent(typeof(PlayerInputHandler))]
@@ -37,6 +42,8 @@ namespace Collection.NetworkPlayer.Scripts
         public RaceState LocalRaceState { get; set; }
         
         public byte Position { get; set; }
+        
+        public Controls Controls { get; set; }
 
         #endregion
 
@@ -46,6 +53,9 @@ namespace Collection.NetworkPlayer.Scripts
         {
             LocalRaceState = RaceState.PreStart;
             PlayerInputHandler = GetComponent<PlayerInputHandler>();
+
+            // TODO: Implement in Options
+            Controls = Controls.Joystick;
 
             if (photonView.IsMine)
             {
