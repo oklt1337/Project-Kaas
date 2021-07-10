@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
 
 namespace Collection.Maps.Scripts
@@ -9,12 +11,24 @@ namespace Collection.Maps.Scripts
     {
         public static PositionManager PositionManagerInstance;
         
+        [Header ("Players")]
         [SerializeField] private List<PlayerHandler> allPlayers;
         [SerializeField] private List<PlayerHandler> allPlayersPositions;
-
-        [SerializeField] private byte lapCount;
+        [SerializeField] private PlayerHandler[] playersStandings;
         
-        [field: SerializeField] public GameObject[] Zones { get; }
+        [Header("Map")]
+        [SerializeField] private byte lapCount;
+        [SerializeField] private GameObject[] zones;
+
+        [Header("Finish related stuff")] 
+        [SerializeField] private TextMeshProUGUI victoryScreenText;
+        [SerializeField] private bool raceFinished;
+        [SerializeField] private float victoryScreenTime;
+        
+        public delegate void Finish(PlayerHandler player);
+        public Finish OnFinish;
+        
+        public GameObject[] Zones => zones;
 
         public byte LapCount => lapCount;
         
@@ -26,11 +40,22 @@ namespace Collection.Maps.Scripts
                 Destroy(this);
             
             PositionManagerInstance = this;
+            OnFinish += AssignToStandings;
+            OnFinish += OnRaceFinish;
         }
 
         private void Update()
         {
             DeterminePositions();
+            
+            if(!raceFinished)
+                return;
+
+            victoryScreenTime -= Time.deltaTime;
+            if (victoryScreenTime < 0)
+            {
+                // PhotonNetwork.LoadLevel(); how 2 Load back to lobby
+            }
         }
 
         /// <summary>
@@ -182,7 +207,7 @@ namespace Collection.Maps.Scripts
         /// <summary>
         /// Finds the next Player.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> The next player lmao. </returns>
         public PlayerHandler FindNextPlayer(PlayerHandler currentPlayer)
         {
             PlayerHandler nextPlayer = null;
@@ -203,6 +228,47 @@ namespace Collection.Maps.Scripts
             }
             
             return nextPlayer;
+        }
+
+        /// <summary>
+        /// Assigns the player to the standings.
+        /// </summary>
+        /// <param name="player"> The player that wants to assign themselves. </param>
+        private void AssignToStandings(PlayerHandler player)
+        {
+            for (var i = 0; i < playersStandings.Length; i++)
+            {
+                if(playersStandings[i] != null)
+                    continue;
+
+                playersStandings[i] = player;
+                break;
+            }
+        }
+
+        /// <summary>
+        /// What happens when the race finishes.
+        /// </summary>
+        /// <param name="player"> The player to check what position he got in. </param>
+        private void OnRaceFinish(PlayerHandler player)
+        {
+            if(player.Position != playersStandings.Length)
+                return;
+            
+            TextFixer();
+            victoryScreenText.gameObject.SetActive(true);
+            raceFinished = true;
+        }
+
+        /// <summary>
+        /// Fixes the text of the victory screen.
+        /// </summary>
+        private void TextFixer()
+        {
+            for (var i = 0; i < playersStandings.Length; i++)
+            {
+                //victoryScreenText.text += i + ".       " + playersStandings[i]. Username + "\n\n";
+            }
         }
     }
 }
