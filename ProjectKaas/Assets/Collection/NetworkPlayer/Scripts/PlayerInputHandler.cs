@@ -40,6 +40,11 @@ namespace Collection.NetworkPlayer.Scripts
         // Update is called once per frame
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                PhotonNetwork.LoadLevel(1);
+            }
+            
             if (_playerHandler.LocalRaceState == RaceState.Race)
             {
                 if (_playerHandler.developerMode)
