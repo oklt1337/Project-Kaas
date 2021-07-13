@@ -3,6 +3,7 @@ using Collection.Cars.Scripts.FormulaCar;
 using Collection.Items.Scripts;
 using Collection.Maps.Scripts;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 namespace Collection.NetworkPlayer.Scripts
@@ -44,6 +45,8 @@ namespace Collection.NetworkPlayer.Scripts
         public byte Position { get; set; }
         
         public Controls Controls { get; set; }
+        
+        public Player LocalPlayer { get; private set; }
 
         #endregion
 
@@ -61,6 +64,7 @@ namespace Collection.NetworkPlayer.Scripts
             {
                 // make sure only one audioLister
                 audioListener.gameObject.SetActive(true);
+                LocalPlayer = PhotonNetwork.LocalPlayer;
             }
             
             Initialize();

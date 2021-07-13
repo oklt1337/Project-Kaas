@@ -54,7 +54,10 @@ namespace Collection.Maps.Scripts
             victoryScreenTime -= Time.deltaTime;
             if (victoryScreenTime < 0)
             {
-                // PhotonNetwork.LoadLevel(); how 2 Load back to lobby
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.LoadLevel(1);
+                }
             }
         }
 
@@ -267,7 +270,7 @@ namespace Collection.Maps.Scripts
         {
             for (var i = 0; i < playersStandings.Length; i++)
             {
-                //victoryScreenText.text += i + ".       " + playersStandings[i]. Username + "\n\n";
+                victoryScreenText.text += i + ".       " + playersStandings[i].LocalPlayer.NickName + "\n\n";
             }
         }
     }
