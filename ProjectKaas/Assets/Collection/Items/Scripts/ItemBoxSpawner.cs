@@ -155,9 +155,10 @@ namespace Collection.Items.Scripts
         private void OnTriggerEnter(Collider other)
         {
             // 'Destroys' the item box after collision and gives player Item. 
-            if(!other.CompareTag("Player"))
+            if(!other.CompareTag("Player") && !other.isTrigger)
                 return;
             
+            print("penis");
             itemBox.SetActive(false);
             var player = other.gameObject.GetComponent<PlayerHandler>();
             player.SetItem(GetNewItem(player.Position));

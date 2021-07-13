@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
