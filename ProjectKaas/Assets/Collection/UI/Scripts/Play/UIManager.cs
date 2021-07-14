@@ -5,6 +5,7 @@ using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static Collection.Maps.Scripts.PositionManager;
 
 namespace Collection.UI.Scripts.Play
@@ -13,10 +14,11 @@ namespace Collection.UI.Scripts.Play
     {
         public static UIManager UIManagerInstance;
         
-        private Car _client;
-
+        private PlayerHandler _client;
+        
         [SerializeField] private TextMeshProUGUI lapCount;
         [SerializeField] private TextMeshProUGUI position;
+        [SerializeField] private Image currentItem;
 
         private void Awake()
         {
@@ -39,8 +41,9 @@ namespace Collection.UI.Scripts.Play
         /// </summary>
         private void UpdateInfo()
         {
-            lapCount.text = _client.LapCount + "/" + PositionManagerInstance.LapCount;
-            position.text = _client.place + "/" + PositionManagerInstance.AllPlayers.Count;
+            lapCount.text = _client.Car.LapCount + "/" + PositionManagerInstance.LapCount;
+            position.text = _client.Car.place + "/" + PositionManagerInstance.AllPlayers.Count;
+            currentItem.sprite = _client.Item.itemSprite;
         }
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace Collection.UI.Scripts.Play
                 if (!Equals(players[i].LocalPlayer, PhotonNetwork.LocalPlayer)) 
                     continue;
                 
-                _client = players[i].Car;
+                _client = players[i];
                 break;
             }
         }
