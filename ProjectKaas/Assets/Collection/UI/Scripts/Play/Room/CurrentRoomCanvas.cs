@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Collection.Network.Scripts;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -66,6 +67,15 @@ namespace Collection.UI.Scripts.Play.Room
             OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(false);
         }
 
+        public override void OnMasterClientSwitched(Player newMasterClient)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Debug.Log("MasterClient left room.");
+                photonView.RPC("RPCCloseRoom", RpcTarget.All);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -84,6 +94,13 @@ namespace Collection.UI.Scripts.Play.Room
             {
                 playerLayoutGroup.PlayerList[index].Ready = ready;
             }
+        }
+
+        [PunRPC]
+        private void RPCCloseRoom()
+        {
+            Debug.Log("MasterClient closed room.");
+            OnClickLeave();
         }
 
         #endregion
@@ -154,6 +171,9 @@ namespace Collection.UI.Scripts.Play.Room
         public void OnClickLeave()
         {
             PhotonNetwork.LeaveRoom();
+
+            // make sure to remove old rooms from list.
+            OverlayCanvases.Instance.RoomListCanvas.RoomLayoutGroup.RemoveOldRooms();
             OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
         }
 

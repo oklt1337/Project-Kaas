@@ -10,6 +10,12 @@ namespace Collection.Network.Scripts
 {
     public class NetworkManager : MonoBehaviourPunCallbacks
     {
+        #region Singleton
+
+        public static NetworkManager Instance;
+
+        #endregion
+
         #region Private Fields
 
         /// <summary>
@@ -23,6 +29,15 @@ namespace Collection.Network.Scripts
 
         private void Awake()
         {
+            if (Instance != null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                Instance = this;
+            }
+            
             PlayFabAuthManager.OnLogOut.AddListener(SetRandomDefaultNickName);
             LocalProfile.OnProfileInitialized.AddListener(SetPhotonProfileValues);
         }
@@ -38,6 +53,11 @@ namespace Collection.Network.Scripts
                 StopCoroutine(_pingCo);
             
             _pingCo = StartCoroutine(SetPingCo());
+        }
+
+        public override void OnJoinedLobby()
+        {
+            Debug.Log("Joined Lobby");
         }
 
         #endregion

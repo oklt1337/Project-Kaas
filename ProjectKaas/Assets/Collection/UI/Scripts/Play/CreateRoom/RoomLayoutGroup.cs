@@ -64,10 +64,9 @@ namespace Collection.UI.Scripts.Play.CreateRoom
             }
         }
 
-        private void RemoveOldRooms()
+        public void RemoveOldRooms()
         {
             Debug.Log("Removing old rooms.");
-            
             var removeRooms = new List<RoomListing>();
 
             foreach (var roomListing in RoomListingButtons)

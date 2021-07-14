@@ -30,6 +30,18 @@ namespace Collection.UI.Scripts.Play.Room
 
         public override void OnJoinedRoom()
         {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                foreach (var listing in PlayerList)
+                {
+                    Destroy(listing.gameObject);
+                }
+                
+                PlayerList.Clear();
+            }
+            
+            Debug.Log("Player joined room now create listings");
+            
             // get list of player in room.
             var photonPlayers = PhotonNetwork.PlayerList;
 
@@ -61,6 +73,8 @@ namespace Collection.UI.Scripts.Play.Room
         {
             if (player == null)
                 return;
+            
+            Debug.Log($"PlayerListing for {player.NickName}");
             
             // just to make sure to not add duplicates.
             PlayerLeftRoom(player);

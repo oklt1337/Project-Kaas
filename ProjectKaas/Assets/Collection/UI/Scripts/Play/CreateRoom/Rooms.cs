@@ -52,12 +52,14 @@ namespace Collection.UI.Scripts.Play.CreateRoom
         public override void OnLeftRoom()
         {
             Debug.Log("Left room.");
+
+            PhotonNetwork.JoinLobby();
             
             OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
             OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(false);
 
             StartCoroutine(WarningCo("You left the room or got kicked."));
-            
+
             var customProp = PhotonNetwork.LocalPlayer.CustomProperties;
             if (customProp.ContainsKey("Room"))
             {
@@ -152,7 +154,7 @@ namespace Collection.UI.Scripts.Play.CreateRoom
             warning.text = String.Empty;
             warning.gameObject.SetActive(false);
         }
-        
+
         #endregion
     }
 }

@@ -63,11 +63,6 @@ namespace Collection.UI.Scripts.Play.Room
             button.onClick.AddListener(OnClickPlayerInfo);
         }
 
-        public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-        {
-            base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-        }
-
         #endregion
 
         #region Public Methods
