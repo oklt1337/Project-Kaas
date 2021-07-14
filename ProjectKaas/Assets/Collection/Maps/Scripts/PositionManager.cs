@@ -20,6 +20,7 @@ namespace Collection.Maps.Scripts
         [SerializeField] private GameObject[] zones;
 
         [Header("Finish related stuff")] 
+        [SerializeField] private GameObject victoryScreen;
         [SerializeField] private TextMeshProUGUI victoryScreenText;
         [SerializeField] private bool raceFinished;
         [SerializeField] private float victoryScreenTime;
@@ -101,7 +102,7 @@ namespace Collection.Maps.Scripts
 
         private List<PlayerHandler> SeparatedByZones(PlayerHandler[,] players)
         {
-            List<PlayerHandler> sortedPlayers = null;
+            List<PlayerHandler> sortedPlayers = new List<PlayerHandler>();
             
             // Repeated for every lap backwards.
             for (int i = LapCount; i <= 0; i--)
@@ -113,7 +114,7 @@ namespace Collection.Maps.Scripts
                 // Shortens process when only one player is at that lap.
                 if (players[i, 1] == null)
                 {
-                    sortedPlayers.Add(players[i,0]);
+                    sortedPlayers.Add(players[i, 0]);
                     continue;
                 }
                 
@@ -258,7 +259,7 @@ namespace Collection.Maps.Scripts
                 return;
             
             TextFixer();
-            victoryScreenText.gameObject.SetActive(true);
+            victoryScreen.SetActive(true);
             raceFinished = true;
         }
 
@@ -267,6 +268,7 @@ namespace Collection.Maps.Scripts
         /// </summary>
         private void TextFixer()
         {
+            victoryScreenText.text = null;
             for (var i = 0; i < playersStandings.Length; i++)
             {
                 victoryScreenText.text += i + ".       " + playersStandings[i].LocalPlayer.NickName + "\n\n";
