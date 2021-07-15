@@ -109,8 +109,8 @@ namespace Collection.NetworkPlayer.Scripts
                         }
                         else if (_playerHandler.Controls == Controls.Tilt)
                         {
-                            var x = _gasPressed ? 1 : 0;
-                            MovementInput = new Vector2(x, Input.acceleration.y);
+                            var x = _gasPressed ? 1 : -1;
+                            MovementInput = new Vector2(x, Input.acceleration.x);
                         }
                     }
                 }
