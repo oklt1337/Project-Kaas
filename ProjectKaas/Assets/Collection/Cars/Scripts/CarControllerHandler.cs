@@ -109,6 +109,15 @@ namespace Collection.Cars.Scripts
                                                             _turn * _car.TurnStrength * Time.deltaTime * xInput, 0f));
             }
 
+            if (_speed > _car.MaxSpeed)
+            {
+                _speed = _car.MaxSpeed;
+            }
+            else if (_speed < -_car.MaxSpeed)
+            {
+                _speed = -_car.MaxSpeed;
+            }
+
             _car.CarAnimationHandler.TurnWheels(_turn);
             _car.CarAnimationHandler.RotateWheels(_speed);
             
@@ -132,8 +141,7 @@ namespace Collection.Cars.Scripts
                 rigidbody.drag = _defaultDrag;
                 
                 if (Mathf.Abs(_speed) > 0)
-                { 
-                    Debug.Log(_speed);
+                {
                     rigidbody.AddForce(transform.forward * _speed, ForceMode.Acceleration);
                 }
             }
