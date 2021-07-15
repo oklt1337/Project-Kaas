@@ -1,4 +1,5 @@
 using Collection.NetworkPlayer.Scripts;
+using Photon.Pun;
 using UnityEngine;
 using static Collection.GameManager.Scripts.GameManager;
 
@@ -144,7 +145,12 @@ namespace Collection.Items.Scripts
             
             gameObject.SetActive(false);
             var player = other.gameObject.GetComponentInParent<PlayerHandler>();
-            player.SetItem(GetNewItem(player.Position));
+
+            var tempItem = GetNewItem(player.Position != 0 ? player.Position : (byte) 1);
+            
+            // Gives Player the new Item.
+            tempItem.SetOwner(player);
+            player.SetItem(tempItem);
         }
     }
 }

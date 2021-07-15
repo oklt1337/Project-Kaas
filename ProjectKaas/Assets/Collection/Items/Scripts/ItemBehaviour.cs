@@ -22,5 +22,10 @@ namespace Collection.Items.Scripts
         {
     
         }
+
+        public void SetOwner(PlayerHandler newOwner)
+        {
+            Owner = newOwner;
+        }
     }
 }

@@ -163,6 +163,7 @@ MonoBehaviour:
   hudPrefab: {fileID: 7017989022037011160, guid: b6c1ed8c6eccc1644bcd2aea173d31dd,
     type: 3}
   audioListener: {fileID: 4627096007512237027}
+  item: {fileID: 0}
   developerMode: 0
 --- !u!114 &1585927761891401565
 MonoBehaviour:

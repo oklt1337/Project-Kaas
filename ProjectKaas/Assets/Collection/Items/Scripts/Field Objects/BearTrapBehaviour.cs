@@ -10,6 +10,9 @@ namespace Collection.Items.Scripts.Field_Objects
     
         private void OnCollisionEnter(Collision other)
         {
+            if(other.gameObject.layer == 3)
+                return;
+            
             PhotonNetwork.Destroy(gameObject);
 
             if (!other.gameObject.CompareTag("Player")) 

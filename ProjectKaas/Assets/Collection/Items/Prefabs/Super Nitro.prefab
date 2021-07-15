@@ -44,5 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 269cec9b3b5b0cb4aa440a97f4338cfc, type: 3}
+  itemName: 
   speedUpValue: 150
   speedUpTime: 5

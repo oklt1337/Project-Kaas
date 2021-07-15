@@ -7,7 +7,7 @@ namespace Collection.Items.Scripts
     {
         public override void OnUse()
         {
-            PhotonNetwork.Instantiate("Bear Trap",Owner.transform.position+Vector3.back, Quaternion.identity);
+            PhotonNetwork.Instantiate("Prefabs/Items/Bear Trap",Owner.transform.position+Vector3.back, Quaternion.identity);
             base.OnUse();
         }
     }

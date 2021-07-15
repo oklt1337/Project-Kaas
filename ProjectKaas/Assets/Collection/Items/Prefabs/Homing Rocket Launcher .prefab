@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 60d7b8bfb21e7e94891ee49bfa6924f7, type: 3}
+  itemName: 
