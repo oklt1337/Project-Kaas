@@ -651,10 +651,10 @@ MonoBehaviour:
   lapCount: 1
   place: 0
   myCamera: {fileID: 2223946783767071363}
-  maxSpeed: 200
-  forwardAccel: 4
-  reverseAccel: 2
-  turnStrength: 100
+  maxSpeed: 150
+  forwardAccel: 100
+  reverseAccel: 50
+  turnStrength: 200
   gravityForce: 10
 --- !u!114 &8123011509274844079
 MonoBehaviour:
