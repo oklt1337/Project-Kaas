@@ -13,7 +13,7 @@ namespace Collection.Maps.Scripts
         [Header ("Players")]
         [SerializeField] private List<PlayerHandler> allPlayers;
         [SerializeField] private List<PlayerHandler> allPlayersPositions;
-        [SerializeField] private PlayerHandler[] playersStandings;
+        [SerializeField] private List<PlayerHandler> playersStandings;
         
         [Header("Map")]
         [SerializeField] private byte lapCount;
@@ -246,7 +246,7 @@ namespace Collection.Maps.Scripts
         /// <param name="player"> The player that wants to assign themselves. </param>
         private void AssignToStandings(PlayerHandler player)
         {
-            for (var i = 0; i < playersStandings.Length; i++)
+            for (var i = 0; i < allPlayers.Count; i++)
             {
                 if(playersStandings[i] != null)
                     continue;
@@ -262,7 +262,7 @@ namespace Collection.Maps.Scripts
         /// <param name="player"> The player to check what position he got in. </param>
         private void OnRaceFinish(PlayerHandler player)
         {
-            if(player.Position != playersStandings.Length)
+            if(player.Position + 1 != allPlayers.Count)
                 return;
             
             TextFixer();
@@ -276,7 +276,7 @@ namespace Collection.Maps.Scripts
         private void TextFixer()
         {
             victoryScreenText.text = null;
-            for (var i = 0; i < playersStandings.Length; i++)
+            for (var i = 0; i < playersStandings.Count; i++)
             {
                 victoryScreenText.text += i + ".       " + playersStandings[i].LocalPlayer.NickName + "\n\n";
             }
