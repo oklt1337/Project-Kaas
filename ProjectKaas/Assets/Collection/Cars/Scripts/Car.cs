@@ -59,6 +59,11 @@ namespace Collection.Cars.Scripts
         
         #region Public Methods
 
+        public void DeactivateComponents()
+        {
+            Destroy(CarControllerHandler.MoveSphere);
+        }
+        
         public void Initialize(PlayerHandler playerHandler)
         {
             PlayerHandler = playerHandler;

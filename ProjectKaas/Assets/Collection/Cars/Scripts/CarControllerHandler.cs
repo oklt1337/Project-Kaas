@@ -10,6 +10,7 @@ namespace Collection.Cars.Scripts
         [SerializeField] private LayerMask ground;
         [SerializeField] private Transform groundRayPoint;
         [SerializeField] private float groundRayLenght = 0.5f;
+        [SerializeField] private GameObject moveSphere;
 
         #endregion
 
@@ -27,6 +28,7 @@ namespace Collection.Cars.Scripts
         #region internal Fields
 
         internal float Speed => _speed;
+        internal GameObject MoveSphere => moveSphere;
 
         #endregion
 

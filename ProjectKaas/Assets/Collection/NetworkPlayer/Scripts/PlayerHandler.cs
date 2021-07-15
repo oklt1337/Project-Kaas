@@ -117,6 +117,10 @@ namespace Collection.NetworkPlayer.Scripts
                         Car.ActivateCamera();
                         Car.Initialize(this);
                     }
+                    else
+                    {
+                        Car.DeactivateComponents();
+                    }
                     break;
                 default:
                     carObj = Instantiate(CarPrefabsHolder.Formula, transform, false);
@@ -130,6 +134,10 @@ namespace Collection.NetworkPlayer.Scripts
                     {
                         Car.ActivateCamera();
                         Car.Initialize(this);
+                    }
+                    else
+                    {
+                        Car.DeactivateComponents();
                     }
                     break;
             }
