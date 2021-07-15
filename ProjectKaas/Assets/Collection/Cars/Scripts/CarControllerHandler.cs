@@ -133,13 +133,13 @@ namespace Collection.Cars.Scripts
                 
                 if (Mathf.Abs(_speed) > 0)
                 {
-                    rigidbody.AddForce(transform.forward * _speed);
+                    rigidbody.AddForce(transform.forward * _speed, ForceMode.Acceleration);
                 }
             }
             else
             {
                 rigidbody.drag = 0.1f;
-                rigidbody.AddForce(Vector3.up * (-_car.GravityForce * 100f));
+                rigidbody.AddForce(Vector3.up * (-_car.GravityForce * 100f), ForceMode.Acceleration);
             }
         }
 
