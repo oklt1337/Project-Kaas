@@ -42,6 +42,8 @@ namespace Collection.Network.Scripts
             
             // Make sure if LoadLevel is called all clients sync their level automatically
             PhotonNetwork.AutomaticallySyncScene = true;
+
+            PhotonNetwork.LocalPlayer.CustomProperties = new Hashtable();
             
             // Set Random Default name as long not logged in
             NetworkManager.SetRandomDefaultNickName();
