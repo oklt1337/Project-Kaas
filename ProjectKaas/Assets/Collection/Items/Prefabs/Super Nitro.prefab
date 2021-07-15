@@ -43,5 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b55d3df2babecc4ba61c087e8cb6f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemSprite: {fileID: 21300000, guid: 269cec9b3b5b0cb4aa440a97f4338cfc, type: 3}
   speedUpValue: 150
   speedUpTime: 5
