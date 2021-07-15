@@ -61,7 +61,7 @@ namespace Collection.NetworkPlayer.Scripts
             PlayerInputHandler = GetComponent<PlayerInputHandler>();
 
             // TODO: Implement in Options
-            Controls = Controls.Joystick;
+            Controls = Controls.Tilt;
 
             if (photonView.IsMine)
             {
