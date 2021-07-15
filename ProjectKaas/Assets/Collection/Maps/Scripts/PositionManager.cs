@@ -72,7 +72,7 @@ namespace Collection.Maps.Scripts
                 return;
             
             allPlayersPositions = null;
-            var players = SeparatedByLaps(allPlayersPositions);
+            var players = SeparatedByLaps(allPlayers);
             
             if(players != null)
                 allPlayersPositions = SeparatedByZones(players);
