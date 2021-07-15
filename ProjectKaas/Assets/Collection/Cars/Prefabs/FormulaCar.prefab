@@ -673,6 +673,7 @@ MonoBehaviour:
     m_Bits: 8
   groundRayPoint: {fileID: 7428527778100327585}
   groundRayLenght: 0.5
+  moveSphere: {fileID: 5661500408780921905}
 --- !u!114 &7273083188196357789
 MonoBehaviour:
   m_ObjectHideFlags: 0
