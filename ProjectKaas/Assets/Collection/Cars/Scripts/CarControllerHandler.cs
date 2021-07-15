@@ -132,7 +132,8 @@ namespace Collection.Cars.Scripts
                 rigidbody.drag = _defaultDrag;
                 
                 if (Mathf.Abs(_speed) > 0)
-                {
+                { 
+                    Debug.Log(_speed);
                     rigidbody.AddForce(transform.forward * _speed, ForceMode.Acceleration);
                 }
             }
