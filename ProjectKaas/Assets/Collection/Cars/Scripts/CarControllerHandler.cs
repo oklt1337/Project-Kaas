@@ -109,7 +109,7 @@ namespace Collection.Cars.Scripts
 
             _car.CarAnimationHandler.TurnWheels(_turn);
             _car.CarAnimationHandler.RotateWheels(_speed);
-
+            
             myTransform.position = rigidbody.transform.position;
         }
 

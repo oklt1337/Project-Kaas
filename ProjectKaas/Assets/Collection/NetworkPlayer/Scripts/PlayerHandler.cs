@@ -46,10 +46,11 @@ namespace Collection.NetworkPlayer.Scripts
         
         public byte Position { get; set; }
         
-        public Controls Controls { get; set; }
+        public Controls Controls { get; private set; }
         
         public Player LocalPlayer { get; private set; }
-
+        
+        
         #endregion
 
         #region MonoBehaviour Callbacks
@@ -60,7 +61,7 @@ namespace Collection.NetworkPlayer.Scripts
             PlayerInputHandler = GetComponent<PlayerInputHandler>();
 
             // TODO: Implement in Options
-            Controls = Controls.Tilt;
+            Controls = Controls.Joystick;
 
             if (photonView.IsMine)
             {
@@ -143,6 +144,12 @@ namespace Collection.NetworkPlayer.Scripts
         public void SetItem(ItemBehaviour newItem)
         {
             Item = newItem;
+        }
+
+        public void ChangeHud(Controls controls)
+        {
+            Controls = controls;
+            CanvasHandler.ChangeControls(Controls);
         }
 
         #endregion
