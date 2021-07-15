@@ -34,6 +34,7 @@ namespace Collection.Cars.Scripts
         public float GravityForce { get; internal set; }
 
         // For the position manager.
+        public int place;
         public byte LapCount { get; internal set; }
         public byte ZoneCount { get; internal set; }
 

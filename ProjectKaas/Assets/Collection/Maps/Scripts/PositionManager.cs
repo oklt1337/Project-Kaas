@@ -20,6 +20,7 @@ namespace Collection.Maps.Scripts
         [SerializeField] private GameObject[] zones;
 
         [Header("Finish related stuff")] 
+        [SerializeField] private GameObject victoryScreen;
         [SerializeField] private TextMeshProUGUI victoryScreenText;
         [SerializeField] private bool raceFinished;
         [SerializeField] private float victoryScreenTime;
@@ -51,12 +52,13 @@ namespace Collection.Maps.Scripts
                 return;
 
             victoryScreenTime -= Time.deltaTime;
-            if (victoryScreenTime < 0)
+            
+            if (!(victoryScreenTime < 0))
+                return;
+            
+            if (PhotonNetwork.IsMasterClient)
             {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    PhotonNetwork.LoadLevel(1);
-                }
+                PhotonNetwork.LoadLevel(1);
             }
         }
 
@@ -101,7 +103,7 @@ namespace Collection.Maps.Scripts
 
         private List<PlayerHandler> SeparatedByZones(PlayerHandler[,] players)
         {
-            List<PlayerHandler> sortedPlayers = null;
+            var sortedPlayers = new List<PlayerHandler>();
             
             // Repeated for every lap backwards.
             for (int i = LapCount; i <= 0; i--)
@@ -113,7 +115,7 @@ namespace Collection.Maps.Scripts
                 // Shortens process when only one player is at that lap.
                 if (players[i, 1] == null)
                 {
-                    sortedPlayers.Add(players[i,0]);
+                    sortedPlayers.Add(players[i, 0]);
                     continue;
                 }
                 
@@ -135,8 +137,7 @@ namespace Collection.Maps.Scripts
                     }
                 }
             }
-            
-            
+
             return sortedPlayers;
         }
 
@@ -175,6 +176,7 @@ namespace Collection.Maps.Scripts
 
                             passedAllChecks = false;
                             var currentCarDistance = (Zones[i+1].transform.position - array[index,j].transform.position).magnitude;
+                            
                             // Compares Distance to next Zone with the other cars.
                             for (var l = 0; l < playersInSameZone; l++)
                             {
@@ -196,7 +198,8 @@ namespace Collection.Maps.Scripts
                         
                         if(!passedAllChecks)
                             break;
-                        
+
+                        array[index, j].Car.place = k; 
                         sortedPlayers[k] = array[index, j];
                         break;
                     }
@@ -258,7 +261,7 @@ namespace Collection.Maps.Scripts
                 return;
             
             TextFixer();
-            victoryScreenText.gameObject.SetActive(true);
+            victoryScreen.SetActive(true);
             raceFinished = true;
         }
 
@@ -267,6 +270,7 @@ namespace Collection.Maps.Scripts
         /// </summary>
         private void TextFixer()
         {
+            victoryScreenText.text = null;
             for (var i = 0; i < playersStandings.Length; i++)
             {
                 victoryScreenText.text += i + ".       " + playersStandings[i].LocalPlayer.NickName + "\n\n";
