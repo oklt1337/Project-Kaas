@@ -14,6 +14,8 @@ namespace Collection.Cars.Scripts
             Drive,
             Hit
         }
+
+        [SerializeField] private byte lapCount;
         
         #region Public Fields
         
@@ -35,7 +37,7 @@ namespace Collection.Cars.Scripts
 
         // For the position manager.
         public int place;
-        public byte LapCount { get; internal set; }
+        public byte LapCount => lapCount;
         public byte ZoneCount { get; internal set; }
 
         #endregion
@@ -97,7 +99,7 @@ namespace Collection.Cars.Scripts
         /// </summary>
         private void OnNextLap()
         {
-            LapCount++;
+            lapCount++;
             ZoneCount = 0;
 
             // Triggers event when finished.
