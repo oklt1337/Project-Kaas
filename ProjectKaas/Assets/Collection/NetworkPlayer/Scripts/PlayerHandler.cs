@@ -27,6 +27,7 @@ namespace Collection.NetworkPlayer.Scripts
 
         [SerializeField] private GameObject hudPrefab;
         [SerializeField] private GameObject audioListener;
+        [SerializeField] private ItemBehaviour item;
 
         #endregion
         
@@ -39,8 +40,8 @@ namespace Collection.NetworkPlayer.Scripts
         public Car Car { get; private set; }
         
         public CanvasHandler CanvasHandler { get; private set; }
-        
-        public ItemBehaviour Item { get; private set; }
+
+        public ItemBehaviour Item => item;
         
         public RaceState LocalRaceState { get; set; }
         
@@ -61,7 +62,7 @@ namespace Collection.NetworkPlayer.Scripts
             PlayerInputHandler = GetComponent<PlayerInputHandler>();
 
             // TODO: Implement in Options
-            Controls = Controls.Tilt;
+            Controls = Controls.Joystick;
 
             if (photonView.IsMine)
             {
@@ -79,11 +80,11 @@ namespace Collection.NetworkPlayer.Scripts
 
         internal void UseItem()
         {
-            if (Item != null)
-            {
-                Item.OnUse();
-                Item = null;
-            }
+            if (Item == null) 
+                return;
+            
+            Item.OnUse();
+            item = null;
         }
 
         #endregion
@@ -143,7 +144,7 @@ namespace Collection.NetworkPlayer.Scripts
 
         public void SetItem(ItemBehaviour newItem)
         {
-            Item = newItem;
+            item = newItem;
         }
 
         public void ChangeHud(Controls controls)

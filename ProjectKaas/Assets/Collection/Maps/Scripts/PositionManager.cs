@@ -129,7 +129,7 @@ namespace Collection.Maps.Scripts
                         sortedPlayers.Add(players[i,j]);
                         
                         // Sets their position.
-                        players[i, j].Position = (byte)sortedPlayers.Count;
+                        players[i, j].Position = (byte)(sortedPlayers.Count + 1);
                     }
                     else
                     {

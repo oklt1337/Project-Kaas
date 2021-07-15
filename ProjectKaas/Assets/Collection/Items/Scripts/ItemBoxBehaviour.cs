@@ -132,6 +132,7 @@ namespace Collection.Items.Scripts
                     }
                     break;
             }
+            print(item);
             return item;
         }
         
@@ -141,9 +142,8 @@ namespace Collection.Items.Scripts
             if(!other.CompareTag("Player") && !other.isTrigger)
                 return;
             
-            print("penis");
             gameObject.SetActive(false);
-            var player = other.gameObject.GetComponent<PlayerHandler>();
+            var player = other.gameObject.GetComponentInParent<PlayerHandler>();
             player.SetItem(GetNewItem(player.Position));
         }
     }

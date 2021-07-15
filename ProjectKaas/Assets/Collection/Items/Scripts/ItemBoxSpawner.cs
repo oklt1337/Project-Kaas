@@ -15,7 +15,7 @@ namespace Collection.Items.Scripts
 
             delay -= Time.deltaTime;
 
-            if (delay != 0)
+            if (delay > 0)
                 return;
 
             delay = 2;
