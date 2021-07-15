@@ -95,11 +95,11 @@ namespace Collection.Cars.Scripts
             
             if (xInput > 0)
             {
-                _speed = xInput * _car.ForwardAccel * 1000f;
+                _speed = xInput * _car.ForwardAccel;
             }
             else
             {
-                _speed = xInput * _car.ReverseAccel * 1000f;
+                _speed = xInput * _car.ReverseAccel;
             }
 
             if (_grounded)
