@@ -38,6 +38,8 @@ namespace Collection.NetworkPlayer.Scripts
 
         public Car Car { get; private set; }
         
+        public CanvasHandler CanvasHandler { get; private set; }
+        
         public ItemBehaviour Item { get; private set; }
         
         public RaceState LocalRaceState { get; set; }
@@ -58,7 +60,7 @@ namespace Collection.NetworkPlayer.Scripts
             PlayerInputHandler = GetComponent<PlayerInputHandler>();
 
             // TODO: Implement in Options
-            Controls = Controls.Joystick;
+            Controls = Controls.Tilt;
 
             if (photonView.IsMine)
             {
@@ -123,9 +125,12 @@ namespace Collection.NetworkPlayer.Scripts
             }
 
             // Instantiate hud
-            var hud = Instantiate(hudPrefab);
+            var hudObj = Instantiate(hudPrefab);
+            CanvasHandler = hudObj.GetComponent<CanvasHandler>();
+            CanvasHandler.ChangeControls(Controls);
+            
             // Initialize playerHandler
-            PlayerInputHandler.Initialize(hud);
+            PlayerInputHandler.Initialize(CanvasHandler.Joystick, CanvasHandler.ItemButton, CanvasHandler.GasButton);
 
             // add to position manager
             PositionManager.PositionManagerInstance.AllPlayers.Add(this);
