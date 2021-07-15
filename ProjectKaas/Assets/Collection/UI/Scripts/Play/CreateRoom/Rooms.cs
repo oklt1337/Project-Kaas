@@ -49,12 +49,16 @@ namespace Collection.UI.Scripts.Play.CreateRoom
             roomName.text = String.Empty;
         }
 
+        public override void OnConnectedToMaster()
+        {
+            PhotonNetwork.JoinLobby();
+            Debug.Log("joining lobby...");
+        }
+
         public override void OnLeftRoom()
         {
             Debug.Log("Left room.");
 
-            PhotonNetwork.JoinLobby();
-            
             OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
             OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(false);
 
