@@ -50,10 +50,7 @@ namespace Collection.GameManager.Scripts
                 Debug.Log("Instantiating LocalPlayer.");
 
                 // Get random Start pos (need just to test)
-                var list = PhotonNetwork.CurrentRoom.Players.Values.ToList();
-                var index = list.FindIndex(x => x == PhotonNetwork.LocalPlayer);
-                Debug.Log(index);
-                Debug.Log(list.Count);
+                var index = (int) PhotonNetwork.LocalPlayer.CustomProperties["Position"];
 
                 // Spawn playerPrefab for the local player.
                 PhotonNetwork.Instantiate("Prefabs/Player", startPos[index].position, Quaternion.identity);

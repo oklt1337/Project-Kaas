@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -88,9 +89,12 @@ namespace Collection.UI.Scripts.Play.Room
             // find playerListing script and apply player.
             var playerListing = playerListingObj.GetComponent<PlayerListing>();
             playerListing.ApplyPhotonPlayer(player);
-
+            
             // add to list.
             PlayerList.Add(playerListing);
+            var hashtable = playerListing.PhotonPlayer.CustomProperties;
+            hashtable.Add("Position", PlayerList.Count -1);
+            playerListing.PhotonPlayer.CustomProperties = hashtable;
         }
         
         /// <summary>
