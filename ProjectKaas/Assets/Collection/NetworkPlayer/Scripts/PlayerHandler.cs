@@ -106,6 +106,10 @@ namespace Collection.NetworkPlayer.Scripts
             {
                 case CarPrefabsHolder.Cars.Formula:
                     carObj = Instantiate(CarPrefabsHolder.Formula, transform, false);
+                    var localPosition = carObj.transform.localPosition;
+                    localPosition = new Vector3(localPosition.x,
+                        localPosition.y - 0.4f, localPosition.z);
+                    carObj.transform.localPosition = localPosition;
                     Car = carObj.GetComponent<FormulaCar>();
 
                     if (photonView.IsMine)
@@ -116,6 +120,10 @@ namespace Collection.NetworkPlayer.Scripts
                     break;
                 default:
                     carObj = Instantiate(CarPrefabsHolder.Formula, transform, false);
+                    var position = carObj.transform.localPosition;
+                    position = new Vector3(position.x,
+                        position.y - 0.4f, position.z);
+                    carObj.transform.localPosition = position;
                     Car = carObj.GetComponent<FormulaCar>();
                     
                     if (photonView.IsMine)
