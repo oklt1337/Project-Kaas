@@ -134,13 +134,16 @@ namespace Collection.NetworkPlayer.Scripts
                     break;
             }
 
-            // Instantiate hud
-            var hudObj = Instantiate(hudPrefab);
-            CanvasHandler = hudObj.GetComponent<CanvasHandler>();
-            CanvasHandler.ChangeControls(Controls);
-            
-            // Initialize playerHandler
-            PlayerInputHandler.Initialize(CanvasHandler.Joystick, CanvasHandler.ItemButton, CanvasHandler.GasButton);
+            if (photonView.IsMine)
+            {
+                // Instantiate hud
+                var hudObj = Instantiate(hudPrefab);
+                CanvasHandler = hudObj.GetComponent<CanvasHandler>();
+                CanvasHandler.ChangeControls(Controls);
+                
+                // Initialize playerHandler
+                PlayerInputHandler.Initialize(CanvasHandler.Joystick, CanvasHandler.ItemButton, CanvasHandler.GasButton);
+            }
 
             // add to position manager
             PositionManager.PositionManagerInstance.AllPlayers.Add(this);
