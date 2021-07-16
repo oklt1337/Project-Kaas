@@ -15,7 +15,8 @@ namespace Collection.UI.Scripts.Play
         public static UIManager UIManagerInstance;
         
         private PlayerHandler _client;
-        
+
+        [SerializeField] private GameObject pauseScreen;
         [SerializeField] private TextMeshProUGUI lapCount;
         [SerializeField] private TextMeshProUGUI position;
         [SerializeField] private Image currentItem;
@@ -26,6 +27,14 @@ namespace Collection.UI.Scripts.Play
                 Destroy(this);
             
             UIManagerInstance = this;
+            gameObject.SetActive(false);
+        }
+
+        private void Start()
+        {
+            lapCount.gameObject.SetActive(true);
+            position.gameObject.SetActive(true);
+            currentItem.gameObject.SetActive(true);
         }
 
         private void Update()
@@ -42,8 +51,17 @@ namespace Collection.UI.Scripts.Play
         private void UpdateInfo()
         {
             lapCount.text = _client.Car.LapCount + "/" + PositionManagerInstance.LapCount;
-            position.text = _client.Car.place + "/" + PositionManagerInstance.AllPlayers.Count;
-            currentItem.sprite = _client.Item.itemSprite;
+            position.text = (_client.Car.place+1) + ".";
+
+            if (_client.Item != null)
+            {
+                currentItem.gameObject.SetActive(true);
+                currentItem.sprite = _client.Item.itemSprite;
+            }
+            else
+            {
+                currentItem.gameObject.SetActive(false);
+            }
         }
 
         /// <summary>
@@ -60,6 +78,11 @@ namespace Collection.UI.Scripts.Play
                 _client = players[i];
                 break;
             }
+        }
+
+        public void OpenPauseMenu()
+        {
+            pauseScreen.SetActive(true);
         }
     }
 }
