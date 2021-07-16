@@ -3,6 +3,7 @@ using Collection.Profile.Scripts;
 using Collection.UI.Scripts.MainMenu;
 using Collection.UI.Scripts.MainMenu.FriendList;
 using Collection.UI.Scripts.MainMenu.Profile;
+using Collection.UI.Scripts.MainMenu.Settings;
 using UnityEngine;
 
 namespace Collection.UI.Scripts
@@ -22,6 +23,7 @@ namespace Collection.UI.Scripts
         [SerializeField] private FriendListCanvas friendListCanvas;
         [SerializeField] private FriendInfoCanvas friendInfoCanvas;
         [SerializeField] private ProfileCanvas profileCanvas;
+        [SerializeField] private SettingsCanvas settingsCanvas;
 
         #endregion
 
@@ -32,6 +34,7 @@ namespace Collection.UI.Scripts
         public FriendListCanvas FriendListCanvas => friendListCanvas;
         public FriendInfoCanvas FriendInfoCanvas => friendInfoCanvas;
         public ProfileCanvas ProfileCanvas => profileCanvas;
+        public SettingsCanvas SettingsCanvas => settingsCanvas;
 
         #endregion
 

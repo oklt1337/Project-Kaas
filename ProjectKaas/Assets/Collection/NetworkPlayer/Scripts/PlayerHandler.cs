@@ -61,16 +61,22 @@ namespace Collection.NetworkPlayer.Scripts
             LocalRaceState = RaceState.PreStart;
             PlayerInputHandler = GetComponent<PlayerInputHandler>();
 
-            // TODO: Implement in Options
-            Controls = Controls.Joystick;
-
             if (photonView.IsMine)
             {
+                if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Controls"))
+                {
+                    Controls = (Controls) PhotonNetwork.LocalPlayer.CustomProperties["Controls"];
+                }
+                else
+                {
+                    Controls = Controls.Joystick;
+                }
+                
                 // make sure only one audioLister
                 audioListener.gameObject.SetActive(true);
-                LocalPlayer = PhotonNetwork.LocalPlayer;
+                LocalPlayer = PhotonNetwork.LocalPlayer; 
             }
-            
+
             Initialize();
         }
 

@@ -50,7 +50,7 @@ namespace Collection.UI.Scripts.MainMenu
 
         public void OnClickSettings()
         {
-            // Settings
+            MainMenuCanvases.Instance.SettingsCanvas.gameObject.SetActive(true);
         }
 
         public void OnClickLogin()
