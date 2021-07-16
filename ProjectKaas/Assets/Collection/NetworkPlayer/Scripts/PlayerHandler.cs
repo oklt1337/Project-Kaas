@@ -1,5 +1,6 @@
 using Collection.Cars.Scripts;
 using Collection.Cars.Scripts.FormulaCar;
+using Collection.Cars.Scripts.PassengerCar;
 using Collection.Items.Scripts;
 using Collection.Maps.Scripts;
 using Photon.Pun;
@@ -99,7 +100,7 @@ namespace Collection.NetworkPlayer.Scripts
 
         private void Initialize()
         {
-            var car = CarPrefabsHolder.Cars.Formula;
+            var car = CarPrefabsHolder.Cars.Passenger;
             
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Car"))
             {
@@ -108,16 +109,22 @@ namespace Collection.NetworkPlayer.Scripts
 
             // Initialize car
             GameObject carObj;
+            Vector3 localPosition;
             switch (car)
             {
                 case CarPrefabsHolder.Cars.Formula:
                     carObj = Instantiate(CarPrefabsHolder.Formula, transform, false);
-                    var localPosition = carObj.transform.localPosition;
+                    
+                    // Fix Position
+                    localPosition = carObj.transform.localPosition;
                     localPosition = new Vector3(localPosition.x,
                         localPosition.y - 0.4f, localPosition.z);
                     carObj.transform.localPosition = localPosition;
+                    
+                    // get Component
                     Car = carObj.GetComponent<FormulaCar>();
 
+                    // make sure only one cam in scene.
                     if (photonView.IsMine)
                     {
                         Car.ActivateCamera();
@@ -128,14 +135,43 @@ namespace Collection.NetworkPlayer.Scripts
                         Car.DeactivateComponents();
                     }
                     break;
+                case CarPrefabsHolder.Cars.Passenger:
+                    carObj = Instantiate(CarPrefabsHolder.Passenger, transform, false);
+                    
+                    // Fix Position
+                    localPosition = carObj.transform.localPosition;
+                    localPosition = new Vector3(localPosition.x,
+                        localPosition.y - 0.4f, localPosition.z);
+                    carObj.transform.localPosition = localPosition;
+                    
+                    // get Component
+                    Car = carObj.GetComponent<PassengerCar>();
+
+                    // make sure only one cam in scene.
+                    if (photonView.IsMine)
+                    {
+                        Car.ActivateCamera();
+                        Car.Initialize(this);
+                    }
+                    else
+                    {
+                        Car.DeactivateComponents();
+                    }
+                    
+                    break;
                 default:
                     carObj = Instantiate(CarPrefabsHolder.Formula, transform, false);
-                    var position = carObj.transform.localPosition;
-                    position = new Vector3(position.x,
-                        position.y - 0.4f, position.z);
-                    carObj.transform.localPosition = position;
+                    
+                    // Fix Position
+                    localPosition = carObj.transform.localPosition;
+                    localPosition = new Vector3(localPosition.x,
+                        localPosition.y - 0.4f, localPosition.z);
+                    carObj.transform.localPosition = localPosition;
+                    
+                    // get Component
                     Car = carObj.GetComponent<FormulaCar>();
                     
+                    // make sure only one cam in scene.
                     if (photonView.IsMine)
                     {
                         Car.ActivateCamera();

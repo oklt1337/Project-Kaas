@@ -1,19 +1,19 @@
 using UnityEngine;
 
-namespace Collection.Cars.Scripts.FormulaCar
+namespace Collection.Cars.Scripts.PassengerCar
 {
-    public class FormulaCar : Car
+    public class PassengerCar : Car
     {
         #region Private Serializable Fields
 
         [SerializeField] private GameObject myCamera;
-        
-        [Tooltip("MaxSpeed of FormulaCar.")]
-        [SerializeField] private float maxSpeed = 200f;
 
-        [SerializeField] private float forwardAccel = 100f;
-        [SerializeField] private float reverseAccel = 50f;
-        [SerializeField] private float turnStrength = 200f;
+        [Tooltip("MaxSpeed of FormulaCar.")] 
+        [SerializeField] private float maxSpeed = 120;
+
+        [SerializeField] private float forwardAccel = 80f;
+        [SerializeField] private float reverseAccel = 25f;
+        [SerializeField] private float turnStrength = 150f;
         [SerializeField] private float gravityForce = 10f;
 
         #endregion
