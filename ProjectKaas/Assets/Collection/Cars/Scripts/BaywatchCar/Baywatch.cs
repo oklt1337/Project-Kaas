@@ -8,7 +8,7 @@ namespace Collection.Cars.Scripts.BaywatchCar
 
         [SerializeField] private GameObject myCamera;
 
-        [Tooltip("MaxSpeed of FormulaCar.")] 
+        [Tooltip("MaxSpeed of BaywatchCar.")] 
         [SerializeField] private float maxSpeed = 90;
 
         [SerializeField] private float forwardAccel = 60f;

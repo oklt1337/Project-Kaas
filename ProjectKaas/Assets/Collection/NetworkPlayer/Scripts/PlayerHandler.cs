@@ -2,6 +2,7 @@ using Collection.Cars.Scripts;
 using Collection.Cars.Scripts.BaywatchCar;
 using Collection.Cars.Scripts.FormulaCar;
 using Collection.Cars.Scripts.PassengerCar;
+using Collection.Cars.Scripts.VeteranCar;
 using Collection.Items.Scripts;
 using Collection.Maps.Scripts;
 using Photon.Pun;
@@ -101,7 +102,7 @@ namespace Collection.NetworkPlayer.Scripts
 
         private void Initialize()
         {
-            var car = CarPrefabsHolder.Cars.Baywatch;
+            var car = CarPrefabsHolder.Cars.Veteran;
             
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Car"))
             {
@@ -171,6 +172,29 @@ namespace Collection.NetworkPlayer.Scripts
                     
                     // get Component
                     Car = carObj.GetComponent<Baywatch>();
+
+                    // make sure only one cam in scene.
+                    if (photonView.IsMine)
+                    {
+                        Car.ActivateCamera();
+                        Car.Initialize(this);
+                    }
+                    else
+                    {
+                        Car.DeactivateComponents();
+                    }
+                    break;
+                case CarPrefabsHolder.Cars.Veteran:
+                    carObj = Instantiate(CarPrefabsHolder.Veteran, transform, false);
+                    
+                    // Fix Position
+                    localPosition = carObj.transform.localPosition;
+                    localPosition = new Vector3(localPosition.x,
+                        localPosition.y - 0.4f, localPosition.z);
+                    carObj.transform.localPosition = localPosition;
+                    
+                    // get Component
+                    Car = carObj.GetComponent<Veteran>();
 
                     // make sure only one cam in scene.
                     if (photonView.IsMine)
