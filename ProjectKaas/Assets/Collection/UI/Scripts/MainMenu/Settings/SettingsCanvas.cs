@@ -1,5 +1,5 @@
+using Collection.Audio.Scripts;
 using Collection.NetworkPlayer.Scripts;
-using ExitGames.Client.Photon;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -39,10 +39,20 @@ namespace Collection.UI.Scripts.MainMenu.Settings
 
         private void OnEnable()
         {
+            backButton.onClick.AddListener(OnClickBack);
+            
+            generalButton.onClick.AddListener(OnClickGeneral);
+            audioButton.onClick.AddListener(OnClickAudio);
+            videoButton.onClick.AddListener(OnClickVideo);
+            
+            controlSlider.onValueChanged.AddListener(OnToggleControls);
+            masterSlider.onValueChanged.AddListener(OnMasterVolumeChanged);
+            musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+            sfxSlider.onValueChanged.AddListener(OnSfxVolumeChanged);
+            
             generalPanel.SetActive(true);
             audioPanel.SetActive(false);
             videoPanel.SetActive(false);
-            controlSlider.onValueChanged.AddListener(OnToggleControls);
         }
 
         #endregion
@@ -74,8 +84,12 @@ namespace Collection.UI.Scripts.MainMenu.Settings
             audioPanel.SetActive(false);
             videoPanel.SetActive(true);
         }
+        
+        #endregion
 
-        public void OnToggleControls(bool toggle)
+        #region Private Methods
+
+        private void OnToggleControls(bool toggle)
         {
             if (toggle)
             {
@@ -88,6 +102,8 @@ namespace Collection.UI.Scripts.MainMenu.Settings
                 }
                 
                 hashtable.Add("Controls", Controls.Joystick);
+
+                controlText.text = "Joystick";
             }
             else
             {
@@ -101,7 +117,24 @@ namespace Collection.UI.Scripts.MainMenu.Settings
                 }
                 
                 hashtable.Add("Controls", Controls.Tilt);
+                
+                controlText.text = "Tilt";
             }
+        }
+
+        private static void OnMasterVolumeChanged(float value)
+        {
+            AudioManager.Instance.SetMasterVolume(value * 20f);
+        }
+
+        private static void OnMusicVolumeChanged(float value)
+        {
+            AudioManager.Instance.SetMusicVolume(value * 20f);
+        }
+
+        private static void OnSfxVolumeChanged(float value)
+        {
+            AudioManager.Instance.SetSfxVolume(value * 20f);
         }
 
         #endregion

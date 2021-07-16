@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Collection.LocalPlayerData.Scripts
@@ -8,8 +9,11 @@ namespace Collection.LocalPlayerData.Scripts
         DisplayName,
         UserName,
         Password,
+        MasterAudio,
+        SfxAudio,
+        MusicAudio
     }
-    
+
     public class LocalPlayerDataManager : MonoBehaviour
     {
         #region Public Static Methods
@@ -50,22 +54,50 @@ namespace Collection.LocalPlayerData.Scripts
 
         public static void DeleteLoginData()
         {
-            if (PlayerPrefs.HasKey(PlayerDataConst.UserName.ToString()) && PlayerPrefs.HasKey(PlayerDataConst.Password.ToString()))
+            if (PlayerPrefs.HasKey(PlayerDataConst.UserName.ToString()) &&
+                PlayerPrefs.HasKey(PlayerDataConst.Password.ToString()))
             {
                 PlayerPrefs.DeleteKey(PlayerDataConst.UserName.ToString());
                 PlayerPrefs.DeleteKey(PlayerDataConst.Password.ToString());
                 PlayerPrefs.Save();
             }
         }
-        
+
         public static string GetUserName()
         {
-           return PlayerPrefs.GetString(PlayerDataConst.UserName.ToString());
+            return PlayerPrefs.GetString(PlayerDataConst.UserName.ToString());
         }
-        
+
         public static string GetPassword()
         {
             return PlayerPrefs.GetString(PlayerDataConst.Password.ToString());
+        }
+
+        #endregion
+
+        #region AudioData
+
+        public static Dictionary<string, float> GetAudioData()
+        {
+            var master = PlayerPrefs.GetFloat(PlayerDataConst.MasterAudio.ToString());
+            var sfx = PlayerPrefs.GetFloat(PlayerDataConst.SfxAudio.ToString());
+            var music = PlayerPrefs.GetFloat(PlayerDataConst.MusicAudio.ToString());
+            var audioData = new Dictionary<string, float>
+            {
+                {PlayerDataConst.MasterAudio.ToString(), master},
+                {PlayerDataConst.SfxAudio.ToString(), sfx},
+                {PlayerDataConst.MusicAudio.ToString(), music}
+            };
+
+            return audioData;
+        }
+
+        public static void SaveAudioData(float master, float sfx, float music)
+        {
+            PlayerPrefs.SetFloat(PlayerDataConst.MasterAudio.ToString(), master);
+            PlayerPrefs.SetFloat(PlayerDataConst.SfxAudio.ToString(), sfx);
+            PlayerPrefs.SetFloat(PlayerDataConst.MusicAudio.ToString(), music);
+            PlayerPrefs.Save();
         }
 
         #endregion

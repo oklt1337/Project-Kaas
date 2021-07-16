@@ -65,6 +65,7 @@ namespace Collection.UI.Scripts.Play.VoteMap
         {
             base.OnEnable();
             OverlayCanvases.Instance.PlayerInfoCanvas.gameObject.SetActive(false);
+            OverlayCanvases.Instance.CurrenRoomCanvas.SetTouchableState(false);
             
             _timerStart = true;
             _timer = 60;
