@@ -734,7 +734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36acbe6dacbf8a244a6287bb98dae1d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lapCount: 0
+  lapCount: 1
   place: 0
   myCamera: {fileID: 5288521019295998122}
   maxSpeed: 90
