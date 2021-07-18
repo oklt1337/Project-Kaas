@@ -1428,6 +1428,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1791631034}
     m_Modifications:
+    - target: {fileID: 1147510264915017949, guid: afbb7b5b655286947b1bc76ba3c72560,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7478526c209cd5746b55142bdc46260b,
+        type: 3}
     - target: {fileID: 2195954342781855128, guid: afbb7b5b655286947b1bc76ba3c72560,
         type: 3}
       propertyPath: m_text
@@ -24075,6 +24081,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1791631034}
     m_Modifications:
+    - target: {fileID: 1147510264915017949, guid: afbb7b5b655286947b1bc76ba3c72560,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c1f7801f88374ac40a897ea72b4be4b1,
+        type: 3}
+    - target: {fileID: 2195954342781855128, guid: afbb7b5b655286947b1bc76ba3c72560,
+        type: 3}
+      propertyPath: m_text
+      value: Leave Match
+      objectReference: {fileID: 0}
+    - target: {fileID: 2195954342781855128, guid: afbb7b5b655286947b1bc76ba3c72560,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2977327134355883915, guid: afbb7b5b655286947b1bc76ba3c72560,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

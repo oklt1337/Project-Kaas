@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ea0c6c9f7d7b33b4b8c542270a1b94ad, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1377cbac1fdc7294c9d6d6c534e72c03, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -123,7 +123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Collection.GameManager.Scripts.GameManager, Assembly-CSharp
-        m_MethodName: LeaveRoom
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -198,10 +198,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Leave Match
+  m_text: 'Quit
+
+'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: da228ec720a28df429deffa6feeb7cdb, type: 2}
+  m_sharedMaterial: {fileID: -8118296803899820578, guid: da228ec720a28df429deffa6feeb7cdb,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -225,7 +228,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60.15
+  m_fontSize: 100
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
