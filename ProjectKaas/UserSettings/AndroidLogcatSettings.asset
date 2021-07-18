@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "emulator-5554",
         "name": "com.DefaultCompany.ProjectKaas",
-        "processId": 9770,
+        "processId": 5043,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -144,6 +144,12 @@
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.ProjectKaas",
             "processId": 9770,
+            "exited": false
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.ProjectKaas",
+            "processId": 5043,
             "exited": false
         }
     ],
