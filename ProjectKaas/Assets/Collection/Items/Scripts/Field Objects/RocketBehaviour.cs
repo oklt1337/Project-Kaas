@@ -1,5 +1,6 @@
 using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Collection.Items.Scripts.Field_Objects
@@ -13,7 +14,7 @@ namespace Collection.Items.Scripts.Field_Objects
             transform.position += Vector3.forward * (speed * Time.deltaTime);
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
             // Checks tag.
             if (!other.gameObject.CompareTag("Player"))
@@ -23,8 +24,8 @@ namespace Collection.Items.Scripts.Field_Objects
             else
             {
                 // Makes the player tumble on hit.
-                var hitPlayer = other.gameObject.GetComponent<PlayerHandler>();
-                hitPlayer.Car.OnHit();
+                var hitPlayer = other.gameObject.GetComponentInParent<PlayerHandler>();
+                hitPlayer.Car.OnHit(1f);
                 PhotonNetwork.Destroy(gameObject);
             }
         }

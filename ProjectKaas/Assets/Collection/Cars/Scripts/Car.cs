@@ -41,13 +41,7 @@ namespace Collection.Cars.Scripts
         public byte ZoneCount { get; internal set; }
 
         #endregion
-        
-        #region Internal Fields
 
-        internal const float HitFloat = 1.5f;
-        
-        #endregion
-        
         #region MonoBehaviour CallBacks
 
         private void Awake()
@@ -76,22 +70,17 @@ namespace Collection.Cars.Scripts
             
         }
 
-        /// <summary>
-        /// Changing speed for a set time, and then change it back to normal.
-        /// </summary>
-        /// <param name="speed">float</param>
-        /// <param name="duration">float</param>
-        public void ChangeSpeed(float speed, float duration)
+        public void ChangeSpeed(float speedUpValue,float duration)
         {
-            StartCoroutine(ChangeSpeedCo(speed, duration));
+            StartCoroutine(ChangeSpeedCo(speedUpValue, duration));
         }
-        
+
         /// <summary>
         /// How the car reacts to a hit.
         /// </summary>
-        public void OnHit()
+        public void OnHit(float duration)
         {
-            MyCarStates = CarStates.Hit;
+            StartCoroutine(OnHitCo(duration));
         }
 
         /// <summary>
@@ -126,12 +115,25 @@ namespace Collection.Cars.Scripts
 
         #region Private Methods
 
-        private IEnumerator ChangeSpeedCo(float speed, float duration)
+        private IEnumerator OnHitCo(float duration)
         {
-            var oldSpeed = MaxSpeed;
-            MaxSpeed += speed;
+            MyCarStates = CarStates.Hit;
             yield return new WaitForSeconds(duration);
-            MaxSpeed = oldSpeed;
+            MyCarStates = CarStates.Drive;
+        }
+
+        private IEnumerator ChangeSpeedCo(float speedUpValue,float duration)
+        {
+            var oldMaxSpeed = MaxSpeed;
+            var oldForwardAccel = ForwardAccel;
+
+            MaxSpeed += speedUpValue;
+            ForwardAccel += speedUpValue;
+            
+            yield return new WaitForSeconds(duration);
+            
+            MaxSpeed = oldMaxSpeed;
+            ForwardAccel = oldForwardAccel;
         }
 
         #endregion

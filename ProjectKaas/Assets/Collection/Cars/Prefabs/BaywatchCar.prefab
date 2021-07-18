@@ -141,14 +141,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6572135047228981323}
   - component: {fileID: 6106165268278692024}
-  - component: {fileID: 6308658148162527563}
   m_Layer: 0
   m_Name: 3rd Person Low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6572135047228981323
 Transform:
   m_ObjectHideFlags: 0
@@ -206,14 +205,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &6308658148162527563
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5288521019295998122}
-  m_Enabled: 1
 --- !u!1 &7951211236132078048
 GameObject:
   m_ObjectHideFlags: 0

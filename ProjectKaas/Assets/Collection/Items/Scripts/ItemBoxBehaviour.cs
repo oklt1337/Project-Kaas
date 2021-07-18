@@ -142,7 +142,7 @@ namespace Collection.Items.Scripts
             // 'Destroys' the item box after collision and gives player Item. 
             if(!other.CompareTag("Player") && !other.isTrigger)
                 return;
-            
+
             gameObject.SetActive(false);
             var player = other.gameObject.GetComponentInParent<PlayerHandler>();
 

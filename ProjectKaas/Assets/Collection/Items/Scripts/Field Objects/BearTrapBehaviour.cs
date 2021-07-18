@@ -8,18 +8,18 @@ namespace Collection.Items.Scripts.Field_Objects
     {
         [SerializeField] private float duration;
     
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
             if(other.gameObject.layer == 3)
                 return;
             
             PhotonNetwork.Destroy(gameObject);
 
-            if (!other.gameObject.CompareTag("Player")) 
+            if (!other.gameObject.CompareTag("Player") || !other.isTrigger) 
                 return;
             
-            var hitPlayer = other.gameObject.GetComponent<PlayerHandler>();
-            hitPlayer.Car.ChangeSpeed(-hitPlayer.Car.MaxSpeed, duration);
+            var hitPlayer = other.gameObject.GetComponentInParent<PlayerHandler>();
+            hitPlayer.Car.OnHit(duration);
         }
     }
 }

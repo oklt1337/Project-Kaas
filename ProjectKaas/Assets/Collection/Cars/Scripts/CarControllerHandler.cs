@@ -21,7 +21,6 @@ namespace Collection.Cars.Scripts
         private float _turn;
         private bool _grounded;
         private float _defaultDrag;
-        private float _hitFloat;
 
         #endregion
 
@@ -44,7 +43,6 @@ namespace Collection.Cars.Scripts
             rigidbody.transform.parent = null;
             _defaultDrag = rigidbody.drag;
             _car.MyCarStates = Car.CarStates.Drive;
-            _hitFloat = Car.HitFloat;
         }
 
         // Update is called once per frame
@@ -52,17 +50,7 @@ namespace Collection.Cars.Scripts
         {
             // Make sure only local player can control car.
             if (!_car.PlayerHandler.photonView.IsMine) return;
-            
-            if (_car.MyCarStates == Car.CarStates.Hit)
-            {
-                _hitFloat -= Time.deltaTime;
-                if (_hitFloat < 0)
-                {
-                    _car.MyCarStates = Car.CarStates.Drive;
-                    _hitFloat = Car.HitFloat;
-                }
-            }
-            
+
             GetSpeed();
         }
 

@@ -14,7 +14,7 @@ namespace Collection.Items.Scripts.Field_Objects
             // Checks every distance to every player to decide hit.
             foreach (var player in PositionManagerInstance.AllPlayers.Where(player => (player.transform.position - transform.position).magnitude < range))
             {
-                player.Car.OnHit();
+                player.Car.OnHit(1f);
             }
 
             PhotonNetwork.Destroy(gameObject);
