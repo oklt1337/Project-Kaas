@@ -12,6 +12,7 @@ using Photon.Realtime;
 using UnityEngine;
 using static Collection.Maps.Scripts.PositionManager;
 using static Collection.Maps.Scripts.RoundStarter;
+using static Collection.UI.Scripts.Play.UIManager;
 
 namespace Collection.NetworkPlayer.Scripts
 {
@@ -90,6 +91,7 @@ namespace Collection.NetworkPlayer.Scripts
             }
 
             Initialize();
+            PositionManagerInstance.OnFinish += WhenFinnish;
         }
 
         #endregion
@@ -190,6 +192,20 @@ namespace Collection.NetworkPlayer.Scripts
             {
                 RoundStarterInstance.RoundStart();
             }
+        }
+
+        /// <summary>
+        /// Turns everything off after Finishing.
+        /// </summary>
+        /// <param name="player"> The player that finished. </param>
+        private void WhenFinnish(PlayerHandler player)
+        {
+            if (player != this)
+               return;
+
+            LocalRaceState = RaceState.PreStart;
+            hudPrefab.gameObject.SetActive(false);
+            UIManagerInstance.ToggleUI();
         }
 
         #endregion

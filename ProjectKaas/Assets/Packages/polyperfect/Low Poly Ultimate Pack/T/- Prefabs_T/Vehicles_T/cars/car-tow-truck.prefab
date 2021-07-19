@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 1926647446645178998}
   - component: {fileID: 1926647446642311764}
   - component: {fileID: 1926647446643277972}
-  - component: {fileID: 7592663404877371867}
+  - component: {fileID: 1328591201801750786}
   m_Layer: 0
   m_Name: car-tow-truck-base
   m_TagString: Untagged
@@ -312,8 +312,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7592663404877371867
-MeshCollider:
+--- !u!65 &1328591201801750786
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -322,10 +322,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 7a9ecc973d7f5da4c9d0784cf49e0c85, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.9623542, y: 2.3043385, z: 5.4301777}
+  m_Center: {x: -0.00000014901161, y: 1, z: -0.2095362}
 --- !u!1 &1926647446645284444
 GameObject:
   m_ObjectHideFlags: 0

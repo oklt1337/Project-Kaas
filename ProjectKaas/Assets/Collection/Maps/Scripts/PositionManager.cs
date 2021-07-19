@@ -71,7 +71,8 @@ namespace Collection.Maps.Scripts
             if(allPlayers.Count == 1)
                 return;
             
-            allPlayersPositions = null;
+            // Resetting the List. 
+            allPlayersPositions = playersStandings;
             var players = SeparatedByLaps(allPlayers);
             
             if(players != null)
@@ -88,7 +89,7 @@ namespace Collection.Maps.Scripts
             if (players == null)
                 return null;
             
-            var separatedPlayers = new PlayerHandler[lapCount, players.Count];
+            var separatedPlayers = new PlayerHandler[lapCount+1, players.Count];
 
             for (var i = 0; i < players.Count; i++)
             {
@@ -111,7 +112,7 @@ namespace Collection.Maps.Scripts
             var sortedPlayers = new List<PlayerHandler>();
             
             // Repeated for every lap backwards.
-            for (int i = LapCount; i <= 0; i--)
+            for (var i = LapCount+1; i <= 0; i--)
             {
                 // Skips process when no player is at that lap. 
                 if(players[i,0] == null)
@@ -135,6 +136,7 @@ namespace Collection.Maps.Scripts
                         
                         // Sets their position.
                         players[i, j].Position = (byte)(sortedPlayers.Count + 1);
+                        players[i, j].Car.place = (byte) sortedPlayers.Count;
                     }
                     else
                     {
@@ -241,19 +243,13 @@ namespace Collection.Maps.Scripts
         }
 
         /// <summary>
-        /// Assigns the player to the standings.
+        /// Assigns the player to the standings and removes him from the all players list.
         /// </summary>
         /// <param name="player"> The player that wants to assign themselves. </param>
         private void AssignToStandings(PlayerHandler player)
         {
-            for (var i = 0; i < allPlayers.Count; i++)
-            {
-                if(playersStandings[i] != null)
-                    continue;
-
-                playersStandings[i] = player;
-                break;
-            }
+            playersStandings.Add(player);
+            allPlayers.Remove(player);
         }
 
         /// <summary>
@@ -262,7 +258,7 @@ namespace Collection.Maps.Scripts
         /// <param name="player"> The player to check what position he got in. </param>
         private void OnRaceFinish(PlayerHandler player)
         {
-            if(player.Position + 1 != allPlayers.Count)
+            if(allPlayers.Count > 0)
                 return;
             
             TextFixer();
@@ -278,6 +274,8 @@ namespace Collection.Maps.Scripts
             victoryScreenText.text = null;
             for (var i = 0; i < playersStandings.Count; i++)
             {
+                print(i);
+                print(playersStandings[i].LocalPlayer.NickName);
                 victoryScreenText.text += i + ".       " + playersStandings[i].LocalPlayer.NickName + "\n\n";
             }
         }

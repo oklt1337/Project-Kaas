@@ -32,9 +32,7 @@ namespace Collection.UI.Scripts.Play
 
         private void Start()
         {
-            lapCount.gameObject.SetActive(true);
-            position.gameObject.SetActive(true);
-            currentItem.gameObject.SetActive(true);
+            ToggleUI();
         }
 
         private void Update()
@@ -83,6 +81,17 @@ namespace Collection.UI.Scripts.Play
         public void OpenPauseMenu()
         {
             pauseScreen.SetActive(true);
+        }
+
+        /// <summary>
+        /// Toggles the drive UI.
+        /// </summary>
+        public void ToggleUI()
+        {
+            GameObject o;
+            (o = lapCount.gameObject).SetActive(lapCount.gameObject.activeSelf);
+            position.gameObject.SetActive(o.activeSelf);
+            currentItem.gameObject.SetActive(o.activeSelf);
         }
     }
 }
