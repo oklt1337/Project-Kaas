@@ -83,6 +83,19 @@ namespace Collection.UI.Scripts.Play.Room
 
         #region Private Methods
 
+        private void OnReadyButtonStates(bool state)
+        {
+            toggle.interactable = state;
+            leaveButton.interactable = state;
+            addButton.interactable = state;
+            removeButton.interactable = state;
+
+            foreach (var playerListing in playerLayoutGroup.PlayerList)
+            {
+                playerListing.GetComponent<Button>().interactable = state;
+            }
+        }
+
         private void SetReadyState(bool state)
         {
             _ready = state;
@@ -164,7 +177,7 @@ namespace Collection.UI.Scripts.Play.Room
         /// </summary>
         public void OnClickReady()
         {
-            SetTouchableState(!readyButton.interactable);
+            OnReadyButtonStates(!leaveButton.interactable);
             ChooseCarHandler.DeactivateCars();
             ChooseCarHandler.SetButtonInteractableState();
             

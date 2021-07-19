@@ -116,156 +116,52 @@ namespace Collection.NetworkPlayer.Scripts
                 chooseCar = ChooseCar.Formula;
             }
 
-            CarPrefabsHolder.Cars car;
-            
+            // Initialize car
+            GameObject carObj;
             switch (chooseCar)
             {
                 case ChooseCar.Formula:
-                    car = CarPrefabsHolder.Cars.Formula;
+                    carObj = Instantiate(CarPrefabsHolder.Formula, transform, false);
+
+                    // get Component
+                    Car = carObj.GetComponent<FormulaCar>();
                     break;
                 case ChooseCar.Baywatch:
-                    car = CarPrefabsHolder.Cars.Baywatch;
+                    carObj = Instantiate(CarPrefabsHolder.Baywatch, transform, false);
+
+                    // get Component
+                    Car = carObj.GetComponent<Baywatch>();
                     break;
                 case ChooseCar.Passenger:
-                    car = CarPrefabsHolder.Cars.Passenger;
+                    carObj = Instantiate(CarPrefabsHolder.Passenger, transform, false);
+
+                    // get Component
+                    Car = carObj.GetComponent<PassengerCar>();
                     break;
                 case ChooseCar.Veteran:
-                    car = CarPrefabsHolder.Cars.Veteran;
+                    carObj = Instantiate(CarPrefabsHolder.Veteran, transform, false);
+
+                    // get Component
+                    Car = carObj.GetComponent<Veteran>();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Car"))
+            // Fix Position
             {
-                car = (CarPrefabsHolder.Cars) PhotonNetwork.LocalPlayer.CustomProperties["Car"];
+                var localPosition = carObj.transform.localPosition;
+                localPosition = new Vector3(localPosition.x,
+                    localPosition.y - 0.4f, localPosition.z);
+                carObj.transform.localPosition = localPosition;
             }
 
-            // Initialize car
-            GameObject carObj;
-            Vector3 localPosition;
-            switch (car)
-            {
-                case CarPrefabsHolder.Cars.Formula:
-                    carObj = Instantiate(CarPrefabsHolder.Formula, transform, false);
-                    
-                    // Fix Position
-                    localPosition = carObj.transform.localPosition;
-                    localPosition = new Vector3(localPosition.x,
-                        localPosition.y - 0.4f, localPosition.z);
-                    carObj.transform.localPosition = localPosition;
-                    
-                    // get Component
-                    Car = carObj.GetComponent<FormulaCar>();
-
-                    // make sure only one cam in scene.
-                    if (photonView.IsMine)
-                    {
-                        Car.ActivateCamera();
-                        Car.Initialize(this);
-                    }
-                    else
-                    {
-                        Car.DeactivateComponents();
-                    }
-                    break;
-                case CarPrefabsHolder.Cars.Passenger:
-                    carObj = Instantiate(CarPrefabsHolder.Passenger, transform, false);
-                    
-                    // Fix Position
-                    localPosition = carObj.transform.localPosition;
-                    localPosition = new Vector3(localPosition.x,
-                        localPosition.y - 0.4f, localPosition.z);
-                    carObj.transform.localPosition = localPosition;
-                    
-                    // get Component
-                    Car = carObj.GetComponent<PassengerCar>();
-
-                    // make sure only one cam in scene.
-                    if (photonView.IsMine)
-                    {
-                        Car.ActivateCamera();
-                        Car.Initialize(this);
-                    }
-                    else
-                    {
-                        Car.DeactivateComponents();
-                    }
-                    
-                    break;
-                case CarPrefabsHolder.Cars.Baywatch:
-                    carObj = Instantiate(CarPrefabsHolder.Baywatch, transform, false);
-                    
-                    // Fix Position
-                    localPosition = carObj.transform.localPosition;
-                    localPosition = new Vector3(localPosition.x,
-                        localPosition.y - 0.4f, localPosition.z);
-                    carObj.transform.localPosition = localPosition;
-                    
-                    // get Component
-                    Car = carObj.GetComponent<Baywatch>();
-
-                    // make sure only one cam in scene.
-                    if (photonView.IsMine)
-                    {
-                        Car.ActivateCamera();
-                        Car.Initialize(this);
-                    }
-                    else
-                    {
-                        Car.DeactivateComponents();
-                    }
-                    break;
-                case CarPrefabsHolder.Cars.Veteran:
-                    carObj = Instantiate(CarPrefabsHolder.Veteran, transform, false);
-                    
-                    // Fix Position
-                    localPosition = carObj.transform.localPosition;
-                    localPosition = new Vector3(localPosition.x,
-                        localPosition.y - 0.4f, localPosition.z);
-                    carObj.transform.localPosition = localPosition;
-                    
-                    // get Component
-                    Car = carObj.GetComponent<Veteran>();
-
-                    // make sure only one cam in scene.
-                    if (photonView.IsMine)
-                    {
-                        Car.ActivateCamera();
-                        Car.Initialize(this);
-                    }
-                    else
-                    {
-                        Car.DeactivateComponents();
-                    }
-                    break;
-                default:
-                    carObj = Instantiate(CarPrefabsHolder.Formula, transform, false);
-                    
-                    // Fix Position
-                    localPosition = carObj.transform.localPosition;
-                    localPosition = new Vector3(localPosition.x,
-                        localPosition.y - 0.4f, localPosition.z);
-                    carObj.transform.localPosition = localPosition;
-                    
-                    // get Component
-                    Car = carObj.GetComponent<FormulaCar>();
-                    
-                    // make sure only one cam in scene.
-                    if (photonView.IsMine)
-                    {
-                        Car.ActivateCamera();
-                        Car.Initialize(this);
-                    }
-                    else
-                    {
-                        Car.DeactivateComponents();
-                    }
-                    break;
-            }
-
+            // make sure only one cam in scene and instantiate hud.
             if (photonView.IsMine)
             {
+                Car.ActivateCamera();
+                Car.Initialize(this);
+                
                 // Instantiate hud
                 var hudObj = Instantiate(hudPrefab);
                 CanvasHandler = hudObj.GetComponent<CanvasHandler>();
@@ -273,6 +169,10 @@ namespace Collection.NetworkPlayer.Scripts
                 
                 // Initialize playerHandler
                 PlayerInputHandler.Initialize(CanvasHandler.Joystick, CanvasHandler.ItemButton, CanvasHandler.GasButton);
+            }
+            else
+            {
+                Car.DeactivateComponents();
             }
 
             // add to position manager
