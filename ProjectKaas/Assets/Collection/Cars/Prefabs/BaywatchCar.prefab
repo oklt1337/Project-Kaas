@@ -333,7 +333,6 @@ GameObject:
   - component: {fileID: 7956192640687723833}
   - component: {fileID: 7931941164707253239}
   - component: {fileID: 7940341497630392507}
-  - component: {fileID: 7964149294379097135}
   m_Layer: 0
   m_Name: car-baywatch-base
   m_TagString: Untagged
@@ -410,20 +409,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7964149294379097135
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7953718250105973115}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300010, guid: 39350d260a506574c91414ef42ccb61f, type: 3}
 --- !u!1 &7953804323389133313
 GameObject:
   m_ObjectHideFlags: 0

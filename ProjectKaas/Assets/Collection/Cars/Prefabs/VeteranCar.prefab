@@ -347,7 +347,6 @@ GameObject:
   - component: {fileID: 1580409032674519052}
   - component: {fileID: 1580409032673749038}
   - component: {fileID: 1580409032672750318}
-  - component: {fileID: 8812326349562705319}
   m_Layer: 0
   m_Name: car-veteran-base
   m_TagString: Untagged
@@ -424,20 +423,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8812326349562705319
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1580409032674751532}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 1167e7217ca09f4428be869a20675d62, type: 3}
 --- !u!1 &1580409032674751534
 GameObject:
   m_ObjectHideFlags: 0

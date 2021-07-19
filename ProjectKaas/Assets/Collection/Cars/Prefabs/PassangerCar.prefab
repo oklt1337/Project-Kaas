@@ -250,7 +250,6 @@ GameObject:
   - component: {fileID: 6438595684745886090}
   - component: {fileID: 1259731933059209948}
   - component: {fileID: 4899996143075213796}
-  - component: {fileID: 3334297249814806912}
   m_Layer: 0
   m_Name: car-formula-wheel_BR
   m_TagString: Untagged
@@ -323,20 +322,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3334297249814806912
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 469159049156847321}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 8cde804ae67159b4e98da0ccc5a1be4e, type: 3}
 --- !u!1 &631678978652216114
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +333,6 @@ GameObject:
   - component: {fileID: 3318321648682784181}
   - component: {fileID: 8732807649685357142}
   - component: {fileID: 4457345825933181466}
-  - component: {fileID: 6035482431641805463}
   m_Layer: 0
   m_Name: car-formula-wheel_FL
   m_TagString: Untagged
@@ -421,20 +405,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6035482431641805463
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 631678978652216114}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300006, guid: 8cde804ae67159b4e98da0ccc5a1be4e, type: 3}
 --- !u!1 &1432928310955325558
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +554,6 @@ GameObject:
   - component: {fileID: 1434948257479288378}
   - component: {fileID: 1409890955912526898}
   - component: {fileID: 1420012777366828018}
-  - component: {fileID: 1433076944000706335}
   m_Layer: 0
   m_Name: car-passenger-base
   m_TagString: Untagged
@@ -661,20 +630,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1433076944000706335
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1433076944000706334}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300008, guid: 85b3209bf897e4088ac4bb00033db6a1, type: 3}
 --- !u!1 &2817063769025465182
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +641,6 @@ GameObject:
   - component: {fileID: 8449050001571386348}
   - component: {fileID: 5158701797249345636}
   - component: {fileID: 2520605162653956298}
-  - component: {fileID: 1690334900829644896}
   m_Layer: 0
   m_Name: car-formula-wheel_BL
   m_TagString: Untagged
@@ -759,20 +713,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1690334900829644896
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2817063769025465182}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 8cde804ae67159b4e98da0ccc5a1be4e, type: 3}
 --- !u!1 &3622781247223165337
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,7 +724,6 @@ GameObject:
   - component: {fileID: 6491821940955205159}
   - component: {fileID: 8708635623551229262}
   - component: {fileID: 8235149339475382569}
-  - component: {fileID: 7606418463859319320}
   m_Layer: 0
   m_Name: car-formula-wheel_FR
   m_TagString: Untagged
@@ -857,17 +796,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7606418463859319320
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3622781247223165337}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300004, guid: 8cde804ae67159b4e98da0ccc5a1be4e, type: 3}

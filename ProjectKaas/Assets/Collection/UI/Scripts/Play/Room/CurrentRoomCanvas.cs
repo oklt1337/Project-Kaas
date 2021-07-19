@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Collection.Network.Scripts;
+using Collection.UI.Scripts.Play.ChoosingCar;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -15,6 +16,7 @@ namespace Collection.UI.Scripts.Play.Room
         #region Private Serializable Fields
 
         [SerializeField] private PlayerLayoutGroup playerLayoutGroup;
+        [SerializeField] private ChooseCarHandler chooseCarHandler;
 
         [Tooltip("Room name")] [SerializeField]
         private TextMeshProUGUI roomName;
@@ -42,6 +44,7 @@ namespace Collection.UI.Scripts.Play.Room
         #region Public Fields
 
         public PlayerLayoutGroup PlayerLayoutGroup => playerLayoutGroup;
+        public ChooseCarHandler ChooseCarHandler => chooseCarHandler;
 
         #endregion
 
@@ -161,6 +164,21 @@ namespace Collection.UI.Scripts.Play.Room
         /// </summary>
         public void OnClickReady()
         {
+            SetTouchableState(!readyButton.interactable);
+            ChooseCarHandler.DeactivateCars();
+            ChooseCarHandler.SetButtonInteractableState();
+            
+            var hashTable = PhotonNetwork.LocalPlayer.CustomProperties;
+            if (hashTable.ContainsKey("Car"))
+            {
+                hashTable["Car"] = ChooseCarHandler.Car;
+            }
+            else
+            {
+                hashTable.Add("Car", ChooseCarHandler.Car);
+            }
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hashTable);
+            
             SetReadyState(!_ready);
             photonView.RPC("RPCChangeReadyState", RpcTarget.All, PhotonNetwork.LocalPlayer, _ready);
         }

@@ -1,3 +1,4 @@
+using System;
 using Collection.Cars.Scripts;
 using Collection.Cars.Scripts.BaywatchCar;
 using Collection.Cars.Scripts.FormulaCar;
@@ -5,6 +6,7 @@ using Collection.Cars.Scripts.PassengerCar;
 using Collection.Cars.Scripts.VeteranCar;
 using Collection.Items.Scripts;
 using Collection.Maps.Scripts;
+using Collection.UI.Scripts.Play.ChoosingCar;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -102,8 +104,38 @@ namespace Collection.NetworkPlayer.Scripts
 
         private void Initialize()
         {
-            var car = CarPrefabsHolder.Cars.Veteran;
+            var hashTable = PhotonNetwork.LocalPlayer.CustomProperties;
+            ChooseCar chooseCar;
             
+            if (hashTable.ContainsKey("Car"))
+            {
+                chooseCar = (ChooseCar) hashTable["Car"];
+            }
+            else
+            {
+                chooseCar = ChooseCar.Formula;
+            }
+
+            CarPrefabsHolder.Cars car;
+            
+            switch (chooseCar)
+            {
+                case ChooseCar.Formula:
+                    car = CarPrefabsHolder.Cars.Formula;
+                    break;
+                case ChooseCar.Baywatch:
+                    car = CarPrefabsHolder.Cars.Baywatch;
+                    break;
+                case ChooseCar.Passenger:
+                    car = CarPrefabsHolder.Cars.Passenger;
+                    break;
+                case ChooseCar.Veteran:
+                    car = CarPrefabsHolder.Cars.Veteran;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Car"))
             {
                 car = (CarPrefabsHolder.Cars) PhotonNetwork.LocalPlayer.CustomProperties["Car"];
