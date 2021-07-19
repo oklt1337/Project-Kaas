@@ -10,6 +10,8 @@ using Collection.UI.Scripts.Play.ChoosingCar;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using static Collection.Maps.Scripts.PositionManager;
+using static Collection.Maps.Scripts.RoundStarter;
 
 namespace Collection.NetworkPlayer.Scripts
 {
@@ -181,7 +183,13 @@ namespace Collection.NetworkPlayer.Scripts
             }
 
             // add to position manager
-            PositionManager.PositionManagerInstance.AllPlayers.Add(this);
+            PositionManagerInstance.AllPlayers.Add(this);
+            
+            // Checks if the AllPlayers list is full and if so starts the round.
+            if (PhotonNetwork.PlayerList.Length == PositionManagerInstance.AllPlayers.Count)
+            {
+                RoundStarterInstance.RoundStart();
+            }
         }
 
         #endregion

@@ -1,3 +1,4 @@
+using System;
 using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using TMPro;
@@ -9,16 +10,27 @@ namespace Collection.Maps.Scripts
 {
     public class RoundStarter : MonoBehaviourPunCallbacks
     {
+        public static RoundStarter RoundStarterInstance;
+        
         [SerializeField] private float startTime;
+        [SerializeField] private bool mayStart;
         [SerializeField] private TextMeshProUGUI text;
 
-        private void Start()
+        private void Awake()
         {
-            text.gameObject.SetActive(true);
+            if (RoundStarterInstance != null)
+            {
+                Destroy(this);
+            }
+            
+            RoundStarterInstance = this;
         }
 
         private void Update()
         {
+            if(!mayStart)
+                return;
+            
             // Lets the start time tick down.
             startTime -= Time.deltaTime;
             text.text = "" + (byte)(startTime + 1);
@@ -36,6 +48,19 @@ namespace Collection.Maps.Scripts
             gameObject.SetActive(false);
             UIManagerInstance.gameObject.SetActive(true);
             UIManagerInstance.FindLocalPlayer(PositionManagerInstance.AllPlayers);
+        }
+
+        public void RoundStart()
+        {
+            print(RpcTarget.All);
+            photonView.RPC("RoundStartRPC", RpcTarget.All);
+        }
+        
+        [PunRPC]
+        private void RoundStartRPC()
+        {
+            text.gameObject.SetActive(true);
+            mayStart = true;
         }
     }
 }
