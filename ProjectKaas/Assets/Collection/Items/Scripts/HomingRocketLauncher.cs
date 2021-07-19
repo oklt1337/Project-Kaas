@@ -8,7 +8,7 @@ namespace Collection.Items.Scripts
     {
         public override void OnUse()
         { 
-            var rocket = PhotonNetwork.Instantiate("Prefabs/Items/Homing Rocket",Owner.transform.position+Vector3.forward, Quaternion.identity);
+            var rocket = PhotonNetwork.Instantiate("Prefabs/Items/Homing Rocket",Owner.ForwardItem.transform.position+Vector3.forward, Quaternion.identity);
             var homingRocket = rocket.GetComponent<HomingRocketBehaviour>();
             homingRocket.AcquireTarget(Owner);
             base.OnUse();

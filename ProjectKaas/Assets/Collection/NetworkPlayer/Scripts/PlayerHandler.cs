@@ -32,6 +32,8 @@ namespace Collection.NetworkPlayer.Scripts
 
         [SerializeField] private GameObject hudPrefab;
         [SerializeField] private GameObject audioListener;
+        [SerializeField] private GameObject forwardItem;
+        [SerializeField] private GameObject backItem;
         [SerializeField] private ItemBehaviour item;
 
         #endregion
@@ -47,6 +49,9 @@ namespace Collection.NetworkPlayer.Scripts
         public CanvasHandler CanvasHandler { get; private set; }
 
         public ItemBehaviour Item => item;
+
+        public GameObject ForwardItem => forwardItem;
+        public GameObject BackItem => backItem;
         
         public RaceState LocalRaceState { get; set; }
         

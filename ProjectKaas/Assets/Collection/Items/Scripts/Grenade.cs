@@ -8,7 +8,7 @@ namespace Collection.Items.Scripts
         public override void OnUse()
         {
             // Spawns a grenade and launches it forward.
-            var grenade = PhotonNetwork.Instantiate("Prefabs/Items/Grenade",Owner.transform.position, Quaternion.identity);
+            var grenade = PhotonNetwork.Instantiate("Prefabs/Items/Grenade",Owner.ForwardItem.transform.position, Quaternion.identity);
             var grenadeRb = grenade.gameObject.GetComponent<Rigidbody>();
             grenadeRb.AddForce(0,10,10);
             base.OnUse();

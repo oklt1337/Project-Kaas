@@ -7,7 +7,7 @@ namespace Collection.Items.Scripts
     {
         public override void OnUse()
         {
-            var position = Owner.transform.position;
+            var position = Owner.ForwardItem.transform.position;
             PhotonNetwork.Instantiate("Prefabs/Items/Rocket",position + Vector3.left, Quaternion.identity);
             PhotonNetwork.Instantiate("Prefabs/Items/Rocket",position, Quaternion.identity);
             PhotonNetwork.Instantiate("Prefabs/Items/Rocket",position + Vector3.right, Quaternion.identity);
