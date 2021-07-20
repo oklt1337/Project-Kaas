@@ -78,6 +78,8 @@ namespace Collection.Network.Scripts
 
         private static void TurnBackToRoom()
         {
+            Debug.Log("Turning back to lobby.");
+            
             var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
 
             if (!hashtable.ContainsKey("MatchFinished")) return;
