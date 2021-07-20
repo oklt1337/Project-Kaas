@@ -55,6 +55,11 @@ namespace Collection.UI.Scripts.Play.Room
             base.OnEnable();
             SetReadyState(false);
             SetTouchableState(true);
+
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                toggle.interactable = false;
+            }
         }
 
         public override void OnJoinedRoom()

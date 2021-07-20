@@ -39,6 +39,8 @@ namespace Collection.ReadyUpManager.Scripts
             {
                 Destroy(gameObject);
             }
+            
+            ReadyPlayer.Clear();
         }
 
         #endregion
@@ -112,6 +114,7 @@ namespace Collection.ReadyUpManager.Scripts
 
         public void AddReadyPlayer(PlayerListing playerListing)
         {
+            Debug.Log(ReadyPlayer.Count + " Players are ready");
             if (!ReadyPlayer.Contains(playerListing))
             {
                 ReadyPlayer.Add(playerListing);
@@ -138,6 +141,8 @@ namespace Collection.ReadyUpManager.Scripts
         
         public void RemoveReadyPlayer(PlayerListing playerListing)
         {
+            Debug.Log(ReadyPlayer.Count + " Players are ready");
+            
             if (ReadyPlayer.Contains(playerListing))
             {
                 ReadyPlayer.Remove(playerListing);
