@@ -138,8 +138,7 @@ namespace Collection.Network.Scripts
         private static void SetPhotonProfileValues()
         {
             PhotonNetwork.LocalPlayer.NickName = LocalProfile.Instance.PlayerProfileModel.DisplayName;
-            var authenticationValues = new AuthenticationValues(LocalProfile.Instance.PlayerProfileModel.PlayerId);
-            PhotonNetwork.AuthValues = authenticationValues;
+            PhotonNetwork.AuthValues.UserId = LocalProfile.Instance.PlayerProfileModel.PlayerId;
         }
 
         #endregion

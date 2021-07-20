@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Collection.Authentication.Scripts;
 using Collection.LocalPlayerData.Scripts;
+using Photon.Pun;
 using PlayFab;
 using TMPro;
 using UnityEngine;
