@@ -79,7 +79,7 @@ namespace Collection.NetworkPlayer.Scripts
 
             if (photonView.IsMine)
             {
-                //photonView.RPC("RPCInitialized", RpcTarget.MasterClient, this);
+                photonView.RPC("RPCInitialized", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer);
                 
                 if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Controls"))
                 {
@@ -215,9 +215,9 @@ namespace Collection.NetworkPlayer.Scripts
         }
         
         [PunRPC]
-        private void RPCInitialized(PlayerHandler playerHandler)
+        private void RPCInitialized(Player player)
         {
-            GameManager.Scripts.GameManager.Gm.AddPlayer(playerHandler);
+            GameManager.Scripts.GameManager.Gm.AddPlayer(player);
         }
 
         #endregion

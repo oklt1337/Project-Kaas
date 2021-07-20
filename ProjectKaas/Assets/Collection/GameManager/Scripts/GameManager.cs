@@ -23,7 +23,7 @@ namespace Collection.GameManager.Scripts
 
         public ItemBehaviour[] AllItems => allItems;
 
-        public List<PlayerHandler> players = new List<PlayerHandler>();
+        public readonly List<Player> Players = new List<Player>();
 
         #endregion
 
@@ -126,7 +126,7 @@ namespace Collection.GameManager.Scripts
 
         public void AddPlayer(PlayerHandler playerHandler)
         {
-            players.Add(playerHandler);
+            Players.Add(playerHandler);
         }
 
         public void Continue()
