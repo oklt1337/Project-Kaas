@@ -298,8 +298,8 @@ namespace Collection.Maps.Scripts
             for (var i = 0; i < playersStandings.Count; i++)
             {
                 print(i);
-                print(playersStandings[i].LocalPlayer.NickName);
-                victoryScreenText.text += i + ".       " + playersStandings[i].LocalPlayer.NickName + "\n\n";
+                //print(playersStandings[i].LocalPlayer.NickName);
+                //victoryScreenText.text += i + ".       " + playersStandings[i].LocalPlayer.NickName + "\n\n";
             }
         }
 
