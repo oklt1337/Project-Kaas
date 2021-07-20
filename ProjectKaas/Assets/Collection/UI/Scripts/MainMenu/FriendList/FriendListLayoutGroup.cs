@@ -94,6 +94,12 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
         public void UpdateFriendList(List<PlayFab.ClientModels.FriendInfo> friends)
         {
             Debug.Log("Updating FriendsListings");
+
+            foreach (var t in FriendList)
+            {
+                Destroy(t.gameObject);
+            }
+            
             FriendList.Clear();
 
             if (friends.Count == 0)
