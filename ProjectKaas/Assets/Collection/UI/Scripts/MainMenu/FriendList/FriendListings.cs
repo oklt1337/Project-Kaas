@@ -108,9 +108,12 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
 
         private void SetOnlineStatus(bool online, bool inRoom)
         {
-            Debug.Log(PhotonFriend.UserId + " is online = " + online);
-            Debug.Log(PhotonFriend.UserId + " is in room = " + inRoom);
-            
+            if (PhotonFriend != null)
+            {
+                Debug.Log(PhotonFriend.UserId + " is online = " + online);
+                Debug.Log(PhotonFriend.UserId + " is in room = " + inRoom);
+            }
+
             if (online && !inRoom)
             {
                 OnlineStatus.color = Color.green;
