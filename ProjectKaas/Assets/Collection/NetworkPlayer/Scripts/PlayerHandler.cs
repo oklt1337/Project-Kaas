@@ -212,6 +212,8 @@ namespace Collection.NetworkPlayer.Scripts
             LocalRaceState = RaceState.PreStart;
             hudPrefab.gameObject.SetActive(false);
             UIManagerInstance.ToggleUI();
+            
+            Car.SetObjInvisible();
         }
         
         [PunRPC]
