@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Collection.Items.Scripts;
 using Collection.Maps.Scripts;
+using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -15,15 +17,17 @@ namespace Collection.GameManager.Scripts
         #region Public Fields
 
         public static GameManager Gm;
-        
+
         [Tooltip("The prefab to use for representing the player")]
         public GameObject playerPrefab;
 
         public ItemBehaviour[] AllItems => allItems;
-        
+
+        public List<PlayerHandler> players = new List<PlayerHandler>();
+
         #endregion
 
-        #region Private SerializeFields 
+        #region Private SerializeFields
 
         [SerializeField] private Transform[] startPos;
         [SerializeField] private ItemBehaviour[] allItems;
@@ -42,15 +46,27 @@ namespace Collection.GameManager.Scripts
         {
             if (playerPrefab == null)
             {
-                Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
+                Debug.LogError(
+                    "<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",
+                    this);
             }
             else
             {
-                
                 Debug.Log("Instantiating LocalPlayer.");
 
-                // Get random Start pos (need just to test)
-                var index = (int) PhotonNetwork.LocalPlayer.CustomProperties["Position"];
+                var index = 0;
+                if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("Matchmaking"))
+                {
+                    if ((bool) PhotonNetwork.CurrentRoom.CustomProperties["Matchmaking"])
+                    {
+                        index = Random.Range(0, startPos.Length);
+                    }
+                }
+                else
+                {
+                    // Get random Start pos (need just to test)
+                    index = (int) PhotonNetwork.LocalPlayer.CustomProperties["Position"];
+                }
 
                 // Spawn playerPrefab for the local player.
                 PhotonNetwork.Instantiate("Prefabs/Player", startPos[index].position, Quaternion.identity);
@@ -58,9 +74,9 @@ namespace Collection.GameManager.Scripts
         }
 
         #endregion
-        
+
         #region Photon Callbacks
-        
+
         /// <summary>
         /// Called when the local player left the room. We need to load the launcher scene.
         /// </summary>
@@ -68,18 +84,16 @@ namespace Collection.GameManager.Scripts
         {
             SceneManager.LoadScene(1);
         }
-        
+
         public override void OnPlayerEnteredRoom(Player other)
         {
             // not seen if you're the player connecting
-            Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); 
-            
+            Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName);
+
             if (PhotonNetwork.IsMasterClient)
             {
                 // called before OnPlayerLeftRoom
-                Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); 
-                
-                LoadArena();
+                Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient);
             }
         }
 
@@ -87,21 +101,23 @@ namespace Collection.GameManager.Scripts
         public override void OnPlayerLeftRoom(Player other)
         {
             // seen when other disconnects
-            Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); 
+            Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName);
 
             if (PhotonNetwork.IsMasterClient)
             {
                 // called before OnPlayerLeftRoom
-                Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); 
-                
-                LoadArena();
+                Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient);
             }
         }
-        
+
         #endregion
-        
+
         #region Public Methods
 
+        public void AddPlayer(PlayerHandler playerHandler)
+        {
+            players.Add(playerHandler);
+        }
 
         public void Continue()
         {
@@ -127,28 +143,24 @@ namespace Collection.GameManager.Scripts
             Application.Quit();
         }
 
-        #endregion
-        
-        #region Private Methods
-
-        private void LoadArena()
+        public void OnMatchFinished()
         {
-            // Make sure only MasterClient can LoadLevel
-            if (!PhotonNetwork.IsMasterClient)
-            {
-                Debug.LogError("PhotonNetwork: Trying to Load a level but we are not the master Client");
-            }
-            Debug.LogFormat("PhotonNetwork: Loading Level: {0}", PhotonNetwork.CurrentRoom.PlayerCount);
+            var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
             
-            var randomMap = Random.Range(0, 3);
-            var map = randomMap switch
-            {
-                0 => "City",
-                1 => "Japan",
-                2 => "Mountains",
-                _ => "City"
-            };
-            PhotonNetwork.LoadLevel(map);
+            if (hashtable.ContainsKey("MatchFinished"))
+                hashtable["MatchFinished"] = true;
+            else
+                hashtable.Add("MatchFinished", true);
+
+            if (hashtable.ContainsKey("OldRoom"))
+                hashtable["OldRoom"] = PhotonNetwork.CurrentRoom.Name;
+            else
+                hashtable.Add("OldRoom", PhotonNetwork.CurrentRoom.Name);
+
+            if (hashtable.ContainsKey("WasMasterClient"))
+                hashtable["WasMasterClient"] = PhotonNetwork.IsMasterClient;
+            else
+                hashtable.Add("WasMasterClient", PhotonNetwork.IsMasterClient);
         }
 
         #endregion

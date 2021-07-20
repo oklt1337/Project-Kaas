@@ -85,6 +85,8 @@ namespace Collection.Network.Scripts
             if (_joinMatchmaking)
             {
                 PhotonNetwork.CreateRoom(null, new RoomOptions {MaxPlayers = maxPlayersPerRoom});
+                var hashtable = PhotonNetwork.CurrentRoom.CustomProperties;
+                hashtable.Add("Matchmaking", true);
             }
         }
 

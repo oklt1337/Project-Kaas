@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
-using Collection.Authentication.Scripts;
 using Photon.Pun;
 using Photon.Realtime;
-using PlayFab;
-using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -112,6 +108,9 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
 
         private void SetOnlineStatus(bool online, bool inRoom)
         {
+            Debug.Log(PhotonFriend.UserId + " is online = " + online);
+            Debug.Log(PhotonFriend.UserId + " is in room = " + inRoom);
+            
             if (online && !inRoom)
             {
                 OnlineStatus.color = Color.green;

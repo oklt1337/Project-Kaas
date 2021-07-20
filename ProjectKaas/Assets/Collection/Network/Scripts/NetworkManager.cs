@@ -1,6 +1,7 @@
 using System.Collections;
 using Collection.Authentication.Scripts;
 using Collection.Profile.Scripts;
+using Collection.UI.Scripts;
 using Photon.Pun;
 using Photon.Realtime;
 using PlayFab.ClientModels;
@@ -66,11 +67,50 @@ namespace Collection.Network.Scripts
         public override void OnJoinedLobby()
         {
             Debug.Log("Joined Lobby");
+
+            TurnBackToRoom();
         }
 
         #endregion
         
         #region Private Methods
+
+        private void TurnBackToRoom()
+        {
+            var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+
+            if (!hashtable.ContainsKey("MatchFinished")) return;
+            if (!(bool) hashtable["MatchFinished"]) return;
+            if (!hashtable.ContainsKey("WasMasterClient")) return;
+            
+            if ((bool) hashtable["WasMasterClient"])
+            {
+                if (!hashtable.ContainsKey("OldRoom")) return;
+                        
+                PhotonNetwork.CreateRoom((string) hashtable["OldRoom"]);
+
+                OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
+                OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
+                
+                hashtable.Remove("MatchFinished");
+                hashtable.Remove("WasMasterClient");
+                hashtable.Remove("OldRoom");
+
+                PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+            }
+            else
+            {
+                PhotonNetwork.JoinRoom((string) hashtable["OldRoom"]);
+                OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
+                OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
+
+                hashtable.Remove("MatchFinished");
+                hashtable.Remove("WasMasterClient");
+                hashtable.Remove("OldRoom");
+                
+                PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+            }
+        }
 
         private static IEnumerator SetPingCo()
         {
