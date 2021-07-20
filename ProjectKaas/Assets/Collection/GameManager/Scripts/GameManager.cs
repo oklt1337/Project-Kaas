@@ -160,10 +160,10 @@ namespace Collection.GameManager.Scripts
             else
                 hashtable.Add("OldRoom", PhotonNetwork.CurrentRoom.Name);
 
-            if (hashtable.ContainsKey("WasMasterClient"))
-                hashtable["WasMasterClient"] = PhotonNetwork.IsMasterClient;
+            if (hashtable.ContainsKey("MaxPlayer"))
+                hashtable["MaxPlayer"] = PhotonNetwork.CurrentRoom.MaxPlayers;
             else
-                hashtable.Add("WasMasterClient", PhotonNetwork.IsMasterClient);
+                hashtable.Add("MaxPlayer", PhotonNetwork.CurrentRoom.MaxPlayers);
         }
 
         #endregion

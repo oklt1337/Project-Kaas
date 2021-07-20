@@ -41,7 +41,7 @@ namespace Collection.Network.Scripts
             {
                 Instance = this;
             }
-            
+
             PlayFabAuthManager.OnLogOut.AddListener(SetRandomDefaultNickName);
             LocalProfile.OnProfileInitialized.AddListener(SetPhotonProfileValues);
         }
@@ -55,9 +55,9 @@ namespace Collection.Network.Scripts
             // Make sure coroutine doesnt run twice.
             if (_pingCo != null)
                 StopCoroutine(_pingCo);
-            
+
             _pingCo = StartCoroutine(SetPingCo());
-            
+
             var scene = SceneManager.GetActiveScene();
             if (!PhotonNetwork.InLobby && scene.buildIndex != 0)
             {
@@ -73,7 +73,7 @@ namespace Collection.Network.Scripts
         }
 
         #endregion
-        
+
         #region Private Methods
 
         private void TurnBackToRoom()
@@ -82,37 +82,23 @@ namespace Collection.Network.Scripts
 
             if (!hashtable.ContainsKey("MatchFinished")) return;
             if (!(bool) hashtable["MatchFinished"]) return;
-            if (!hashtable.ContainsKey("WasMasterClient")) return;
+            if (!hashtable.ContainsKey("OldRoom")) return;
+            if (!hashtable.ContainsKey("MaxPlayer")) return;
+
+            var options = new RoomOptions {MaxPlayers = (byte) hashtable["OldRoom"]};
             
-            if ((bool) hashtable["WasMasterClient"])
-            {
-                if (!hashtable.ContainsKey("OldRoom")) return;
-                        
-                PhotonNetwork.CreateRoom((string) hashtable["OldRoom"]);
+            if (hashtable["OldRoom"] == null) return;
+            PhotonNetwork.JoinOrCreateRoom((string) hashtable["OldRoom"], options, TypedLobby.Default);
 
-                AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(false);
-                OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
-                OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
-                
-                hashtable.Remove("MatchFinished");
-                hashtable.Remove("WasMasterClient");
-                hashtable.Remove("OldRoom");
+            OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
+            OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
 
-                PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
-            }
-            else
-            {
-                PhotonNetwork.JoinRoom((string) hashtable["OldRoom"]);
-                AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(false);
-                OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
-                OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
+            hashtable.Remove("MatchFinished");
+            hashtable.Remove("WasMasterClient");
+            hashtable.Remove("OldRoom");
+            hashtable.Remove("MaxPlayer");
 
-                hashtable.Remove("MatchFinished");
-                hashtable.Remove("WasMasterClient");
-                hashtable.Remove("OldRoom");
-                
-                PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
-            }
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
         }
 
         private static IEnumerator SetPingCo()
@@ -128,6 +114,7 @@ namespace Collection.Network.Scripts
                 {
                     hashtable["Ping"] = PhotonNetwork.GetPing();
                 }
+
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
 
                 yield return new WaitForSeconds(5f);

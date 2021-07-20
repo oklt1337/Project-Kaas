@@ -55,18 +55,6 @@ namespace Collection.Maps.Scripts
             DeterminePositions();
             
             currentStandings = allPlayersPositions;
-            if(!raceFinished)
-                return;
-
-            victoryScreenTime -= Time.deltaTime;
-            
-            if (!(victoryScreenTime < 0))
-                return;
-            
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LoadLevel(1);
-            }
         }
 
         /// <summary>
@@ -311,7 +299,7 @@ namespace Collection.Maps.Scripts
         {
             photonView.RPC("SetProps", RpcTarget.All);
             
-            yield return new WaitForSeconds(30f);
+            yield return new WaitForSeconds(victoryScreenTime);
             
             PhotonNetwork.LoadLevel(1);
         }
