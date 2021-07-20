@@ -99,7 +99,6 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
             
             
             PhotonNetwork.FindFriends(friendArray);
-            if (PhotonNetwork.Server != ServerConnection.GameServer)
         }
 
         #endregion
