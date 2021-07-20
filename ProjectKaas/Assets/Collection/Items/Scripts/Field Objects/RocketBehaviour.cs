@@ -1,3 +1,4 @@
+using System;
 using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using Unity.VisualScripting;
@@ -28,6 +29,11 @@ namespace Collection.Items.Scripts.Field_Objects
                 hitPlayer.Car.OnHit(1f);
                 PhotonNetwork.Destroy(gameObject);
             }
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 }

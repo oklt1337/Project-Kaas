@@ -43,5 +43,10 @@ namespace Collection.Items.Scripts.Field_Objects
                 PhotonNetwork.Destroy(gameObject);
             }
         }
+        
+        private void OnCollisionEnter(Collision other)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 }
