@@ -2,6 +2,7 @@ using System.Collections;
 using Collection.Authentication.Scripts;
 using Collection.Profile.Scripts;
 using Collection.UI.Scripts;
+using Collection.UI.Scripts.Login;
 using Photon.Pun;
 using Photon.Realtime;
 using PlayFab.ClientModels;
@@ -89,6 +90,7 @@ namespace Collection.Network.Scripts
                         
                 PhotonNetwork.CreateRoom((string) hashtable["OldRoom"]);
 
+                AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(false);
                 OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
                 OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
                 
@@ -101,6 +103,7 @@ namespace Collection.Network.Scripts
             else
             {
                 PhotonNetwork.JoinRoom((string) hashtable["OldRoom"]);
+                AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(false);
                 OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
                 OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
 
