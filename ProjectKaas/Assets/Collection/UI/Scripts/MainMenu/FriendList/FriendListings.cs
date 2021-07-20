@@ -97,10 +97,9 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
             var friendArray = new string[1];
             friendArray[0] = friend.FriendPlayFabId;
             
+            
+            PhotonNetwork.FindFriends(friendArray);
             if (PhotonNetwork.Server != ServerConnection.GameServer)
-            {
-                PhotonNetwork.FindFriends(friendArray);
-            }
         }
 
         #endregion

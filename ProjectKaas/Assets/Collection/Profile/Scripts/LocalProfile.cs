@@ -19,7 +19,7 @@ namespace Collection.Profile.Scripts
         #region Private Fields
 
         private float _updateInterval;
-        private const float StartInterval = 300f;
+        private const float StartInterval = 120f;
 
         #endregion
 
