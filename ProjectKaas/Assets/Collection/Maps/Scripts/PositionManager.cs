@@ -16,6 +16,9 @@ namespace Collection.Maps.Scripts
         [SerializeField] private List<PlayerHandler> allPlayersPositions;
         [SerializeField] private List<PlayerHandler> playersStandings;
         
+        
+        [SerializeField] private List<PlayerHandler> currentStandings;
+        
         [Header("Map")]
         [SerializeField] private byte lapCount;
         [SerializeField] private GameObject[] zones;
@@ -49,6 +52,7 @@ namespace Collection.Maps.Scripts
         {
             DeterminePositions();
             
+            currentStandings = allPlayersPositions;
             if(!raceFinished)
                 return;
 
@@ -75,9 +79,12 @@ namespace Collection.Maps.Scripts
             // Resetting the List. 
             allPlayersPositions = playersStandings;
             var players = SeparatedByLaps(allPlayers);
+            print("Players Length " + players.Length);
             
             if(players != null)
                 allPlayersPositions = SeparatedByZones(players);
+            
+            print(allPlayersPositions.Count);
         }
         
         /// <summary>
@@ -91,15 +98,25 @@ namespace Collection.Maps.Scripts
                 return null;
             
             var separatedPlayers = new PlayerHandler[lapCount+1, players.Count];
-
+            byte count = 0;
+            
             for (var i = 0; i < players.Count; i++)
             {
+                // Stops when every player is in the list.
+                if(count == players.Count)
+                    break;
+                
                 for (var j = 0; j < players.Count; j++)
                 {
                     // Sorts Players by their laps.
                     if (separatedPlayers[players[i].Car.LapCount, j] == null) 
                         continue;
+
+                    // Stops when every player is in the list.
+                    if(count == players.Count)
+                        break;
                     
+                    count++;
                     separatedPlayers[players[i].Car.LapCount, j] = players[i];
                     break;
                 }
@@ -125,14 +142,14 @@ namespace Collection.Maps.Scripts
                     sortedPlayers.Add(players[i, 0]);
                     continue;
                 }
-                
                 Sorter(ref players, i);
-
+                print("Post Sort Players Length "+players.Length);
                 for (var j = 0; j < allPlayers.Count; j++)
                 {
                     // Adds to list if existing and stops for when null.
                     if (players[i, j] != null)
                     {
+                        print(players[i,j]);
                         sortedPlayers.Add(players[i,j]);
                         
                         // Sets their position.
@@ -145,7 +162,7 @@ namespace Collection.Maps.Scripts
                     }
                 }
             }
-
+            
             return sortedPlayers;
         }
 
