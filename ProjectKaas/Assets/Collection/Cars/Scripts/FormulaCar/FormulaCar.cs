@@ -34,6 +34,7 @@ namespace Collection.Cars.Scripts.FormulaCar
             TurnStrength = turnStrength;
             GravityForce = gravityForce;
             
+            VisibleObj = new GameObject[5];
             VisibleObj[0] = body;
             VisibleObj[1] = wheelFl;
             VisibleObj[2] = wheelFr;
