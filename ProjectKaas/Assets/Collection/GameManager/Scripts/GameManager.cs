@@ -124,9 +124,9 @@ namespace Collection.GameManager.Scripts
 
         #region Public Methods
 
-        public void AddPlayer(PlayerHandler playerHandler)
+        public void AddPlayer(Player player)
         {
-            Players.Add(playerHandler);
+            Players.Add(player);
         }
 
         public void Continue()
