@@ -38,7 +38,6 @@ namespace Collection.NetworkPlayer.Scripts
         [SerializeField] private GameObject forwardItem;
         [SerializeField] private GameObject backItem;
         [SerializeField] private ItemBehaviour item;
-        [SerializeField] private string playerName;
 
         #endregion
         
@@ -88,7 +87,6 @@ namespace Collection.NetworkPlayer.Scripts
                 // make sure only one audioLister
                 audioListener.gameObject.SetActive(true);
                 LocalPlayer = PhotonNetwork.LocalPlayer;
-                playerName = LocalPlayer.NickName;
             }
 
             Initialize();

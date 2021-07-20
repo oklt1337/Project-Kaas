@@ -27340,7 +27340,7 @@ MonoBehaviour:
   allPlayersPositions: []
   playersStandings: []
   currentStandings: []
-  lapCount: 3
+  lapCount: 1
   zones:
   - {fileID: 2115132692}
   - {fileID: 1752966113}

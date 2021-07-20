@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Collection.Profile.Scripts;
 using Photon.Pun;
 using UnityEngine;
@@ -95,7 +96,7 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
         {
             Debug.Log("Updating FriendsListings");
 
-            foreach (var t in FriendList)
+            foreach (var t in FriendList.Where(t => t != null))
             {
                 Destroy(t.gameObject);
             }
