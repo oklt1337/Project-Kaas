@@ -79,6 +79,18 @@ namespace Collection.NetworkPlayer.Scripts
 
             if (photonView.IsMine)
             {
+                var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+
+                if (hashtable.ContainsKey("PlayerHandler"))
+                {
+                    hashtable["PlayerHandler"] = this;
+                }
+                else
+                {
+                    hashtable.Add("PlayerHandler", this);
+                }
+                PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+
                 photonView.RPC("RPCInitialized", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer);
                 
                 if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Controls"))

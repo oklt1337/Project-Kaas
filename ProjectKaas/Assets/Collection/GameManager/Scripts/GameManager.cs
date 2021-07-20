@@ -24,6 +24,7 @@ namespace Collection.GameManager.Scripts
         public ItemBehaviour[] AllItems => allItems;
 
         public readonly List<Player> Players = new List<Player>();
+        public readonly List<PlayerHandler> PlayerHandlers = new List<PlayerHandler>();
 
         #endregion
 
@@ -44,6 +45,14 @@ namespace Collection.GameManager.Scripts
 
         private void Start()
         {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                foreach (var t in Players.Where(t => t.CustomProperties.ContainsKey("PlayerHandler")))
+                {
+                    PlayerHandlers.Add((PlayerHandler) t.CustomProperties["PlayerHandler"]);
+                }
+            }
+
             if (playerPrefab == null)
             {
                 Debug.LogError(
