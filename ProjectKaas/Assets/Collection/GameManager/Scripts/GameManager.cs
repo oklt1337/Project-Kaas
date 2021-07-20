@@ -112,6 +112,16 @@ namespace Collection.GameManager.Scripts
 
         #endregion
 
+        #region MyRegion
+
+        [PunRPC]
+        private void RPCLeaveMatch()
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+
+        #endregion
+
         #region Public Methods
 
         public void AddPlayer(PlayerHandler playerHandler)
@@ -128,7 +138,7 @@ namespace Collection.GameManager.Scripts
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                PhotonNetwork.LoadLevel(1);
+                photonView.RPC("RPCLeaveMatch", RpcTarget.All);
             }
             else
             {
