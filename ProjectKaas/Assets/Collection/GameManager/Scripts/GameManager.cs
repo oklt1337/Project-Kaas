@@ -23,10 +23,6 @@ namespace Collection.GameManager.Scripts
 
         public ItemBehaviour[] AllItems => allItems;
 
-        public readonly List<Player> Players = new List<Player>();
-        public readonly List<string> PlayerIDs = new List<string>();
-        public readonly List<PlayerHandler> PlayerHandlers = new List<PlayerHandler>();
-
         #endregion
 
         #region Private SerializeFields
@@ -46,31 +42,6 @@ namespace Collection.GameManager.Scripts
 
         private void Start()
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                var playerList = PhotonNetwork.CurrentRoom.Players.Values.ToList();
-
-                foreach (var id in PlayerIDs)
-                {
-                    foreach (var player in playerList)
-                    {
-                        if (player.UserId == id)
-                        {
-                            Players.Add(player);
-                        }
-                    }
-                }
-                
-                foreach (var photonPlayer in Players.Where(t => t.CustomProperties.ContainsKey("PlayerHandler")))
-                {
-                    var playerHandler = (PlayerHandler) photonPlayer.CustomProperties["PlayerHandler"];
-                    playerHandler.LocalPlayer = photonPlayer;
-                    
-                    PlayerHandlers.Add(playerHandler);
-                    
-                }
-            }
-
             if (playerPrefab == null)
             {
                 Debug.LogError(
@@ -150,11 +121,6 @@ namespace Collection.GameManager.Scripts
         #endregion
 
         #region Public Methods
-
-        public void AddPlayer(string player)
-        {
-            PlayerIDs.Add(player);
-        }
 
         public void Continue()
         {

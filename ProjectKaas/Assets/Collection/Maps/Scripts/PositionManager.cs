@@ -279,7 +279,7 @@ namespace Collection.Maps.Scripts
             if(allPlayers.Count > 0)
                 return;
             
-            if (PhotonNetwork.IsMasterClient)
+            if (false)
             {
                 TextFixer();
             }

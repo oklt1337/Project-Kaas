@@ -76,20 +76,6 @@ namespace Collection.NetworkPlayer.Scripts
 
             if (photonView.IsMine)
             {
-                var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
-
-                if (hashtable.ContainsKey("PlayerHandler"))
-                {
-                    hashtable["PlayerHandler"] = this;
-                }
-                else
-                {
-                    hashtable.Add("PlayerHandler", this);
-                }
-                PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
-
-                photonView.RPC("RPCInitialized", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.UserId);
-                
                 if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Controls"))
                 {
                     Controls = (Controls) PhotonNetwork.LocalPlayer.CustomProperties["Controls"];
@@ -223,12 +209,6 @@ namespace Collection.NetworkPlayer.Scripts
             UIManagerInstance.ToggleUI();
             
             Car.SetObjInvisible();
-        }
-        
-        [PunRPC]
-        private void RPCInitialized(string userId)
-        {
-            GameManager.Scripts.GameManager.Gm.AddPlayer(userId);
         }
 
         #endregion
