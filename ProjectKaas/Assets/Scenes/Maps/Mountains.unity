@@ -23689,7 +23689,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1374092052}
         m_TargetAssemblyTypeName: Collection.UI.Scripts.Play.UIManager, Assembly-CSharp
         m_MethodName: OpenPauseMenu
         m_Mode: 1

@@ -259,6 +259,7 @@ MonoBehaviour:
   forwardItem: {fileID: 6979424336848346626}
   backItem: {fileID: 8410247916181415097}
   item: {fileID: 0}
+  playerName: 
   developerMode: 0
 --- !u!114 &1585927761891401565
 MonoBehaviour:

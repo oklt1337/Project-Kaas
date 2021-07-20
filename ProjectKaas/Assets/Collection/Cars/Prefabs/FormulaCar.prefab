@@ -574,9 +574,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lapCount: 1
+  zoneCount: 0
   place: 0
   myCamera: {fileID: 2223946783767071363}
-  maxSpeed: 150
+  maxSpeed: 135
   forwardAccel: 100
   reverseAccel: 50
   turnStrength: 200

@@ -107,10 +107,18 @@ namespace Collection.GameManager.Scripts
         {
             pauseMenu.SetActive(false);
         }
-        
+
         public void LeaveRoom()
         {
-            PhotonNetwork.LeaveRoom();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LoadLevel(1);
+            }
+            else
+            {
+                PhotonNetwork.LeaveRoom();
+                SceneManager.LoadScene(1);
+            }
         }
 
         public void Quit()

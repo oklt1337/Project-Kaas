@@ -4,7 +4,9 @@ using Collection.Profile.Scripts;
 using Photon.Pun;
 using Photon.Realtime;
 using PlayFab.ClientModels;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Collection.Network.Scripts
 {
@@ -53,6 +55,12 @@ namespace Collection.Network.Scripts
                 StopCoroutine(_pingCo);
             
             _pingCo = StartCoroutine(SetPingCo());
+            
+            var scene = SceneManager.GetActiveScene();
+            if (!PhotonNetwork.InLobby && scene.buildIndex != 0)
+            {
+                PhotonNetwork.JoinLobby();
+            }
         }
 
         public override void OnJoinedLobby()

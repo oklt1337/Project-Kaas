@@ -88,10 +88,9 @@ namespace Collection.UI.Scripts.Play
         /// </summary>
         public void ToggleUI()
         {
-            GameObject o;
-            (o = lapCount.gameObject).SetActive(lapCount.gameObject.activeSelf);
-            position.gameObject.SetActive(o.activeSelf);
-            currentItem.gameObject.SetActive(o.activeSelf);
+            lapCount.gameObject.SetActive(!lapCount.gameObject.activeSelf);
+            position.gameObject.SetActive(!position.gameObject.activeSelf);
+            currentItem.gameObject.SetActive(!currentItem.gameObject.activeSelf);
         }
     }
 }
