@@ -79,7 +79,7 @@ namespace Collection.NetworkPlayer.Scripts
 
             if (photonView.IsMine)
             {
-                photonView.RPC("RPCInitialized", RpcTarget.MasterClient, this);
+                //photonView.RPC("RPCInitialized", RpcTarget.MasterClient, this);
                 
                 if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Controls"))
                 {
