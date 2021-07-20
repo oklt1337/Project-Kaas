@@ -207,6 +207,7 @@ namespace Collection.NetworkPlayer.Scripts
             UIManagerInstance.ToggleUI();
             
             Car.SetObjInvisible();
+            Car.MyCarStates = Car.CarStates.Hit;
         }
 
         #endregion

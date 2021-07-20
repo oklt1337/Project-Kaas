@@ -719,11 +719,12 @@ MonoBehaviour:
   reverseAccel: 35
   turnStrength: 100
   gravityForce: 1
-  body: {fileID: 7953718250105973115}
-  wheelFl: {fileID: 7953804323389133313}
-  wheelFr: {fileID: 7953885140145941627}
-  wheelBl: {fileID: 7953598607089713641}
-  wheelBr: {fileID: 7954380384426988051}
+  visObj:
+  - {fileID: 7953718250105973115}
+  - {fileID: 7953598607089713641}
+  - {fileID: 7954380384426988051}
+  - {fileID: 7953804323389133313}
+  - {fileID: 7953885140145941627}
 --- !u!114 &2957269966001319870
 MonoBehaviour:
   m_ObjectHideFlags: 0
