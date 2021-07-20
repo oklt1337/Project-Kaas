@@ -88,7 +88,7 @@ namespace Collection.NetworkPlayer.Scripts
                 }
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
 
-                photonView.RPC("RPCInitialized", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer);
+                photonView.RPC("RPCInitialized", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.UserId);
                 
                 if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Controls"))
                 {
@@ -226,9 +226,9 @@ namespace Collection.NetworkPlayer.Scripts
         }
         
         [PunRPC]
-        private void RPCInitialized(Player player)
+        private void RPCInitialized(string userId)
         {
-            GameManager.Scripts.GameManager.Gm.AddPlayer(player);
+            GameManager.Scripts.GameManager.Gm.AddPlayer(userId);
         }
 
         #endregion
