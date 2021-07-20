@@ -74,7 +74,7 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
             if (index != -1)
             {
                 PhotonFriend = friendList[index];
-                Debug.Log("Friendlist updated.");
+                Debug.Log("Photon FriendList updated.");
                 SetOnlineStatus(PhotonFriend.IsOnline, PhotonFriend.IsInRoom);
             }
             else
@@ -96,8 +96,7 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
             
             var friendArray = new string[1];
             friendArray[0] = friend.FriendPlayFabId;
-            
-            
+
             PhotonNetwork.FindFriends(friendArray);
         }
 
