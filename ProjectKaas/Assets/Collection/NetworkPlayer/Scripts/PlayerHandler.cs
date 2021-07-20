@@ -200,11 +200,6 @@ namespace Collection.NetworkPlayer.Scripts
             }
         }
 
-        private void RPCInitialized(PlayerHandler playerHandler)
-        {
-            GameManager.Scripts.GameManager.Gm.AddPlayer(playerHandler);
-        }
-
         /// <summary>
         /// Turns everything off after Finishing.
         /// </summary>
@@ -217,6 +212,12 @@ namespace Collection.NetworkPlayer.Scripts
             LocalRaceState = RaceState.PreStart;
             hudPrefab.gameObject.SetActive(false);
             UIManagerInstance.ToggleUI();
+        }
+        
+        [PunRPC]
+        private void RPCInitialized(PlayerHandler playerHandler)
+        {
+            GameManager.Scripts.GameManager.Gm.AddPlayer(playerHandler);
         }
 
         #endregion

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
@@ -264,6 +265,11 @@ namespace Collection.Maps.Scripts
             TextFixer();
             victoryScreen.SetActive(true);
             raceFinished = true;
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                StartCoroutine(EndMapCo());
+            }
         }
 
         /// <summary>
@@ -278,6 +284,21 @@ namespace Collection.Maps.Scripts
                 print(playersStandings[i].LocalPlayer.NickName);
                 victoryScreenText.text += i + ".       " + playersStandings[i].LocalPlayer.NickName + "\n\n";
             }
+        }
+
+        private IEnumerator EndMapCo()
+        {
+            photonView.RPC("SetProps", RpcTarget.All);
+            
+            yield return new WaitForSeconds(30f);
+            
+            PhotonNetwork.LoadLevel(1);
+        }
+
+        [PunRPC]
+        private void SetProps()
+        {
+            GameManager.Scripts.GameManager.Gm.OnMatchFinished();
         }
     }
 }
