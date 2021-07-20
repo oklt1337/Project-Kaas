@@ -465,7 +465,7 @@ MonoBehaviour:
   forwardAccel: 80
   reverseAccel: 25
   turnStrength: 150
-  gravityForce: 10
+  gravityForce: 1
   body: {fileID: 1433076944000706334}
   wheelFl: {fileID: 631678978652216114}
   wheelFr: {fileID: 3622781247223165337}
