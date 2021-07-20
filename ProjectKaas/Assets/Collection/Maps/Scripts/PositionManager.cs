@@ -37,6 +37,8 @@ namespace Collection.Maps.Scripts
         public byte LapCount => lapCount;
         
         public List<PlayerHandler> AllPlayers => allPlayers;
+
+        public bool RaceFinished => raceFinished;
         
         private void Awake()
         {

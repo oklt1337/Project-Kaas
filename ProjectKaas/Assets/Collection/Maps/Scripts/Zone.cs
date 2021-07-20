@@ -17,10 +17,10 @@ namespace Collection.Maps.Scripts
             var player = other.gameObject.GetComponentInParent<PlayerHandler>();
             
             // Checks if the zone of the player is one lower then the own count.
-            if (player.Car.ZoneCount + 1 != index) 
-                return;
-            
-            player.Car.OnNextZone();
+            if (player.Car.ZoneCount + 1 == index && !PositionManager.PositionManagerInstance.RaceFinished)
+            {
+                player.Car.OnNextZone();
+            }
         }
     }
 }
