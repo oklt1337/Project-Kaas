@@ -94,11 +94,14 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
             DisplayName.text = friend.TitleDisplayName;
             
             SetOnlineStatus(false,false);
-            
-            var friendArray = new string[1];
-            friendArray[0] = friend.FriendPlayFabId;
 
-            PhotonNetwork.FindFriends(friendArray);
+            if (!PhotonNetwork.InRoom)
+            {
+                var friendArray = new string[1];
+                friendArray[0] = friend.FriendPlayFabId;
+
+                PhotonNetwork.FindFriends(friendArray);
+            }
         }
 
         #endregion
