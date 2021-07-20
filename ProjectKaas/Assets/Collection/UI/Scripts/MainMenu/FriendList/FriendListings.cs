@@ -74,6 +74,7 @@ namespace Collection.UI.Scripts.MainMenu.FriendList
             if (index != -1)
             {
                 PhotonFriend = friendList[index];
+                Debug.Log("Friendlist updated.");
                 SetOnlineStatus(PhotonFriend.IsOnline, PhotonFriend.IsInRoom);
             }
             else
