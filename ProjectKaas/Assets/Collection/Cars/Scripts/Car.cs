@@ -120,9 +120,6 @@ namespace Collection.Cars.Scripts
             {
                 t.SetActive(false);
             }
-
-            var col = CarControllerHandler.MoveSphere.GetComponent<SphereCollider>();
-            col.isTrigger = true;
         }
         
         #endregion
