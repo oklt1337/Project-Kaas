@@ -9,7 +9,7 @@ namespace Collection.Maps.Scripts
     {
         [SerializeField] private byte index;
         
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerExit(Collider other)
         {
             if (!other.gameObject.CompareTag("Player") && !other.isTrigger)
                 return;
