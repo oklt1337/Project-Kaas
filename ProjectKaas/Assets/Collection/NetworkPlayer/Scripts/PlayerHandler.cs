@@ -208,6 +208,7 @@ namespace Collection.NetworkPlayer.Scripts
             
             Car.SetObjInvisible();
             Car.MyCarStates = Car.CarStates.Hit;
+            PlayerInputHandler.MovementInput = Vector2.zero;
         }
 
         #endregion

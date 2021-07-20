@@ -15,7 +15,7 @@ namespace Collection.NetworkPlayer.Scripts
 
         private bool _gasPressed;
 
-        public Vector2 MovementInput { get; private set; }
+        public Vector2 MovementInput { get; set; }
 
         private bool _gotInst;
 
