@@ -164,8 +164,6 @@ namespace Collection.GameManager.Scripts
                 hashtable["MaxPlayer"] = PhotonNetwork.CurrentRoom.MaxPlayers;
             else
                 hashtable.Add("MaxPlayer", PhotonNetwork.CurrentRoom.MaxPlayers);
-
-            PhotonNetwork.LeaveRoom();
         }
 
         #endregion

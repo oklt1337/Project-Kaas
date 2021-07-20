@@ -301,13 +301,19 @@ namespace Collection.Maps.Scripts
             
             yield return new WaitForSeconds(victoryScreenTime);
             
-            PhotonNetwork.LoadLevel(1);
+            photonView.RPC("RPCLeaveMatch", RpcTarget.All);
         }
 
         [PunRPC]
         private void SetProps()
         {
             GameManager.Scripts.GameManager.Gm.OnMatchFinished();
+        }
+        
+        [PunRPC]
+        private void RPCLeaveMatch()
+        {
+            PhotonNetwork.LeaveRoom();
         }
     }
 }
