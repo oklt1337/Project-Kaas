@@ -27352,7 +27352,7 @@ MonoBehaviour:
   victoryScreen: {fileID: 134228013}
   victoryScreenText: {fileID: 1298832625}
   raceFinished: 0
-  victoryScreenTime: 5
+  victoryScreenTime: 30
 --- !u!114 &1644172341
 MonoBehaviour:
   m_ObjectHideFlags: 0
