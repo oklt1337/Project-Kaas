@@ -711,6 +711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lapCount: 1
+  zoneCount: 0
   place: 0
   myCamera: {fileID: 5288521019295998122}
   maxSpeed: 90
@@ -718,6 +719,11 @@ MonoBehaviour:
   reverseAccel: 35
   turnStrength: 100
   gravityForce: 10
+  body: {fileID: 7953718250105973115}
+  wheelFl: {fileID: 7953804323389133313}
+  wheelFr: {fileID: 7953885140145941627}
+  wheelBl: {fileID: 7953598607089713641}
+  wheelBr: {fileID: 7954380384426988051}
 --- !u!114 &2957269966001319870
 MonoBehaviour:
   m_ObjectHideFlags: 0

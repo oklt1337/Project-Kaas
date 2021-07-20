@@ -582,6 +582,11 @@ MonoBehaviour:
   reverseAccel: 50
   turnStrength: 200
   gravityForce: 10
+  body: {fileID: 1497690301921832895}
+  wheelFl: {fileID: 188229265786572049}
+  wheelFr: {fileID: 0}
+  wheelBl: {fileID: 3848487617032124601}
+  wheelBr: {fileID: 4433192966516318244}
 --- !u!114 &8123011509274844079
 MonoBehaviour:
   m_ObjectHideFlags: 0

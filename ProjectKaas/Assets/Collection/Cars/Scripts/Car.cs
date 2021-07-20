@@ -35,6 +35,8 @@ namespace Collection.Cars.Scripts
         public float ReverseAccel { get; internal set; }
         public float TurnStrength { get; internal set; }
         public float GravityForce { get; internal set; }
+        
+        public GameObject[] VisibleObj { get; internal set; }
 
         // For the position manager.
         public int place;
@@ -110,6 +112,17 @@ namespace Collection.Cars.Scripts
             {
                 OnNextLap();
             }
+        }
+
+        public void SetObjInvisible()
+        {
+            foreach (var t in VisibleObj)
+            {
+                t.SetActive(false);
+            }
+
+            var col = CarControllerHandler.MoveSphere.GetComponent<SphereCollider>();
+            col.isTrigger = true;
         }
         
         #endregion

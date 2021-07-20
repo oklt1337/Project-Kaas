@@ -15,6 +15,12 @@ namespace Collection.Cars.Scripts.PassengerCar
         [SerializeField] private float reverseAccel = 25f;
         [SerializeField] private float turnStrength = 150f;
         [SerializeField] private float gravityForce = 10f;
+        
+        [SerializeField] private GameObject body;
+        [SerializeField] private GameObject wheelFl;
+        [SerializeField] private GameObject wheelFr;
+        [SerializeField] private GameObject wheelBl;
+        [SerializeField] private GameObject wheelBr;
 
         #endregion
 
@@ -27,6 +33,12 @@ namespace Collection.Cars.Scripts.PassengerCar
             ReverseAccel = reverseAccel;
             TurnStrength = turnStrength;
             GravityForce = gravityForce;
+            
+            VisibleObj[0] = body;
+            VisibleObj[1] = wheelFl;
+            VisibleObj[2] = wheelFr;
+            VisibleObj[3] = wheelBl;
+            VisibleObj[4] = wheelBr;
         }
 
         #endregion

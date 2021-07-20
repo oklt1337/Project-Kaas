@@ -29,6 +29,8 @@ namespace Collection.Cars.Scripts
         internal float Speed => _speed;
         internal GameObject MoveSphere => moveSphere;
 
+        internal Rigidbody Rigidbody => rigidbody;
+
         #endregion
 
         #region MonoBehaviour CallBacks
