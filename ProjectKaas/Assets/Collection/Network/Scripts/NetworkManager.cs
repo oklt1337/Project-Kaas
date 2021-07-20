@@ -85,7 +85,7 @@ namespace Collection.Network.Scripts
             if (!hashtable.ContainsKey("OldRoom")) return;
             if (!hashtable.ContainsKey("MaxPlayer")) return;
 
-            var options = new RoomOptions {MaxPlayers = (byte) hashtable["OldRoom"]};
+            var options = new RoomOptions {MaxPlayers = (byte) hashtable["MaxPlayer"]};
             
             if (hashtable["OldRoom"] == null) return;
             PhotonNetwork.JoinOrCreateRoom((string) hashtable["OldRoom"], options, TypedLobby.Default);
