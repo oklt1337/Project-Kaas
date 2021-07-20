@@ -63,11 +63,8 @@ namespace Collection.NetworkPlayer.Scripts
         
         public Controls Controls { get; private set; }
         
-        public Player LocalPlayer { get; private set; }
+        public Player LocalPlayer { get; set; }
 
-        public string PlayerName => playerName;
-        
-        
         #endregion
 
         #region MonoBehaviour Callbacks

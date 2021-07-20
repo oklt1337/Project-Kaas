@@ -47,9 +47,13 @@ namespace Collection.GameManager.Scripts
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                foreach (var t in Players.Where(t => t.CustomProperties.ContainsKey("PlayerHandler")))
+                foreach (var photonPlayer in Players.Where(t => t.CustomProperties.ContainsKey("PlayerHandler")))
                 {
-                    PlayerHandlers.Add((PlayerHandler) t.CustomProperties["PlayerHandler"]);
+                    var playerHandler = (PlayerHandler) photonPlayer.CustomProperties["PlayerHandler"];
+                    playerHandler.LocalPlayer = photonPlayer;
+                    
+                    PlayerHandlers.Add(playerHandler);
+                    
                 }
             }
 

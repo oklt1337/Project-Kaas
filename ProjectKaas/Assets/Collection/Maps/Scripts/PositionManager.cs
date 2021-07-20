@@ -279,7 +279,11 @@ namespace Collection.Maps.Scripts
             if(allPlayers.Count > 0)
                 return;
             
-            TextFixer();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                TextFixer();
+            }
+            
             victoryScreen.SetActive(true);
             raceFinished = true;
 
@@ -297,9 +301,7 @@ namespace Collection.Maps.Scripts
             victoryScreenText.text = null;
             for (var i = 0; i < playersStandings.Count; i++)
             {
-                print(i);
-                //print(playersStandings[i].LocalPlayer.NickName);
-                //victoryScreenText.text += i + ".       " + playersStandings[i].LocalPlayer.NickName + "\n\n";
+                victoryScreenText.text += i + ".       " + playersStandings[i].LocalPlayer.NickName + "\n\n";
             }
         }
 
