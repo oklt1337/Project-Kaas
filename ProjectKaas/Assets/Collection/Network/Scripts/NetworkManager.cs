@@ -76,7 +76,7 @@ namespace Collection.Network.Scripts
 
         #region Private Methods
 
-        private void TurnBackToRoom()
+        private static void TurnBackToRoom()
         {
             var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
 
@@ -90,6 +90,7 @@ namespace Collection.Network.Scripts
             if (hashtable["OldRoom"] == null) return;
             PhotonNetwork.JoinOrCreateRoom((string) hashtable["OldRoom"], options, TypedLobby.Default);
 
+            AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(false);
             OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
             OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
 
