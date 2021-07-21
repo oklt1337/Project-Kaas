@@ -172,6 +172,7 @@ namespace Collection.NetworkPlayer.Scripts
                 
                 // Instantiate hud
                 var hudObj = Instantiate(hudPrefab);
+                hudObj.SetActive(true);
                 CanvasHandler = hudObj.GetComponent<CanvasHandler>();
                 CanvasHandler.ChangeControls(Controls);
                 
