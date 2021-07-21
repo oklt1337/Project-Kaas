@@ -52,20 +52,10 @@ namespace Collection.GameManager.Scripts
             {
                 Debug.Log("Instantiating LocalPlayer.");
 
-                var index = 0;
-                if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("Matchmaking"))
-                {
-                    if ((bool) PhotonNetwork.CurrentRoom.CustomProperties["Matchmaking"])
-                    {
-                        index = Random.Range(0, startPos.Length);
-                    }
-                }
-                else
-                {
-                    // Get random Start pos (need just to test)
-                    index = (int) PhotonNetwork.LocalPlayer.CustomProperties["Position"];
-                }
 
+                // Get random Start pos (need just to test)
+                var index = (int) PhotonNetwork.LocalPlayer.CustomProperties["Position"];
+                
                 // Spawn playerPrefab for the local player.
                 PhotonNetwork.Instantiate("Prefabs/Player", startPos[index].position, Quaternion.identity);
             }
@@ -149,7 +139,7 @@ namespace Collection.GameManager.Scripts
         public void OnMatchFinished()
         {
             var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
-            
+
             if (hashtable.ContainsKey("MatchFinished"))
                 hashtable["MatchFinished"] = true;
             else

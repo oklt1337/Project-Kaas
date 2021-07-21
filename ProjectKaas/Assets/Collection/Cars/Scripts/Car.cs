@@ -35,13 +35,19 @@ namespace Collection.Cars.Scripts
         public float ReverseAccel { get; internal set; }
         public float TurnStrength { get; internal set; }
         public float GravityForce { get; internal set; }
-        
+
         public GameObject[] VisibleObj { get; internal set; }
 
         // For the position manager.
         public int place;
         public byte LapCount => lapCount;
         public byte ZoneCount => zoneCount;
+
+        #endregion
+
+        #region Private Fields
+
+        private bool _isSpeedChange;
 
         #endregion
 
@@ -75,7 +81,10 @@ namespace Collection.Cars.Scripts
 
         public void ChangeSpeed(float speedUpValue,float duration)
         {
-            StartCoroutine(ChangeSpeedCo(speedUpValue, duration));
+            if (!_isSpeedChange)
+            {
+                StartCoroutine(ChangeSpeedCo(speedUpValue, duration));
+            }
         }
 
         /// <summary>
@@ -135,6 +144,7 @@ namespace Collection.Cars.Scripts
 
         private IEnumerator ChangeSpeedCo(float speedUpValue,float duration)
         {
+            _isSpeedChange = true;
             var oldMaxSpeed = MaxSpeed;
             var oldForwardAccel = ForwardAccel;
 
@@ -145,6 +155,7 @@ namespace Collection.Cars.Scripts
             
             MaxSpeed = oldMaxSpeed;
             ForwardAccel = oldForwardAccel;
+            _isSpeedChange = false;
         }
 
         #endregion
