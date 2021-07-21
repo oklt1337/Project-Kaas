@@ -48,6 +48,15 @@ namespace Collection.UI.Scripts.Play.Room
 
         #endregion
 
+        #region MonoBehaviour Callbacks
+
+        private void Update()
+        {
+            playerCount.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
+        }
+
+        #endregion
+
         #region Photon Callbacks
 
         public override void OnEnable()
