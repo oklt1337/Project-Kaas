@@ -84,7 +84,7 @@ namespace Collection.Maps.Scripts
             if (players == null)
                 return null;
             
-            var separatedPlayers = new PlayerHandler[lapCount+1, players.Count];
+            var separatedPlayers = new PlayerHandler[LapCount+2, players.Count];
             byte count = 0;
             
             for (var i = 1; i < LapCount + 1; i++)
@@ -116,7 +116,7 @@ namespace Collection.Maps.Scripts
             var sortedPlayers = new List<PlayerHandler>();
             
             // Repeated for every lap backwards.
-            for (var i = LapCount+1; i <= 0; i--)
+            for (var i = LapCount+1; i > 0; i--)
             {
                 // Skips process when no player is at that lap. 
                 if(players[i,0] == null)
@@ -129,15 +129,13 @@ namespace Collection.Maps.Scripts
                     continue;
                 }
                 
-                print("penis");
-                Sorter(ref players, i);
-                print("Post Sort Players Length "+players.Length);
+                //Sorter(ref players, i);
+                
                 for (var j = 0; j < allPlayers.Count; j++)
                 {
                     // Adds to list if existing and stops for when null.
                     if (players[i, j] != null)
                     {
-                        print(players[i,j]);
                         sortedPlayers.Add(players[i,j]);
                         
                         // Sets their position.
@@ -162,12 +160,14 @@ namespace Collection.Maps.Scripts
         private void Sorter(ref PlayerHandler[,] array, int index)
         {
             var sortedPlayers = new PlayerHandler[allPlayers.Count];
-            for (var i = Zones.Length; i <= 0; i--)
+            for (var i = Zones.Length; i > 0; i--)
             {
                 byte playersInSameZone = 0;
                 var passedAllChecks = true;
                 for (var j = 0; j < array.Length; j++)
                 {
+                    print("index: " + index);
+                    print("j: " + j);
                     // Ends for-loop when there is no car anymore.
                     if(array[index,j] == null)
                         break;
@@ -219,7 +219,10 @@ namespace Collection.Maps.Scripts
                 }
             }
             
-            array.SetValue(sortedPlayers,index);
+            print(sortedPlayers[0].transform.position);
+            print(sortedPlayers[1].transform.position);
+            
+            //array.SetValue(sortedPlayers,index);
         }
 
         /// <summary>
