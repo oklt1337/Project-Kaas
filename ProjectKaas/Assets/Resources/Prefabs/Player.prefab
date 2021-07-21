@@ -255,6 +255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hudPrefab: {fileID: 7017989022037011160, guid: b6c1ed8c6eccc1644bcd2aea173d31dd,
     type: 3}
+  infoUI: {fileID: 334899650961709165, guid: 162adb3f269973240998271ff3ee8107, type: 3}
   audioListener: {fileID: 4627096007512237027}
   forwardItem: {fileID: 6979424336848346626}
   backItem: {fileID: 8410247916181415097}

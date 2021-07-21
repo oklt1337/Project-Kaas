@@ -69,19 +69,16 @@ namespace Collection.Maps.Scripts
             // Resetting the List. 
             allPlayersPositions = playersStandings;
             var players = SeparatedByLaps(allPlayers);
-            print("Players Length " + players.Length);
-            
+
             if(players != null)
                 allPlayersPositions = SeparatedByZones(players);
-            
-            print(allPlayersPositions.Count);
         }
         
         /// <summary>
         /// Separates the players by their laps.
         /// </summary>
         /// <param name="players"> The player list you want to have sorted. </param>
-        /// <returns> a list of players that is separated by their laps</returns>
+        /// <returns> A list of players that is separated by their laps. </returns>
         private PlayerHandler[,] SeparatedByLaps(List<PlayerHandler> players)
         {
             if (players == null)
@@ -90,7 +87,7 @@ namespace Collection.Maps.Scripts
             var separatedPlayers = new PlayerHandler[lapCount+1, players.Count];
             byte count = 0;
             
-            for (var i = 0; i < players.Count; i++)
+            for (var i = 1; i < LapCount + 1; i++)
             {
                 // Stops when every player is in the list.
                 if(count == players.Count)
@@ -99,16 +96,15 @@ namespace Collection.Maps.Scripts
                 for (var j = 0; j < players.Count; j++)
                 {
                     // Sorts Players by their laps.
-                    if (separatedPlayers[players[i].Car.LapCount, j] == null) 
+                    if (players[j].Car.LapCount != i) 
                         continue;
-
+                    
                     // Stops when every player is in the list.
                     if(count == players.Count)
                         break;
                     
                     count++;
-                    separatedPlayers[players[i].Car.LapCount, j] = players[i];
-                    break;
+                    separatedPlayers[i, j] = players[j];
                 }
             }
             
@@ -132,6 +128,8 @@ namespace Collection.Maps.Scripts
                     sortedPlayers.Add(players[i, 0]);
                     continue;
                 }
+                
+                print("penis");
                 Sorter(ref players, i);
                 print("Post Sort Players Length "+players.Length);
                 for (var j = 0; j < allPlayers.Count; j++)

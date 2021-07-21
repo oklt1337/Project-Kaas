@@ -46,8 +46,6 @@ namespace Collection.Maps.Scripts
             
             text.gameObject.SetActive(false);
             gameObject.SetActive(false);
-            UIManagerInstance.gameObject.SetActive(true);
-            UIManagerInstance.FindLocalPlayer(PositionManagerInstance.AllPlayers);
         }
 
         public void RoundStart()

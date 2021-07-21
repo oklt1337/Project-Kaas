@@ -29,7 +29,6 @@ namespace Collection.GameManager.Scripts
 
         [SerializeField] private Transform[] startPos;
         [SerializeField] private ItemBehaviour[] allItems;
-        [SerializeField] private GameObject pauseMenu;
 
         #endregion
 
@@ -111,30 +110,6 @@ namespace Collection.GameManager.Scripts
         #endregion
 
         #region Public Methods
-
-        public void Continue()
-        {
-            pauseMenu.SetActive(false);
-        }
-
-        public void LeaveRoom()
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("RPCLeaveMatch", RpcTarget.All);
-            }
-            else
-            {
-                PhotonNetwork.LeaveRoom();
-                SceneManager.LoadScene(1);
-            }
-        }
-
-        public void Quit()
-        {
-            LeaveRoom();
-            Application.Quit();
-        }
 
         public void OnMatchFinished()
         {

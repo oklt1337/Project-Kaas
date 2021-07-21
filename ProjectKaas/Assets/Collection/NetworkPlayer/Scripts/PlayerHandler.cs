@@ -34,6 +34,7 @@ namespace Collection.NetworkPlayer.Scripts
         #region Private Serializeable Fields
 
         [SerializeField] private GameObject hudPrefab;
+        [SerializeField] private GameObject infoUI;
         [SerializeField] private GameObject audioListener;
         [SerializeField] private GameObject forwardItem;
         [SerializeField] private GameObject backItem;
@@ -175,6 +176,8 @@ namespace Collection.NetworkPlayer.Scripts
                 hudObj.SetActive(true);
                 CanvasHandler = hudObj.GetComponent<CanvasHandler>();
                 CanvasHandler.ChangeControls(Controls);
+
+                Instantiate(infoUI);
                 
                 // Initialize playerHandler
                 PlayerInputHandler.Initialize(CanvasHandler.Joystick, CanvasHandler.ItemButton, CanvasHandler.GasButton);
@@ -205,7 +208,7 @@ namespace Collection.NetworkPlayer.Scripts
 
             LocalRaceState = RaceState.PreStart;
             hudPrefab.gameObject.SetActive(false);
-            UIManagerInstance.ToggleUI();
+            infoUI.gameObject.SetActive(false);
             
             Car.SetObjInvisible();
             Car.MyCarStates = Car.CarStates.Hit;
