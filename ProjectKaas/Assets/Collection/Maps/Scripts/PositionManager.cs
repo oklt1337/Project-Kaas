@@ -132,7 +132,7 @@ namespace Collection.Maps.Scripts
             // Repeated for every lap backwards.
             for (var i = LapCount + 1; i > 0; i--)
             {
-                Sorter(ref players, i);
+                //Sorter(ref players, i);
 
                 for (var j = 0; j < allPlayers.Count; j++)
                 {
