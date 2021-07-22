@@ -12,13 +12,18 @@ namespace Collection.Items.Scripts.Field_Objects
         [SerializeField] private GameObject target;
         [SerializeField] private NavMeshAgent agent;
 
-        private void FixedUpdate()
+        private void Start()
+        {
+            agent.updateRotation = true;
+        }
+
+        private void Update()
         {
             if(target == null)
                 return;
-
-            agent.updateRotation = true;
+            
             agent.SetDestination(target.transform.position);
+            transform.localRotation = Quaternion.Euler(90,0,0);
         }
         
         /// <summary>

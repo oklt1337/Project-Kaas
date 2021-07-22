@@ -11,9 +11,10 @@ namespace Collection.Items.Scripts.Field_Objects
         [SerializeField] private float speed;
         [SerializeField] private Vector3 flyVector;
         
-        public void FixedUpdate()
+        public void Update()
         {
             transform.position += flyVector * (speed * Time.deltaTime);
+            transform.localRotation = Quaternion.Euler(90,0,0);
         }
 
         /// <summary>
