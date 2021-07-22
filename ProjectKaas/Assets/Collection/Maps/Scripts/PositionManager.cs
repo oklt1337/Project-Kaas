@@ -132,7 +132,7 @@ namespace Collection.Maps.Scripts
             // Repeated for every lap backwards.
             for (var i = LapCount + 1; i > 0; i--)
             {
-                //Sorter(ref players, i);
+                Sorter(ref players, i);
 
                 for (var j = 0; j < allPlayers.Count; j++)
                 {
@@ -158,21 +158,23 @@ namespace Collection.Maps.Scripts
         private void Sorter(ref PlayerHandler[,] array, int index)
         {
             var sortedPlayers = new PlayerHandler[allPlayers.Count];
-            for (var i = Zones.Length; i > 0; i--)
+            
+            for (var i = Zones.Length; i > -1; i--)
             {
-                byte playersInSameZone = 0;
+                byte playersInSameZone = 1;
                 var passedAllChecks = true;
-                for (var j = 0; j < array.Length; j++)
+                for (var j = 0; j < array.GetLength(1); j++)
                 {
                     // Skip when there is no car.
                     if (array[index, j] == null)
                         continue;
-
+                    
                     // Skips car if it isn't in the Zone.
                     if (array[index, j].Car.ZoneCount != i)
                         continue;
-
+                    
                     playersInSameZone++;
+                    
                     // Searches for a free space in the new array.
                     for (var k = 0; k < sortedPlayers.Length; k++)
                     {
@@ -183,14 +185,33 @@ namespace Collection.Maps.Scripts
                             if (sortedPlayers[k].Car.ZoneCount != i)
                                 continue;
 
+
+                            GameObject nextZone;
+
+                            if (Zones.Length == i + 1)
+                            {
+                                nextZone = Zones[0];
+                            }
+                            else
+                            {
+                                nextZone = Zones[i + 1];
+                            }
+                            
                             passedAllChecks = false;
                             var currentCarDistance =
-                                (Zones[i + 1].transform.position - array[index, j].transform.position).magnitude;
+                                (nextZone.transform.position - array[index, j].transform.position).magnitude;
 
                             // Compares Distance to next Zone with the other cars.
                             for (var l = 0; l < playersInSameZone; l++)
                             {
-                                var carDistance = (Zones[i + 1].transform.position -
+                                // When there isn't a next car.
+                                if (sortedPlayers[k + l] == null)
+                                {
+                                    sortedPlayers[k + l] = array[index, j];
+                                    break;
+                                }
+                                
+                                var carDistance = (nextZone.transform.position -
                                                    sortedPlayers[k + l].transform.position)
                                     .magnitude;
                                 if (currentCarDistance < carDistance)
@@ -209,14 +230,19 @@ namespace Collection.Maps.Scripts
 
                         if (!passedAllChecks)
                             break;
-
+                        
                         array[index, j].Car.place = (byte) k;
                         sortedPlayers[k] = array[index, j];
                         break;
                     }
                 }
             }
-            //array.SetValue(sortedPlayers,index);
+
+            // Manually filling the sorted array.
+            for (var i = 0; i < sortedPlayers.Length; i++)
+            {
+                array[index, i] = sortedPlayers[i];
+            }
         }
 
         /// <summary>
