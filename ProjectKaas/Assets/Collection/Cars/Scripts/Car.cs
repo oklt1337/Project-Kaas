@@ -156,6 +156,7 @@ namespace Collection.Cars.Scripts
             MaxSpeed = oldMaxSpeed;
             ForwardAccel = oldForwardAccel;
             _isSpeedChange = false;
+            PlayerHandler.ItemState = ItemState.None;
         }
 
         #endregion

@@ -11,6 +11,7 @@ namespace Collection.Items.Scripts
         public override void OnUse()
         {
             var boostedPlayer = Owner.GetComponent<PlayerHandler>();
+            boostedPlayer.ItemState = ItemState.Nitro;
             boostedPlayer.Car.ChangeSpeed(speedUpValue,speedUpTime);
             base.OnUse();
         }

@@ -9,7 +9,11 @@ namespace Collection.Maps.Scripts
         {
             if (!other.gameObject.CompareTag("Player")) return;
             var playerHandler = other.GetComponentInParent<PlayerHandler>();
-            playerHandler.Car.ChangeSpeed(-playerHandler.Car.MaxSpeed * 0.5f, 1f);
+
+            if (playerHandler.ItemState != ItemState.Nitro)
+            {
+                playerHandler.Car.ChangeSpeed(-playerHandler.Car.MaxSpeed * 0.5f, 1f);
+            }
         }
     }
 }

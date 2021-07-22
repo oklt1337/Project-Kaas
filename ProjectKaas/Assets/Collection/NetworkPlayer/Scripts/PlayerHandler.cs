@@ -28,6 +28,12 @@ namespace Collection.NetworkPlayer.Scripts
         Tilt
     }
 
+    public enum ItemState
+    {
+        None,
+        Nitro
+    }
+
     [RequireComponent(typeof(PlayerInputHandler))]
     public class PlayerHandler : MonoBehaviourPun
     {
@@ -64,6 +70,8 @@ namespace Collection.NetworkPlayer.Scripts
         public Player LocalPlayer { get; set; }
 
         public int ActorNumber { get; set; }
+        
+        public ItemState ItemState { get; set; }
 
         #endregion
 
