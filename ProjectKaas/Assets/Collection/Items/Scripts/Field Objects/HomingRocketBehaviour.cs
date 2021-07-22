@@ -19,13 +19,19 @@ namespace Collection.Items.Scripts.Field_Objects
 
         private void Update()
         {
-            if(target == null)
+            if (target == null)
                 return;
-            
-            agent.SetDestination(target.transform.position);
-            transform.localRotation = Quaternion.Euler(90,0,0);
+
+            var targetPos = target.transform.position;
+            agent.SetDestination(targetPos);
+
+            var relativePos = targetPos - transform.position;
+
+            // the second argument, upwards, defaults to Vector3.up
+            var rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+            transform.localRotation = Quaternion.Euler(rotation.x + 90 , rotation.y , rotation.z);
         }
-        
+
         /// <summary>
         /// Tells the rocket who shoots it to identify the target.  
         /// </summary>
@@ -51,7 +57,7 @@ namespace Collection.Items.Scripts.Field_Objects
                 PhotonNetwork.Destroy(gameObject);
             }
         }
-        
+
         private void OnCollisionEnter(Collision other)
         {
             PhotonNetwork.Destroy(gameObject);

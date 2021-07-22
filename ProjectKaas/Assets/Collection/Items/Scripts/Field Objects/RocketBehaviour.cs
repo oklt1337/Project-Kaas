@@ -13,8 +13,14 @@ namespace Collection.Items.Scripts.Field_Objects
         
         public void Update()
         {
-            transform.position += flyVector * (speed * Time.deltaTime);
-            transform.localRotation = Quaternion.Euler(90,0,0);
+            var myTransform = transform;
+            var position = myTransform.position;
+            position += flyVector * (speed * Time.deltaTime);
+            myTransform.position = position;
+
+            // the second argument, upwards, defaults to Vector3.up
+            var rotation = Quaternion.LookRotation(position, Vector3.up);
+            transform.localRotation = Quaternion.Euler(rotation.x + 90 , rotation.y , rotation.z);
         }
 
         /// <summary>
