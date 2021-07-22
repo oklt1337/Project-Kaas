@@ -132,16 +132,7 @@ namespace Collection.Maps.Scripts
             // Repeated for every lap backwards.
             for (var i = LapCount + 1; i > 0; i--)
             {
-              //  // Shortens process when only one player is at that lap.
-              //  if (players[i, 1] == null)
-              //  {
-              //      sortedPlayers.Add(players[i, 0]);
-              //      players[i, 0].Car.place = (byte) sortedPlayers.Count;
-              //      print(players[i,0].transform.position);
-              //      continue;
-              //  }
-
-                //Sorter(ref players, i);
+                Sorter(ref players, i);
 
                 for (var j = 0; j < allPlayers.Count; j++)
                 {
@@ -173,11 +164,9 @@ namespace Collection.Maps.Scripts
                 var passedAllChecks = true;
                 for (var j = 0; j < array.Length; j++)
                 {
-                    print("index: " + index);
-                    print("j: " + j);
-                    // Ends for-loop when there is no car anymore.
+                    // Skip when there is no car.
                     if (array[index, j] == null)
-                        break;
+                        continue;
 
                     // Skips car if it isn't in the Zone.
                     if (array[index, j].Car.ZoneCount != i)
@@ -227,10 +216,6 @@ namespace Collection.Maps.Scripts
                     }
                 }
             }
-
-            print(sortedPlayers[0].transform.position);
-            print(sortedPlayers[1].transform.position);
-
             //array.SetValue(sortedPlayers,index);
         }
 
