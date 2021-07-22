@@ -21,7 +21,7 @@ namespace Collection.Items.Scripts
             switch (position)
             {
                 case 1:
-                    if (rng > 10)
+                    if (rng > 30)
                     {
                         item = Gm.AllItems[0];
                     }
@@ -37,7 +37,7 @@ namespace Collection.Items.Scripts
                 case 2:
                     if (rng > 60)
                     {
-                        item = Gm.AllItems[5];
+                        item = Gm.AllItems[1];
                     }
                     else if(rng > 25)
                     {
@@ -146,7 +146,7 @@ namespace Collection.Items.Scripts
             gameObject.SetActive(false);
             var player = other.gameObject.GetComponentInParent<PlayerHandler>();
 
-            var tempItem = GetNewItem(player.Position != 0 ? player.Position : (byte) 1);
+            var tempItem = GetNewItem(player.Car.place!= 0 ? player.Car.place : (byte)1);
             
             // Gives Player the new Item.
             tempItem.SetOwner(player);

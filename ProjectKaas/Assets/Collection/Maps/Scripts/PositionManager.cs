@@ -143,7 +143,6 @@ namespace Collection.Maps.Scripts
                         sortedPlayers.Add(players[i, j]);
 
                         // Sets their position.
-                        players[i, j].Position = (byte) (sortedPlayers.Count + 1);
                         players[i, j].Car.place = (byte) sortedPlayers.Count;
                     }
                     else
@@ -218,7 +217,7 @@ namespace Collection.Maps.Scripts
                         if (!passedAllChecks)
                             break;
 
-                        array[index, j].Car.place = k;
+                        array[index, j].Car.place = (byte)k;
                         sortedPlayers[k] = array[index, j];
                         break;
                     }
@@ -253,8 +252,7 @@ namespace Collection.Maps.Scripts
             {
                 nextPlayer = allPlayersPositions[allPlayersPositions.Count - 1];
             }
-
-            print("next player " + nextPlayer);
+            
             return nextPlayer;
         }
 

@@ -9,12 +9,23 @@ namespace Collection.Items.Scripts.Field_Objects
     public class RocketBehaviour : MonoBehaviour
     {
         [SerializeField] private float speed;
+        [SerializeField] private Vector3 flyVector;
         
         public void FixedUpdate()
         {
-            transform.position += Vector3.forward * (speed * Time.deltaTime);
+            transform.position += flyVector * (speed * Time.deltaTime);
         }
 
+        /// <summary>
+        /// Sets the vector the Rocket should fly at.
+        /// </summary>
+        /// <param name="newFlyVector"> The vector you want it to fly like. </param>
+        public void SetFlyVector(Vector3 newFlyVector)
+        {
+            newFlyVector = newFlyVector.normalized;
+            flyVector = newFlyVector;
+        }
+        
         private void OnTriggerEnter(Collider other)
         {
             // Checks tag.

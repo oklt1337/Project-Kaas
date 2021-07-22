@@ -39,7 +39,7 @@ namespace Collection.Cars.Scripts
         public GameObject[] VisibleObj { get; internal set; }
 
         // For the position manager.
-        public int place;
+        public byte place;
         public byte LapCount => lapCount;
         public byte ZoneCount => zoneCount;
 

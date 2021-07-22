@@ -59,8 +59,6 @@ namespace Collection.NetworkPlayer.Scripts
 
         public RaceState LocalRaceState { get; set; }
 
-        public byte Position { get; set; }
-
         public Controls Controls { get; private set; }
 
         public Player LocalPlayer { get; set; }
