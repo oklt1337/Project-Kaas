@@ -193,7 +193,8 @@ namespace Collection.NetworkPlayer.Scripts
                 CanvasHandler = hudObj.GetComponent<CanvasHandler>();
                 CanvasHandler.ChangeControls(Controls);
 
-                Instantiate(infoUI);
+                var uiObj = Instantiate(infoUI);
+                uiObj.SetActive(true);
 
                 // Initialize playerHandler
                 PlayerInputHandler.Initialize(CanvasHandler.Joystick, CanvasHandler.ItemButton,
