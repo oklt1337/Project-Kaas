@@ -1,3 +1,4 @@
+using System;
 using Collection.NetworkPlayer.Scripts;
 using UnityEngine;
 
@@ -9,11 +10,16 @@ namespace Collection.Maps.Scripts
         {
             if (!other.gameObject.CompareTag("Player")) return;
             var playerHandler = other.GetComponentInParent<PlayerHandler>();
+            
+            playerHandler.Car.ChangeSpeedState(SpeedState.Slowed);
+        }
 
-            if (playerHandler.ItemState != ItemState.Nitro)
-            {
-                playerHandler.Car.ChangeSpeed(-playerHandler.Car.MaxSpeed * 0.5f, 1f);
-            }
+        private void OnTriggerExit(Collider other)
+        {
+            if (!other.gameObject.CompareTag("Player")) return;
+            var playerHandler = other.GetComponentInParent<PlayerHandler>();
+            
+            playerHandler.Car.ChangeSpeedState(SpeedState.None);
         }
     }
 }

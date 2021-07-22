@@ -1,3 +1,5 @@
+using System;
+using Collection.NetworkPlayer.Scripts;
 using UnityEngine;
 
 namespace Collection.Cars.Scripts
@@ -76,6 +78,27 @@ namespace Collection.Cars.Scripts
         /// </summary>
         private void GetSpeed()
         {
+            float forwardAccel;
+            float maxSpeed;
+
+            switch (_car.PlayerHandler.SpeedState)
+            {
+                case SpeedState.None:
+                    maxSpeed = _car.MaxSpeed;
+                    forwardAccel = _car.ForwardAccel;
+                    break;
+                case SpeedState.Slowed:
+                    maxSpeed = _car.SlowedMaxSpeed;
+                    forwardAccel = _car.SlowedForwardAccel;
+                    break;
+                case SpeedState.Nitro:
+                    maxSpeed = _car.NitroSpeed;
+                    forwardAccel = _car.NitroForwardAccel;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             var myTransform = _car.PlayerHandler.gameObject.transform;
             var xInput = _car.PlayerHandler.PlayerInputHandler.MovementInput.x;
             var yInput = _car.PlayerHandler.PlayerInputHandler.MovementInput.y;
@@ -85,7 +108,7 @@ namespace Collection.Cars.Scripts
             
             if (xInput > 0)
             {
-                _speed = xInput * _car.ForwardAccel;
+                _speed = xInput * forwardAccel;
             }
             else
             {
@@ -99,13 +122,13 @@ namespace Collection.Cars.Scripts
                                                             _turn * _car.TurnStrength * Time.deltaTime * xInput, 0f));
             }
 
-            if (_speed > _car.MaxSpeed)
+            if (_speed > maxSpeed)
             {
-                _speed = _car.MaxSpeed;
+                _speed = maxSpeed;
             }
-            else if (_speed < -_car.MaxSpeed)
+            else if (_speed < -maxSpeed)
             {
-                _speed = -_car.MaxSpeed;
+                _speed = -maxSpeed;
             }
 
             _car.CarAnimationHandler.TurnWheels(_turn);
