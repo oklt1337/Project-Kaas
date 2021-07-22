@@ -16,7 +16,8 @@ namespace Collection.Items.Scripts.Field_Objects
         {
             if(target == null)
                 return;
-            
+
+            agent.updateRotation = true;
             agent.SetDestination(target.transform.position);
         }
         
