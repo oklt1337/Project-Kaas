@@ -24,13 +24,16 @@ namespace Collection.GameManager.Scripts
 
         public ItemBehaviour[] AllItems => allItems;
 
+        public List<PlayerHandler> PlayerHandlers => playerHandler;
+
         #endregion
 
         #region Private SerializeFields
 
         [SerializeField] private Transform[] startPos;
         [SerializeField] private ItemBehaviour[] allItems;
-        [SerializeField] private List<PlayerHandler> playerList;
+        [SerializeField] private List<PlayerHandler> playerHandler;
+        [SerializeField] private bool reSkinDone;
 
         #endregion
 
@@ -55,18 +58,19 @@ namespace Collection.GameManager.Scripts
 
                 // Get random Start pos (need just to test)
                 var index = (int) PhotonNetwork.LocalPlayer.CustomProperties["Position"];
-                
+
                 // Spawn playerPrefab for the local player.
-               var localPlayer = PhotonNetwork.Instantiate("Prefabs/Player", startPos[index].position, Quaternion.identity);
-
-               var player = localPlayer.GetComponent<PlayerHandler>();
-
-               player.StartPos = index;
-               
-               player.OnInitializedFinished += ReSkinCars;
-
-               playerList.Add(player);
+                PhotonNetwork.Instantiate("Prefabs/Player", startPos[index].position, Quaternion.identity);
             }
+
+            
+        }
+
+        private void LateUpdate()
+        {
+            //pls dont look at this it had to be done quickly.
+            if (reSkinDone || playerHandler.Count != PhotonNetwork.CurrentRoom.Players.Count) return;
+            ReSkinCars();
         }
 
         #endregion
@@ -147,24 +151,22 @@ namespace Collection.GameManager.Scripts
         private void ReSkinCars()
         {
             var players = PhotonNetwork.CurrentRoom.Players.Values.ToList();
-
             foreach (var player in players)
             {
                 if (!Equals(player, PhotonNetwork.LocalPlayer))
                 {
                     var hashtable = player.CustomProperties;
-                    if (hashtable.ContainsKey("Position"))
-                    {
-                        var pos = (int) hashtable["Position"];
-                        var index = playerList.FindIndex(x => x.StartPos == pos);
+                    var index = playerHandler.FindIndex(x => x.ActorNumber == player.ActorNumber);
 
-                        var playerHandler = playerList[index];
+                    if (index != -1)
+                    {
+                        var handler = this.playerHandler[index];
 
                         if (hashtable.ContainsKey("Car"))
                         {
                             var chooseCar = (ChooseCar) hashtable["Car"];
-                            
-                            playerHandler.ReInit(chooseCar);
+                            handler.ReInit(chooseCar);
+                            reSkinDone = true;
                         }
                     }
                 }

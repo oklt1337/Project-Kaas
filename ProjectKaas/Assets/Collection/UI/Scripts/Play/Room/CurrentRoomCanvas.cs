@@ -52,6 +52,8 @@ namespace Collection.UI.Scripts.Play.Room
 
         private void Update()
         {
+            if (PhotonNetwork.CurrentRoom == null || playerCount == null) return;
+            
             playerCount.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
         }
 

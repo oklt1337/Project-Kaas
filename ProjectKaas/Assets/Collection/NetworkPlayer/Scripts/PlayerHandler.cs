@@ -42,12 +42,6 @@ namespace Collection.NetworkPlayer.Scripts
 
         #endregion
 
-        #region Event
-
-        public Action OnInitializedFinished = delegate { };
-
-        #endregion
-
         #region Public Fields
 
         public bool developerMode;
@@ -71,7 +65,7 @@ namespace Collection.NetworkPlayer.Scripts
 
         public Player LocalPlayer { get; set; }
 
-        public int StartPos { get; set; }
+        public int ActorNumber { get; set; }
 
         #endregion
 
@@ -99,6 +93,8 @@ namespace Collection.NetworkPlayer.Scripts
             }
 
             Initialize();
+            GameManager.Scripts.GameManager.Gm.PlayerHandlers.Add(this);
+
             PositionManagerInstance.OnFinish += WhenFinnish;
         }
 
@@ -205,7 +201,8 @@ namespace Collection.NetworkPlayer.Scripts
                 RoundStarterInstance.RoundStart();
             }
 
-            OnInitializedFinished?.Invoke();
+            var view = GetComponent<PhotonView>();
+            ActorNumber = view.ControllerActorNr;
         }
 
         public void ReInit(ChooseCar newCar)

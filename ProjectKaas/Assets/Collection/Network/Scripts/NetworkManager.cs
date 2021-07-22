@@ -60,7 +60,7 @@ namespace Collection.Network.Scripts
 
             var scene = SceneManager.GetActiveScene();
             
-            if (!PhotonNetwork.InLobby && scene.buildIndex != 0)
+            if (!PhotonNetwork.InLobby && scene.buildIndex != 0 && PhotonNetwork.IsConnectedAndReady)
             {
                 PhotonNetwork.JoinLobby();
             }

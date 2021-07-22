@@ -49,12 +49,6 @@ namespace Collection.UI.Scripts.Play.CreateRoom
             roomName.text = String.Empty;
         }
 
-        public override void OnConnectedToMaster()
-        {
-            PhotonNetwork.JoinLobby();
-            Debug.Log("joining lobby...");
-        }
-
         public override void OnLeftRoom()
         {
             Debug.Log("Left room.");
