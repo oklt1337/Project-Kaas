@@ -28,10 +28,11 @@ namespace Collection.NetworkPlayer.Scripts
         Tilt
     }
 
-    public enum ItemState
+    public enum SpeedState
     {
         None,
-        Nitro
+        Nitro,
+        Slowed
     }
 
     [RequireComponent(typeof(PlayerInputHandler))]
@@ -71,7 +72,7 @@ namespace Collection.NetworkPlayer.Scripts
 
         public int ActorNumber { get; set; }
         
-        public ItemState ItemState { get; set; }
+        public SpeedState SpeedState { get; set; }
 
         #endregion
 
@@ -129,6 +130,8 @@ namespace Collection.NetworkPlayer.Scripts
 
         private void Initialize()
         {
+            SpeedState = SpeedState.None;
+            
             var hashTable = PhotonNetwork.LocalPlayer.CustomProperties;
             ChooseCar chooseCar;
 

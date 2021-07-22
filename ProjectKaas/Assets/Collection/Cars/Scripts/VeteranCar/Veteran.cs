@@ -25,7 +25,11 @@ namespace Collection.Cars.Scripts.VeteranCar
         private void Start()
         {
             MaxSpeed = maxSpeed;
+            SlowedMaxSpeed = maxSpeed * 0.5f;
+            NitroSpeed = maxSpeed + 50f;
             ForwardAccel = forwardAccel;
+            SlowedForwardAccel = forwardAccel * 0.5f;
+            NitroForwardAccel = forwardAccel + 50f;
             ReverseAccel = reverseAccel;
             TurnStrength = turnStrength;
             GravityForce = gravityForce;

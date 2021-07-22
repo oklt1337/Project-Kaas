@@ -17,21 +17,30 @@ namespace Collection.Cars.Scripts
 
         [SerializeField] private byte lapCount;
         [SerializeField] private byte zoneCount;
-        
+
         #region Public Fields
-        
+
         /// <summary>
         /// Essentials for the car to work.
         /// </summary>
         public CarControllerHandler CarControllerHandler { get; private set; }
+
         public CarAnimationHandler CarAnimationHandler { get; private set; }
-        public PlayerHandler PlayerHandler { get;  private set; }
-        
-        public CarStates MyCarStates  { get; internal set; }
+        public PlayerHandler PlayerHandler { get; private set; }
+
+        public CarStates MyCarStates { get; internal set; }
 
         // Depends on car type.
         public float MaxSpeed { get; internal set; }
+
+        public float NitroSpeed { get; internal set; }
+
+        public float SlowedMaxSpeed { get; internal set; }
         public float ForwardAccel { get; internal set; }
+        
+        public float NitroForwardAccel { get; internal set; }
+
+        public float SlowedForwardAccel { get; internal set; }
         public float ReverseAccel { get; internal set; }
         public float TurnStrength { get; internal set; }
         public float GravityForce { get; internal set; }
@@ -45,12 +54,6 @@ namespace Collection.Cars.Scripts
 
         #endregion
 
-        #region Private Fields
-
-        private bool _isSpeedChange;
-
-        #endregion
-
         #region MonoBehaviour CallBacks
 
         private void Awake()
@@ -61,30 +64,26 @@ namespace Collection.Cars.Scripts
         }
 
         #endregion
-        
+
         #region Public Methods
 
         public void DeactivateComponents()
         {
             Destroy(CarControllerHandler.MoveSphere);
         }
-        
+
         public void Initialize(PlayerHandler playerHandler)
         {
             PlayerHandler = playerHandler;
         }
-        
+
         public virtual void ActivateCamera()
         {
-            
         }
 
-        public void ChangeSpeed(float speedUpValue,float duration)
+        public void ChangeSpeed(float duration)
         {
-            if (!_isSpeedChange)
-            {
-                StartCoroutine(ChangeSpeedCo(speedUpValue, duration));
-            }
+            StartCoroutine(ChangeSpeedCo(duration));
         }
 
         /// <summary>
@@ -109,7 +108,7 @@ namespace Collection.Cars.Scripts
                 PositionManager.PositionManagerInstance.OnFinish.Invoke(PlayerHandler);
             }
         }
-        
+
         /// <summary>
         /// Increases the lap count. 
         /// </summary>
@@ -130,7 +129,15 @@ namespace Collection.Cars.Scripts
                 t.SetActive(false);
             }
         }
-        
+
+        public void ChangeSpeedState(SpeedState state)
+        {
+            if (PlayerHandler.SpeedState != SpeedState.Nitro)
+            {
+                PlayerHandler.SpeedState = state;
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -142,21 +149,13 @@ namespace Collection.Cars.Scripts
             MyCarStates = CarStates.Drive;
         }
 
-        private IEnumerator ChangeSpeedCo(float speedUpValue,float duration)
+        private IEnumerator ChangeSpeedCo(float duration)
         {
-            _isSpeedChange = true;
-            var oldMaxSpeed = MaxSpeed;
-            var oldForwardAccel = ForwardAccel;
+            PlayerHandler.SpeedState = SpeedState.Nitro;
 
-            MaxSpeed += speedUpValue;
-            ForwardAccel += speedUpValue;
-            
             yield return new WaitForSeconds(duration);
-            
-            MaxSpeed = oldMaxSpeed;
-            ForwardAccel = oldForwardAccel;
-            _isSpeedChange = false;
-            PlayerHandler.ItemState = ItemState.None;
+
+            PlayerHandler.SpeedState = SpeedState.None;
         }
 
         #endregion
