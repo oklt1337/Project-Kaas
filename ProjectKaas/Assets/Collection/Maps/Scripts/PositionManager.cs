@@ -132,33 +132,27 @@ namespace Collection.Maps.Scripts
             // Repeated for every lap backwards.
             for (var i = LapCount + 1; i > 0; i--)
             {
-                // Skips process when no player is at that lap. 
-                if (players[i, 0] == null)
-                    continue;
-
-                // Shortens process when only one player is at that lap.
-                if (players[i, 1] == null)
-                {
-                    sortedPlayers.Add(players[i, 0]);
-                    continue;
-                }
+              //  // Shortens process when only one player is at that lap.
+              //  if (players[i, 1] == null)
+              //  {
+              //      sortedPlayers.Add(players[i, 0]);
+              //      players[i, 0].Car.place = (byte) sortedPlayers.Count;
+              //      print(players[i,0].transform.position);
+              //      continue;
+              //  }
 
                 //Sorter(ref players, i);
 
                 for (var j = 0; j < allPlayers.Count; j++)
                 {
                     // Adds to list if existing and stops for when null.
-                    if (players[i, j] != null)
-                    {
-                        sortedPlayers.Add(players[i, j]);
+                    if (players[i, j] == null)
+                        continue;
+                    
+                    sortedPlayers.Add(players[i, j]);
 
-                        // Sets their position.
-                        players[i, j].Car.place = (byte) sortedPlayers.Count;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    // Sets their position.
+                    players[i, j].Car.place = (byte) sortedPlayers.Count;
                 }
             }
 
