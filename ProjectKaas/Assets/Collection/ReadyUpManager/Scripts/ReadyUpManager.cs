@@ -18,12 +18,10 @@ namespace Collection.ReadyUpManager.Scripts
         #endregion
 
         [SerializeField] private CountDown countDown;
-
+        [SerializeField] private List<PlayerListing> readyPlayer = new List<PlayerListing>();
         #region Public Fields
 
-        public int LobbySize { get; set; }
-        
-        private List<PlayerListing> ReadyPlayer { get; } = new List<PlayerListing>();
+        private List<PlayerListing> ReadyPlayer => readyPlayer;
 
         #endregion
         
@@ -114,16 +112,16 @@ namespace Collection.ReadyUpManager.Scripts
 
         public void AddReadyPlayer(PlayerListing playerListing)
         {
-            Debug.Log(ReadyPlayer.Count + " / " + LobbySize + " are ready.");
+            Debug.Log(ReadyPlayer.Count + " / " + PhotonNetwork.CurrentRoom.MaxPlayers + " are ready.");
             if (!ReadyPlayer.Contains(playerListing))
             {
                 ReadyPlayer.Add(playerListing);
             }
 
-            if (ReadyPlayer.Count == LobbySize)
+            if (ReadyPlayer.Count == PhotonNetwork.CurrentRoom.MaxPlayers)
             {
                 Debug.Log("All Ready");
-
+                
                 var properties = PhotonNetwork.CurrentRoom.CustomProperties;
 
                 if (properties.ContainsKey("StartMatch"))
@@ -146,7 +144,7 @@ namespace Collection.ReadyUpManager.Scripts
                 ReadyPlayer.Remove(playerListing);
             }
 
-            if (ReadyPlayer.Count != LobbySize)
+            if (ReadyPlayer.Count != PhotonNetwork.CurrentRoom.MaxPlayers)
             {
                 Debug.Log("Sb is not ready anymore.");
                 

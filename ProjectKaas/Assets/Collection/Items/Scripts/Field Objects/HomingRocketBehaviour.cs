@@ -23,8 +23,9 @@ namespace Collection.Items.Scripts.Field_Objects
         /// <param name="user"> Who uses it. </param>
         public void AcquireTarget(PlayerHandler user)
         {
+            print("tries finding");
             var nextPlayer = PositionManager.PositionManagerInstance.FindNextPlayer(user);
-
+            print("did find");
             target = nextPlayer.gameObject;
         }
 

@@ -37,7 +37,7 @@ namespace Collection.Items.Scripts
                 case 2:
                     if (rng > 60)
                     {
-                        item = Gm.AllItems[0];
+                        item = Gm.AllItems[5];
                     }
                     else if(rng > 25)
                     {

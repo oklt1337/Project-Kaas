@@ -64,6 +64,7 @@ namespace Collection.UI.Scripts.Play.Room
         public override void OnEnable()
         {
             base.OnEnable();
+            _ready = false;
             SetReadyState(false);
             SetTouchableState(true);
 
@@ -162,7 +163,6 @@ namespace Collection.UI.Scripts.Play.Room
                 {
                     PhotonNetwork.CurrentRoom.MaxPlayers = 8;
                 }
-                ReadyUpManager.Scripts.ReadyUpManager.Instance.LobbySize = PhotonNetwork.CurrentRoom.MaxPlayers;
             }
 
             playerCount.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
@@ -182,7 +182,6 @@ namespace Collection.UI.Scripts.Play.Room
                 {
                     PhotonNetwork.CurrentRoom.MaxPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
                 }
-                ReadyUpManager.Scripts.ReadyUpManager.Instance.LobbySize = PhotonNetwork.CurrentRoom.MaxPlayers;
             }
 
             playerCount.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();

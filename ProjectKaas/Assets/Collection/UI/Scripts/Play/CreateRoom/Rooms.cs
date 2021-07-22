@@ -129,7 +129,6 @@ namespace Collection.UI.Scripts.Play.CreateRoom
                 };
                 
                 PhotonNetwork.CreateRoom(roomName.text, roomOptions, TypedLobby.Default);
-                ReadyUpManager.Scripts.ReadyUpManager.Instance.LobbySize = _maxPlayer;
             }
         }
 

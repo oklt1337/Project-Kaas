@@ -92,7 +92,6 @@ namespace Collection.Network.Scripts
             
             if (hashtable["OldRoom"] == null) return;
             PhotonNetwork.JoinOrCreateRoom((string) hashtable["OldRoom"], options, TypedLobby.Default);
-            ReadyUpManager.Scripts.ReadyUpManager.Instance.LobbySize = (byte) hashtable["MaxPlayer"];
             
             Debug.Log("Turn back to room.");
             AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(false);

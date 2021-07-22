@@ -41,7 +41,7 @@ namespace Collection.UI.Scripts.Play
         private void UpdateInfo()
         {
             lapCount.text = _client.Car.LapCount + "/" + PositionManagerInstance.LapCount;
-            position.text = (_client.Car.place+1) + ".";
+            position.text = _client.Car.place + ".";
 
             if (_client.Item != null)
             {

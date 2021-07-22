@@ -247,7 +247,7 @@ namespace Collection.Maps.Scripts
             {
                 nextPlayer = allPlayersPositions[allPlayersPositions.Count - 1];
             }
-            
+            print("next player " + nextPlayer);
             return nextPlayer;
         }
 
