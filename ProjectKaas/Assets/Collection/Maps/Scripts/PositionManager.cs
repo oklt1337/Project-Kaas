@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Collection.NetworkPlayer.Scripts;
-using Collection.UI.Scripts.Play.ChoosingCar;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -13,22 +12,25 @@ namespace Collection.Maps.Scripts
     {
         public static PositionManager PositionManagerInstance;
 
-        [Header("Players")] [SerializeField] private List<PlayerHandler> allPlayers;
+        [Header("Players")]
+        [SerializeField] private List<PlayerHandler> allPlayers;
         [SerializeField] private List<PlayerHandler> allPlayersPositions;
         [SerializeField] private List<PlayerHandler> playersStandings;
 
-
-        [SerializeField] private List<PlayerHandler> currentStandings;
-
-        [Header("Map")] [SerializeField] private byte lapCount;
+        [Header("Map")]
+        [SerializeField] private byte lapCount;
         [SerializeField] private GameObject[] zones;
 
-        [Header("Finish related stuff")] [SerializeField]
+        [Header("Finish related stuff")] 
+        [SerializeField]
         private GameObject victoryScreen;
+
+        [SerializeField] private TextMeshProUGUI victoryScreenDuration;
 
         [SerializeField] private TextMeshProUGUI victoryScreenText;
         [SerializeField] private bool raceFinished;
         [SerializeField] private float victoryScreenTime;
+        private float _shownVictoryScreenTime;
 
         public delegate void Finish(PlayerHandler player);
 
@@ -42,7 +44,7 @@ namespace Collection.Maps.Scripts
 
         public bool RaceFinished => raceFinished;
 
-        public Dictionary<PlayerHandler, string> Names = new Dictionary<PlayerHandler, string>();
+        private readonly Dictionary<PlayerHandler, string> _names = new Dictionary<PlayerHandler, string>();
 
         private void Awake()
         {
@@ -50,15 +52,23 @@ namespace Collection.Maps.Scripts
                 Destroy(this);
 
             PositionManagerInstance = this;
+            _shownVictoryScreenTime = victoryScreenTime;
+            
             OnFinish += AssignToStandings;
             OnFinish += OnRaceFinish;
         }
 
         private void Update()
         {
-            DeterminePositions();
-
-            currentStandings = allPlayersPositions;
+            if (allPlayers.Count > 0)
+            {
+                DeterminePositions();
+            }
+            else
+            {
+                _shownVictoryScreenTime -= Time.deltaTime;
+                victoryScreenDuration.text = "Return to lobby in " + (byte) _shownVictoryScreenTime + " seconds.";
+            }
         }
 
         /// <summary>
@@ -217,7 +227,7 @@ namespace Collection.Maps.Scripts
                         if (!passedAllChecks)
                             break;
 
-                        array[index, j].Car.place = (byte)k;
+                        array[index, j].Car.place = (byte) k;
                         sortedPlayers[k] = array[index, j];
                         break;
                     }
@@ -252,7 +262,7 @@ namespace Collection.Maps.Scripts
             {
                 nextPlayer = allPlayersPositions[allPlayersPositions.Count - 1];
             }
-            
+
             return nextPlayer;
         }
 
@@ -295,9 +305,9 @@ namespace Collection.Maps.Scripts
             victoryScreenText.text = null;
             for (var i = 0; i < playersStandings.Count; i++)
             {
-                if (Names.ContainsKey(playersStandings[i]))
+                if (_names.ContainsKey(playersStandings[i]))
                 {
-                    victoryScreenText.text += i+1 + ".       " + Names[playersStandings[i]] + "\n\n";
+                    victoryScreenText.text += i + 1 + ".       " + _names[playersStandings[i]] + "\n\n";
                 }
             }
         }
@@ -316,7 +326,7 @@ namespace Collection.Maps.Scripts
                 if (index != -1)
                 {
                     var handler = GameManager.Scripts.GameManager.Gm.PlayerHandlers[index];
-                    Names.Add(handler, player.NickName);
+                    _names.Add(handler, player.NickName);
                 }
             }
         }
@@ -324,7 +334,7 @@ namespace Collection.Maps.Scripts
         private IEnumerator EndMapCo()
         {
             photonView.RPC("SetProps", RpcTarget.All);
-
+            
             yield return new WaitForSeconds(victoryScreenTime);
 
             photonView.RPC("RPCLeaveMatch", RpcTarget.All);
