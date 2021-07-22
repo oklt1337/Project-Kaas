@@ -14786,8 +14786,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.0010986, y: -159}
-  m_SizeDelta: {x: 473.894, y: 158.28369}
+  m_AnchoredPosition: {x: -0.00006485, y: -113.15}
+  m_SizeDelta: {x: 564.726, y: 226.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &870201395
 MonoBehaviour:
@@ -14837,12 +14837,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 36
+  m_fontSize: 150
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 100
+  m_fontSizeMax: 150
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -22761,7 +22761,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0010147, y: -85.98996}
+  m_AnchoredPosition: {x: -0.001156, y: -25}
   m_SizeDelta: {x: 1244.0803, y: 947.407}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1298832625
@@ -22786,25 +22786,18 @@ MonoBehaviour:
       m_Calls: []
   m_text: '1. Timmy
 
-
     2. Dan
-
 
     3. Max
 
-
     4. Sahra
 
-
     5. Janine
-
 
     6.
     Lara
 
-
     7. Tina
-
 
     8. David'
   m_isRightToLeft: 0
@@ -22834,15 +22827,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42
+  m_fontSize: 80
   m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 42
+  m_fontSizeMax: 80
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -25629,8 +25622,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00033569, y: -608.46}
-  m_SizeDelta: {x: 1244.1, y: 60.921}
+  m_AnchoredPosition: {x: -0.0011749, y: -601.022}
+  m_SizeDelta: {x: 1469.496, y: 147.956}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1441601467
 MonoBehaviour:
@@ -25680,12 +25673,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42
+  m_fontSize: 100
   m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 42
+  m_fontSizeMax: 100
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
