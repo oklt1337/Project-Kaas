@@ -59,6 +59,7 @@ namespace Collection.Network.Scripts
             _pingCo = StartCoroutine(SetPingCo());
 
             var scene = SceneManager.GetActiveScene();
+            
             if (!PhotonNetwork.InLobby && scene.buildIndex != 0)
             {
                 PhotonNetwork.JoinLobby();

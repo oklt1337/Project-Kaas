@@ -4,6 +4,7 @@ using System.Linq;
 using Collection.Items.Scripts;
 using Collection.Maps.Scripts;
 using Collection.NetworkPlayer.Scripts;
+using Collection.UI.Scripts.Play.ChoosingCar;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -29,6 +30,7 @@ namespace Collection.GameManager.Scripts
 
         [SerializeField] private Transform[] startPos;
         [SerializeField] private ItemBehaviour[] allItems;
+        [SerializeField] private List<PlayerHandler> playerList;
 
         #endregion
 
@@ -51,12 +53,19 @@ namespace Collection.GameManager.Scripts
             {
                 Debug.Log("Instantiating LocalPlayer.");
 
-
                 // Get random Start pos (need just to test)
                 var index = (int) PhotonNetwork.LocalPlayer.CustomProperties["Position"];
                 
                 // Spawn playerPrefab for the local player.
-                PhotonNetwork.Instantiate("Prefabs/Player", startPos[index].position, Quaternion.identity);
+               var localPlayer = PhotonNetwork.Instantiate("Prefabs/Player", startPos[index].position, Quaternion.identity);
+
+               var player = localPlayer.GetComponent<PlayerHandler>();
+
+               player.StartPos = index;
+               
+               player.OnInitializedFinished += ReSkinCars;
+
+               playerList.Add(player);
             }
         }
 
@@ -129,6 +138,37 @@ namespace Collection.GameManager.Scripts
                 hashtable["MaxPlayer"] = PhotonNetwork.CurrentRoom.MaxPlayers;
             else
                 hashtable.Add("MaxPlayer", PhotonNetwork.CurrentRoom.MaxPlayers);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void ReSkinCars()
+        {
+            var players = PhotonNetwork.CurrentRoom.Players.Values.ToList();
+
+            foreach (var player in players)
+            {
+                if (!Equals(player, PhotonNetwork.LocalPlayer))
+                {
+                    var hashtable = player.CustomProperties;
+                    if (hashtable.ContainsKey("Position"))
+                    {
+                        var pos = (int) hashtable["Position"];
+                        var index = playerList.FindIndex(x => x.StartPos == pos);
+
+                        var playerHandler = playerList[index];
+
+                        if (hashtable.ContainsKey("Car"))
+                        {
+                            var chooseCar = (ChooseCar) hashtable["Car"];
+                            
+                            playerHandler.ReInit(chooseCar);
+                        }
+                    }
+                }
+            }
         }
 
         #endregion

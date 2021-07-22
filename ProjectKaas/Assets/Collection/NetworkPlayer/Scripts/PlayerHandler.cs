@@ -27,7 +27,7 @@ namespace Collection.NetworkPlayer.Scripts
         Joystick,
         Tilt
     }
-    
+
     [RequireComponent(typeof(PlayerInputHandler))]
     public class PlayerHandler : MonoBehaviourPun
     {
@@ -41,29 +41,37 @@ namespace Collection.NetworkPlayer.Scripts
         [SerializeField] private ItemBehaviour item;
 
         #endregion
-        
+
+        #region Event
+
+        public Action OnInitializedFinished = delegate { };
+
+        #endregion
+
         #region Public Fields
 
         public bool developerMode;
-        
+
         public PlayerInputHandler PlayerInputHandler { get; private set; }
 
         public Car Car { get; private set; }
-        
+
         public CanvasHandler CanvasHandler { get; private set; }
 
         public ItemBehaviour Item => item;
 
         public GameObject ForwardItem => forwardItem;
         public GameObject BackItem => backItem;
-        
+
         public RaceState LocalRaceState { get; set; }
-        
+
         public byte Position { get; set; }
-        
+
         public Controls Controls { get; private set; }
-        
+
         public Player LocalPlayer { get; set; }
+
+        public int StartPos { get; set; }
 
         #endregion
 
@@ -84,7 +92,7 @@ namespace Collection.NetworkPlayer.Scripts
                 {
                     Controls = Controls.Joystick;
                 }
-                
+
                 // make sure only one audioLister
                 audioListener.gameObject.SetActive(true);
                 LocalPlayer = PhotonNetwork.LocalPlayer;
@@ -100,9 +108,9 @@ namespace Collection.NetworkPlayer.Scripts
 
         internal void UseItem()
         {
-            if (Item == null) 
+            if (Item == null)
                 return;
-            
+
             Item.OnUse();
             item = null;
         }
@@ -115,7 +123,7 @@ namespace Collection.NetworkPlayer.Scripts
         {
             var hashTable = PhotonNetwork.LocalPlayer.CustomProperties;
             ChooseCar chooseCar;
-            
+
             if (hashTable.ContainsKey("Car"))
             {
                 chooseCar = (ChooseCar) hashTable["Car"];
@@ -158,19 +166,19 @@ namespace Collection.NetworkPlayer.Scripts
             }
 
             // Fix Position
-            {
-                var localPosition = carObj.transform.localPosition;
-                localPosition = new Vector3(localPosition.x,
-                    localPosition.y - 0.4f, localPosition.z);
-                carObj.transform.localPosition = localPosition;
-            }
+
+            var localPosition = carObj.transform.localPosition;
+            localPosition = new Vector3(localPosition.x,
+                localPosition.y - 0.4f, localPosition.z);
+            carObj.transform.localPosition = localPosition;
+
 
             // make sure only one cam in scene and instantiate hud.
             if (photonView.IsMine)
             {
                 Car.ActivateCamera();
                 Car.Initialize(this);
-                
+
                 // Instantiate hud
                 var hudObj = Instantiate(hudPrefab);
                 hudObj.SetActive(true);
@@ -178,9 +186,10 @@ namespace Collection.NetworkPlayer.Scripts
                 CanvasHandler.ChangeControls(Controls);
 
                 Instantiate(infoUI);
-                
+
                 // Initialize playerHandler
-                PlayerInputHandler.Initialize(CanvasHandler.Joystick, CanvasHandler.ItemButton, CanvasHandler.GasButton);
+                PlayerInputHandler.Initialize(CanvasHandler.Joystick, CanvasHandler.ItemButton,
+                    CanvasHandler.GasButton);
             }
             else
             {
@@ -189,12 +198,60 @@ namespace Collection.NetworkPlayer.Scripts
 
             // add to position manager
             PositionManagerInstance.AllPlayers.Add(this);
-            
+
             // Checks if the AllPlayers list is full and if so starts the round.
             if (PhotonNetwork.PlayerList.Length == PositionManagerInstance.AllPlayers.Count)
             {
                 RoundStarterInstance.RoundStart();
             }
+
+            OnInitializedFinished?.Invoke();
+        }
+
+        public void ReInit(ChooseCar newCar)
+        {
+            Destroy(Car.gameObject);
+
+            // Initialize car
+            GameObject carObj;
+            switch (newCar)
+            {
+                case ChooseCar.Formula:
+                    carObj = Instantiate(CarPrefabsHolder.Formula, transform, false);
+
+                    // get Component
+                    Car = carObj.GetComponent<FormulaCar>();
+                    break;
+                case ChooseCar.Baywatch:
+                    carObj = Instantiate(CarPrefabsHolder.Baywatch, transform, false);
+
+                    // get Component
+                    Car = carObj.GetComponent<Baywatch>();
+                    break;
+                case ChooseCar.Passenger:
+                    carObj = Instantiate(CarPrefabsHolder.Passenger, transform, false);
+
+                    // get Component
+                    Car = carObj.GetComponent<PassengerCar>();
+                    break;
+                case ChooseCar.Veteran:
+                    carObj = Instantiate(CarPrefabsHolder.Veteran, transform, false);
+
+                    // get Component
+                    Car = carObj.GetComponent<Veteran>();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            // Fix Position
+            var localPosition = carObj.transform.localPosition;
+            localPosition = new Vector3(localPosition.x,
+                localPosition.y - 0.4f, localPosition.z);
+            carObj.transform.localPosition = localPosition;
+
+
+            Car.DeactivateComponents();
         }
 
         /// <summary>
@@ -204,12 +261,12 @@ namespace Collection.NetworkPlayer.Scripts
         private void WhenFinnish(PlayerHandler player)
         {
             if (player != this)
-               return;
+                return;
 
             LocalRaceState = RaceState.PreStart;
             hudPrefab.gameObject.SetActive(false);
             infoUI.gameObject.SetActive(false);
-            
+
             Car.SetObjInvisible();
             Car.MyCarStates = Car.CarStates.Hit;
             PlayerInputHandler.MovementInput = Vector2.zero;
