@@ -32,15 +32,13 @@ namespace Collection.Items.Scripts.Field_Objects
             // Checks tag.
             if (!other.gameObject.CompareTag("Player"))
             {
-                PhotonNetwork.Destroy(gameObject);
+                return;
             }
-            else
-            {
-                // Makes the player tumble on hit.
-                var hitPlayer = other.gameObject.GetComponentInParent<PlayerHandler>();
-                hitPlayer.Car.OnHit(1f);
-                PhotonNetwork.Destroy(gameObject);
-            }
+            
+            // Makes the player tumble on hit.
+            var hitPlayer = other.gameObject.GetComponentInParent<PlayerHandler>();
+            hitPlayer.Car.OnHit(1f);
+            PhotonNetwork.Destroy(gameObject);
         }
 
         private void OnCollisionEnter(Collision other)
