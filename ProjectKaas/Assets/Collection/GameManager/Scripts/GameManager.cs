@@ -112,7 +112,7 @@ namespace Collection.GameManager.Scripts
 
         #endregion
 
-        #region MyRegion
+        #region RPC
 
         [PunRPC]
         private void RPCLeaveMatch()

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Collection.NetworkPlayer.Scripts;
+using Collection.UI.Scripts.Play.ChoosingCar;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -10,41 +12,43 @@ namespace Collection.Maps.Scripts
     public class PositionManager : MonoBehaviourPunCallbacks
     {
         public static PositionManager PositionManagerInstance;
-        
-        [Header ("Players")]
-        [SerializeField] private List<PlayerHandler> allPlayers;
+
+        [Header("Players")] [SerializeField] private List<PlayerHandler> allPlayers;
         [SerializeField] private List<PlayerHandler> allPlayersPositions;
         [SerializeField] private List<PlayerHandler> playersStandings;
-        
-        
+
+
         [SerializeField] private List<PlayerHandler> currentStandings;
-        
-        [Header("Map")]
-        [SerializeField] private byte lapCount;
+
+        [Header("Map")] [SerializeField] private byte lapCount;
         [SerializeField] private GameObject[] zones;
 
-        [Header("Finish related stuff")] 
-        [SerializeField] private GameObject victoryScreen;
+        [Header("Finish related stuff")] [SerializeField]
+        private GameObject victoryScreen;
+
         [SerializeField] private TextMeshProUGUI victoryScreenText;
         [SerializeField] private bool raceFinished;
         [SerializeField] private float victoryScreenTime;
-        
+
         public delegate void Finish(PlayerHandler player);
+
         public Finish OnFinish;
-        
+
         public GameObject[] Zones => zones;
 
         public byte LapCount => lapCount;
-        
+
         public List<PlayerHandler> AllPlayers => allPlayers;
 
         public bool RaceFinished => raceFinished;
-        
+
+        public Dictionary<PlayerHandler, string> Names = new Dictionary<PlayerHandler, string>();
+
         private void Awake()
         {
-            if(PositionManagerInstance != null)
+            if (PositionManagerInstance != null)
                 Destroy(this);
-            
+
             PositionManagerInstance = this;
             OnFinish += AssignToStandings;
             OnFinish += OnRaceFinish;
@@ -53,7 +57,7 @@ namespace Collection.Maps.Scripts
         private void Update()
         {
             DeterminePositions();
-            
+
             currentStandings = allPlayersPositions;
         }
 
@@ -63,17 +67,17 @@ namespace Collection.Maps.Scripts
         private void DeterminePositions()
         {
             // No need when only 1 player.
-            if(allPlayers.Count == 1)
+            if (allPlayers.Count == 1)
                 return;
-            
+
             // Resetting the List. 
             allPlayersPositions = playersStandings;
             var players = SeparatedByLaps(allPlayers);
 
-            if(players != null)
+            if (players != null)
                 allPlayersPositions = SeparatedByZones(players);
         }
-        
+
         /// <summary>
         /// Separates the players by their laps.
         /// </summary>
@@ -83,43 +87,43 @@ namespace Collection.Maps.Scripts
         {
             if (players == null)
                 return null;
-            
-            var separatedPlayers = new PlayerHandler[LapCount+2, players.Count];
+
+            var separatedPlayers = new PlayerHandler[LapCount + 2, players.Count];
             byte count = 0;
-            
+
             for (var i = 1; i < LapCount + 1; i++)
             {
                 // Stops when every player is in the list.
-                if(count == players.Count)
+                if (count == players.Count)
                     break;
-                
+
                 for (var j = 0; j < players.Count; j++)
                 {
                     // Sorts Players by their laps.
-                    if (players[j].Car.LapCount != i) 
+                    if (players[j].Car.LapCount != i)
                         continue;
-                    
+
                     // Stops when every player is in the list.
-                    if(count == players.Count)
+                    if (count == players.Count)
                         break;
-                    
+
                     count++;
                     separatedPlayers[i, j] = players[j];
                 }
             }
-            
+
             return separatedPlayers;
         }
 
         private List<PlayerHandler> SeparatedByZones(PlayerHandler[,] players)
         {
             var sortedPlayers = new List<PlayerHandler>();
-            
+
             // Repeated for every lap backwards.
-            for (var i = LapCount+1; i > 0; i--)
+            for (var i = LapCount + 1; i > 0; i--)
             {
                 // Skips process when no player is at that lap. 
-                if(players[i,0] == null)
+                if (players[i, 0] == null)
                     continue;
 
                 // Shortens process when only one player is at that lap.
@@ -128,18 +132,18 @@ namespace Collection.Maps.Scripts
                     sortedPlayers.Add(players[i, 0]);
                     continue;
                 }
-                
+
                 //Sorter(ref players, i);
-                
+
                 for (var j = 0; j < allPlayers.Count; j++)
                 {
                     // Adds to list if existing and stops for when null.
                     if (players[i, j] != null)
                     {
-                        sortedPlayers.Add(players[i,j]);
-                        
+                        sortedPlayers.Add(players[i, j]);
+
                         // Sets their position.
-                        players[i, j].Position = (byte)(sortedPlayers.Count + 1);
+                        players[i, j].Position = (byte) (sortedPlayers.Count + 1);
                         players[i, j].Car.place = (byte) sortedPlayers.Count;
                     }
                     else
@@ -148,7 +152,7 @@ namespace Collection.Maps.Scripts
                     }
                 }
             }
-            
+
             return sortedPlayers;
         }
 
@@ -169,11 +173,11 @@ namespace Collection.Maps.Scripts
                     print("index: " + index);
                     print("j: " + j);
                     // Ends for-loop when there is no car anymore.
-                    if(array[index,j] == null)
+                    if (array[index, j] == null)
                         break;
 
                     // Skips car if it isn't in the Zone.
-                    if (array[index, j].Car.ZoneCount != i) 
+                    if (array[index, j].Car.ZoneCount != i)
                         continue;
 
                     playersInSameZone++;
@@ -188,40 +192,42 @@ namespace Collection.Maps.Scripts
                                 continue;
 
                             passedAllChecks = false;
-                            var currentCarDistance = (Zones[i+1].transform.position - array[index,j].transform.position).magnitude;
-                            
+                            var currentCarDistance =
+                                (Zones[i + 1].transform.position - array[index, j].transform.position).magnitude;
+
                             // Compares Distance to next Zone with the other cars.
                             for (var l = 0; l < playersInSameZone; l++)
                             {
-                                var carDistance = (Zones[i + 1].transform.position - sortedPlayers[k+l].transform.position)
+                                var carDistance = (Zones[i + 1].transform.position -
+                                                   sortedPlayers[k + l].transform.position)
                                     .magnitude;
                                 if (currentCarDistance < carDistance)
                                 {
                                     // Swaps both cars when the current car is closer then the older car.
-                                    var tempPlayer = sortedPlayers[k+l];
+                                    var tempPlayer = sortedPlayers[k + l];
                                     sortedPlayers[k + l] = array[index, j];
                                     array[index, j] = tempPlayer;
                                 }
-                                else if (l == playersInSameZone-1)
+                                else if (l == playersInSameZone - 1)
                                 {
                                     sortedPlayers[k + 1] = array[index, j];
                                 }
                             }
                         }
-                        
-                        if(!passedAllChecks)
+
+                        if (!passedAllChecks)
                             break;
 
-                        array[index, j].Car.place = k; 
+                        array[index, j].Car.place = k;
                         sortedPlayers[k] = array[index, j];
                         break;
                     }
                 }
             }
-            
+
             print(sortedPlayers[0].transform.position);
             print(sortedPlayers[1].transform.position);
-            
+
             //array.SetValue(sortedPlayers,index);
         }
 
@@ -247,6 +253,7 @@ namespace Collection.Maps.Scripts
             {
                 nextPlayer = allPlayersPositions[allPlayersPositions.Count - 1];
             }
+
             print("next player " + nextPlayer);
             return nextPlayer;
         }
@@ -267,14 +274,11 @@ namespace Collection.Maps.Scripts
         /// <param name="player"> The player to check what position he got in. </param>
         private void OnRaceFinish(PlayerHandler player)
         {
-            if(allPlayers.Count > 0)
+            if (allPlayers.Count > 0)
                 return;
-            
-            if (false)
-            {
-                TextFixer();
-            }
-            
+
+            TextFixer();
+
             victoryScreen.SetActive(true);
             raceFinished = true;
 
@@ -289,19 +293,42 @@ namespace Collection.Maps.Scripts
         /// </summary>
         private void TextFixer()
         {
+            GetNames();
             victoryScreenText.text = null;
             for (var i = 0; i < playersStandings.Count; i++)
             {
-                victoryScreenText.text += i + ".       " + playersStandings[i].LocalPlayer.NickName + "\n\n";
+                if (Names.ContainsKey(playersStandings[i]))
+                {
+                    victoryScreenText.text += i+1 + ".       " + Names[playersStandings[i]] + "\n\n";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fills the dictionary with every player.
+        /// </summary>
+        private void GetNames()
+        {
+            var players = PhotonNetwork.CurrentRoom.Players.Values.ToList();
+            foreach (var player in players)
+            {
+                var index = GameManager.Scripts.GameManager.Gm.PlayerHandlers.FindIndex(x =>
+                    x.ActorNumber == player.ActorNumber);
+
+                if (index != -1)
+                {
+                    var handler = GameManager.Scripts.GameManager.Gm.PlayerHandlers[index];
+                    Names.Add(handler, player.NickName);
+                }
             }
         }
 
         private IEnumerator EndMapCo()
         {
             photonView.RPC("SetProps", RpcTarget.All);
-            
+
             yield return new WaitForSeconds(victoryScreenTime);
-            
+
             photonView.RPC("RPCLeaveMatch", RpcTarget.All);
         }
 
@@ -310,7 +337,7 @@ namespace Collection.Maps.Scripts
         {
             GameManager.Scripts.GameManager.Gm.OnMatchFinished();
         }
-        
+
         [PunRPC]
         private void RPCLeaveMatch()
         {
