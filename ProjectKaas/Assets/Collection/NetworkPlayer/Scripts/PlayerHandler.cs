@@ -98,6 +98,12 @@ namespace Collection.NetworkPlayer.Scripts
             PositionManagerInstance.OnFinish += WhenFinnish;
         }
 
+        private void OnDestroy()
+        {
+            Destroy(Car.gameObject);
+            PositionManagerInstance.AllPlayers.Remove(this);
+        }
+
         #endregion
 
         #region Internal Methods
