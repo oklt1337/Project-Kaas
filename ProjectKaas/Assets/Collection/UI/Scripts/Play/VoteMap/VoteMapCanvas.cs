@@ -52,6 +52,7 @@ namespace Collection.UI.Scripts.Play.VoteMap
                 timer.text = ((int) _timer).ToString();
                 if (_timer < 0)
                 {
+                    _timerStart = false;
                     ForceMapVetoEnd();
                 }
             }
@@ -109,8 +110,8 @@ namespace Collection.UI.Scripts.Play.VoteMap
             }
 
             // Load the Map.
-            PhotonNetwork.LoadLevel(mapWon);
             Debug.Log($"Loading {mapWon}");
+            PhotonNetwork.LoadLevel(mapWon);
         }
 
         private void VoteMap(string map, Player player)
