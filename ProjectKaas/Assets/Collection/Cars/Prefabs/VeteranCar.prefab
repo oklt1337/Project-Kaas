@@ -480,7 +480,6 @@ MonoBehaviour:
   zoneCount: 0
   audioSource: {fileID: 6586336250663337744}
   onNewLapClip: {fileID: 8300000, guid: 866998220535d554b8fd7ac9052895ba, type: 3}
-  onFinishClip: {fileID: 0}
   place: 0
   myCamera: {fileID: 7200755641180383498}
   maxSpeed: 75
@@ -581,7 +580,8 @@ AudioSource:
   m_GameObject: {fileID: 1580409032674751534}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 6513331179204326738, guid: 0161f2c23b2b8d440a13f411e90c2f71,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
