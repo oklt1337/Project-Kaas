@@ -63,23 +63,15 @@ namespace Collection.UI.Scripts.Play
         {
             pauseScreen.SetActive(false);
         }
-        
-        public void LeaveRoom()
-        { 
-            if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.Players.Count > 1) 
-            { 
-                photonView.RPC("RPCLeaveMatch", RpcTarget.All);
-            }
-            else 
-            { 
-                PhotonNetwork.LeaveRoom(); 
-                SceneManager.LoadScene(1);
-            }
+
+        public void OnClickLeave()
+        {
+            GameManager.Scripts.GameManager.Gm.LeaveRoom();
         }
         
         public void Quit()
         {
-            LeaveRoom(); 
+            OnClickLeave();
             Application.Quit();
         }
 
@@ -109,7 +101,5 @@ namespace Collection.UI.Scripts.Play
         }
 
         #endregion
-        
-        
     }
 }

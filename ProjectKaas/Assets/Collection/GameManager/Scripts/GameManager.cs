@@ -127,6 +127,19 @@ namespace Collection.GameManager.Scripts
         #endregion
 
         #region Public Methods
+        
+        public void LeaveRoom()
+        { 
+            if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.Players.Count > 1) 
+            { 
+                photonView.RPC("RPCLeaveMatch", RpcTarget.All);
+            }
+            else 
+            { 
+                PhotonNetwork.LeaveRoom(); 
+                SceneManager.LoadScene(1);
+            }
+        }
 
         public void OnMatchFinished()
         {
