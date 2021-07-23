@@ -45,6 +45,49 @@ namespace Collection.UI.Scripts.MainMenu.Settings
             musicSlider.value = AudioManager.Instance.GetMusicVolume();
             sfxSlider.value = AudioManager.Instance.GetSfxVolume();
             ambientSoundMusicSlider.value = AudioManager.Instance.GetAmbientSoundVolume();
+
+
+            if (PlayerPrefs.HasKey("Controls"))
+            {
+                var control = PlayerPrefs.GetString("Controls");
+
+                if (control == Controls.Joystick.ToString())
+                {
+                    controlSlider.isOn = true;
+                
+                    //Joystick
+                    var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+
+                    if (hashtable.ContainsKey("Controls"))
+                    {
+                        hashtable.Remove("Controls");
+                    }
+                
+                    hashtable.Add("Controls", Controls.Joystick);
+                    controlText.text = "Joystick";
+                }
+                else if (control == Controls.Tilt.ToString())
+                {
+                    controlSlider.isOn = false;
+                
+                    //Tilt
+                
+                    var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+
+                    if (hashtable.ContainsKey("Controls"))
+                    {
+                        hashtable.Remove("Controls");
+                    }
+                
+                    hashtable.Add("Controls", Controls.Tilt);
+                    controlText.text = "Tilt";
+                }
+            }
+            else
+            {
+                PlayerPrefs.SetString("Controls", Controls.Joystick.ToString());
+                PlayerPrefs.Save();
+            }
         }
 
         private void OnEnable()
@@ -126,8 +169,10 @@ namespace Collection.UI.Scripts.MainMenu.Settings
                 }
                 
                 hashtable.Add("Controls", Controls.Joystick);
-
                 controlText.text = "Joystick";
+                
+                PlayerPrefs.SetString("Controls", Controls.Joystick.ToString());
+                PlayerPrefs.Save();
             }
             else
             {
@@ -141,8 +186,10 @@ namespace Collection.UI.Scripts.MainMenu.Settings
                 }
                 
                 hashtable.Add("Controls", Controls.Tilt);
-                
                 controlText.text = "Tilt";
+                
+                PlayerPrefs.SetString("Controls", Controls.Tilt.ToString());
+                PlayerPrefs.Save();
             }
         }
 
