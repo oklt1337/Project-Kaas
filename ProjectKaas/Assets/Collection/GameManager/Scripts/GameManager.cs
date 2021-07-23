@@ -199,19 +199,19 @@ namespace Collection.GameManager.Scripts
                 {
                     case 1:
                         place = LocalProfile.Data.First.ToString();
-                        placeAmount = int.Parse(LocalProfile.Instance.UserData[place].Value);
+                        placeAmount = LocalProfile.Instance.UserData.ContainsKey(place) ? int.Parse(LocalProfile.Instance.UserData[place].Value) : 1;
                         placeAmountToString = (placeAmount + 1).ToString();
                         dick.Add(place, placeAmountToString);
                         break;
                     case 2:
                         place = LocalProfile.Data.Second.ToString();
-                        placeAmount = int.Parse(LocalProfile.Instance.UserData[place].Value);
+                        placeAmount = LocalProfile.Instance.UserData.ContainsKey(place) ? int.Parse(LocalProfile.Instance.UserData[place].Value) : 1;
                         placeAmountToString = (placeAmount + 1).ToString();
                         dick.Add(place, placeAmountToString);
                         break;
                     case 3:
                         place = LocalProfile.Data.Third.ToString();
-                        placeAmount = int.Parse(LocalProfile.Instance.UserData[place].Value);
+                        placeAmount = LocalProfile.Instance.UserData.ContainsKey(place) ? int.Parse(LocalProfile.Instance.UserData[place].Value) : 1;
                         placeAmountToString = (placeAmount + 1).ToString();
                         dick.Add(place, placeAmountToString);
                         break;
