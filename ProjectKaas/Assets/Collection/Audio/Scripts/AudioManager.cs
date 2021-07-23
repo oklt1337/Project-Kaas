@@ -23,6 +23,7 @@ namespace Collection.Audio.Scripts
         #region Private Serializabel Fields
 
         [SerializeField] private AudioMixer masterMixer;
+        [SerializeField] private AudioSource audioSource;
 
         #endregion
 
@@ -126,6 +127,16 @@ namespace Collection.Audio.Scripts
             masterMixer.GetFloat(AudioVariables.AmbientSound.ToString(), out var vol);
 
             return vol;
+        }
+
+        /// <summary>
+        /// Sets the Music that shall be played.
+        /// </summary>
+        /// <param name="newSong"> The new song. </param>
+        public void SetMusic(AudioClip newSong)
+        {
+            audioSource.clip = newSong;
+            audioSource.Play();
         }
 
         #endregion

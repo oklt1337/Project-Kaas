@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Collection.Audio.Scripts;
 using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using TMPro;
@@ -31,6 +32,9 @@ namespace Collection.Maps.Scripts
         [SerializeField] private bool raceFinished;
         [SerializeField] private float victoryScreenTime;
         private float _shownVictoryScreenTime;
+
+        [Header("Music")] 
+        [SerializeField] private AudioClip victoryScreenSong;
 
         public delegate void Finish(PlayerHandler player);
 
@@ -295,6 +299,8 @@ namespace Collection.Maps.Scripts
             victoryScreen.SetActive(true);
             raceFinished = true;
 
+            AudioManager.Instance.SetMusic(victoryScreenSong);
+            
             if (PhotonNetwork.IsMasterClient)
             {
                 StartCoroutine(EndMapCo());
