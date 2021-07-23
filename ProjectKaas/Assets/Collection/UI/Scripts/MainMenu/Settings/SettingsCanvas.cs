@@ -148,8 +148,6 @@ namespace Collection.UI.Scripts.MainMenu.Settings
 
         private static void OnMasterVolumeChanged(float value)
         {
-            Debug.Log("get trolled");
-            
             AudioManager.Instance.SetMasterVolume(value);
         }
 

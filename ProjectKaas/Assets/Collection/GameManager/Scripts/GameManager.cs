@@ -4,6 +4,7 @@ using System.Linq;
 using Collection.Items.Scripts;
 using Collection.Maps.Scripts;
 using Collection.NetworkPlayer.Scripts;
+using Collection.Profile.Scripts;
 using Collection.UI.Scripts.Play.ChoosingCar;
 using Photon.Pun;
 using Photon.Realtime;
@@ -42,6 +43,8 @@ namespace Collection.GameManager.Scripts
         private void Awake()
         {
             Gm = this;
+
+            PositionManager.PositionManagerInstance.OnFinish += UpdatePlacementInProfile;
         }
 
         private void Start()
@@ -63,7 +66,7 @@ namespace Collection.GameManager.Scripts
                 PhotonNetwork.Instantiate("Prefabs/Player", startPos[index].position, Quaternion.identity);
             }
 
-            
+            UpdateProfileData();
         }
 
         private void LateUpdate()
@@ -160,7 +163,7 @@ namespace Collection.GameManager.Scripts
 
                     if (index != -1)
                     {
-                        var handler = this.playerHandler[index];
+                        var handler = playerHandler[index];
 
                         if (hashtable.ContainsKey("Car"))
                         {
@@ -171,6 +174,88 @@ namespace Collection.GameManager.Scripts
                     }
                 }
             }
+        }
+
+        private void UpdatePlacementInProfile(PlayerHandler player)
+        {
+            if (player.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber) return;
+
+
+            var index = PositionManager.PositionManagerInstance.PlayersStandings.FindIndex(x =>
+                x.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber);
+
+            if (index != -1)
+            {
+                var placement = index + 1;
+
+                if (placement > 3) return;
+
+                string place;
+                string placeAmountToString;
+                var dick = new Dictionary<string, string>();
+                int placeAmount;
+                switch (placement)
+                {
+                    case 1:
+                        place = LocalProfile.Data.First.ToString();
+                        placeAmount = int.Parse(LocalProfile.Instance.UserData[place].Value);
+                        placeAmountToString = (placeAmount + 1).ToString();
+                        dick.Add(place, placeAmountToString);
+                        break;
+                    case 2:
+                        place = LocalProfile.Data.Second.ToString();
+                        placeAmount = int.Parse(LocalProfile.Instance.UserData[place].Value);
+                        placeAmountToString = (placeAmount + 1).ToString();
+                        dick.Add(place, placeAmountToString);
+                        break;
+                    case 3:
+                        place = LocalProfile.Data.Third.ToString();
+                        placeAmount = int.Parse(LocalProfile.Instance.UserData[place].Value);
+                        placeAmountToString = (placeAmount + 1).ToString();
+                        dick.Add(place, placeAmountToString);
+                        break;
+                }
+                LocalProfile.UpdateUserData(dick);
+            }
+        }
+
+        private void UpdateProfileData()
+        {
+            var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+            var dick = new Dictionary<string, string>();
+            if (hashtable.ContainsKey("Car"))
+            {
+                var car = (ChooseCar) hashtable["Car"];
+
+                string carAmountToString;
+                if (LocalProfile.Instance.UserData.ContainsKey(car.ToString()))
+                {
+                    var carAmount = int.Parse(LocalProfile.Instance.UserData[car.ToString()].Value);
+                    carAmountToString = (carAmount + 1).ToString();
+                }
+                else
+                {
+                    carAmountToString = 1.ToString();
+                }
+
+                dick.Add(car.ToString(), carAmountToString);
+
+                string cityAmountToString;
+                if (LocalProfile.Instance.UserData.ContainsKey(SceneManager.GetActiveScene().name))
+                {
+                    var cityAmount =
+                        int.Parse(LocalProfile.Instance.UserData[SceneManager.GetActiveScene().name].Value);
+                    cityAmountToString = (cityAmount + 1).ToString();
+                }
+                else
+                {
+                    cityAmountToString = 1.ToString();
+                }
+
+                dick.Add(SceneManager.GetActiveScene().name, cityAmountToString);
+            }
+
+            LocalProfile.UpdateUserData(dick);
         }
 
         #endregion

@@ -10,6 +10,20 @@ namespace Collection.Profile.Scripts
 {
     public class LocalProfile : MonoBehaviour
     {
+        #region Enum
+
+        public enum Data
+        {
+            City,
+            Japan,
+            Mountains,
+            First,
+            Second,
+            Third
+        }
+
+        #endregion
+
         #region Singleton
 
         public static LocalProfile Instance;
@@ -24,23 +38,25 @@ namespace Collection.Profile.Scripts
         #endregion
 
         #region Public Fields
-        
+
         public List<FriendInfo> friendList = new List<FriendInfo>();
         public PlayerProfileModel PlayerProfileModel { get; private set; } = new PlayerProfileModel();
         public UserAccountInfo AccountInfo { get; private set; } = new UserAccountInfo();
-        public Dictionary<string, UserDataRecord> UserData { get; private set; } = new Dictionary<string, UserDataRecord>();
+
+        public Dictionary<string, UserDataRecord> UserData { get; private set; } =
+            new Dictionary<string, UserDataRecord>();
 
         #endregion
-        
+
         #region Events
-        
+
         public static readonly UnityEvent OnProfileInitialized = new UnityEvent();
         public static readonly UnityEvent OnAccountInfoInitialized = new UnityEvent();
         public static readonly UnityEvent OnUserDataInitialized = new UnityEvent();
         public static readonly UnityEvent<List<FriendInfo>> OnFriendListUpdated = new UnityEvent<List<FriendInfo>>();
         public static readonly UnityEvent OnDisplayNameUpdated = new UnityEvent();
         public static readonly UnityEvent OnUserDataUpdated = new UnityEvent();
-        
+
         #endregion
 
         #region MonoBehaviour Callbacks
@@ -93,7 +109,7 @@ namespace Collection.Profile.Scripts
             PlayFabClientAPI.GetPlayerProfile(new GetPlayerProfileRequest(),
                 result =>
                 {
-                    PlayerProfileModel = result.PlayerProfile; 
+                    PlayerProfileModel = result.PlayerProfile;
                     OnProfileInitialized?.Invoke();
                 },
                 error => { Debug.LogError($"Cant Get UserProfile: {error.ErrorMessage}"); });
@@ -107,10 +123,15 @@ namespace Collection.Profile.Scripts
                 },
                 result =>
                 {
-                    AccountInfo = result.AccountInfo; 
+                    AccountInfo = result.AccountInfo;
                     OnAccountInfoInitialized?.Invoke();
                 },
-                error => { { Debug.LogError($"Cant Get AccountInfo: {error.ErrorMessage}"); } });
+                error =>
+                {
+                    {
+                        Debug.LogError($"Cant Get AccountInfo: {error.ErrorMessage}");
+                    }
+                });
         }
 
         private void GetUserData()
@@ -156,7 +177,7 @@ namespace Collection.Profile.Scripts
             if (string.IsNullOrEmpty(newName)) return;
 
             PlayFabClientAPI.UpdateUserTitleDisplayName(new UpdateUserTitleDisplayNameRequest
-                { DisplayName = newName },
+                    {DisplayName = newName},
                 result =>
                 {
                     if (result.DisplayName == newName)
@@ -166,16 +187,16 @@ namespace Collection.Profile.Scripts
                 }, error => { Debug.LogError($"Failed to update UserDisplayName: {error.ErrorMessage}"); });
         }
 
-        public void UpdateUserData(Dictionary<string, string> updatedData)
+        public static void UpdateUserData(Dictionary<string, string> updatedData)
         {
             PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest
                 {
                     Data = updatedData
-                }, 
-                result => { OnUserDataUpdated?.Invoke(); }, 
+                },
+                result => { OnUserDataUpdated?.Invoke(); },
                 error => { Debug.LogError($"Failed to update UserData: {error.ErrorMessage}"); });
         }
-        
+
         #endregion
     }
 }
