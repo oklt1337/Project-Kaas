@@ -110,8 +110,6 @@ namespace Collection.Audio.Scripts
         {
             masterMixer.GetFloat(AudioVariables.MasterVolume.ToString(), out var vol);
 
-            Debug.Log(vol);
-            
             return vol;
         }
 
