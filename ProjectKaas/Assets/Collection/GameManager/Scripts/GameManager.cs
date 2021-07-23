@@ -43,8 +43,6 @@ namespace Collection.GameManager.Scripts
         private void Awake()
         {
             Gm = this;
-
-            PositionManager.PositionManagerInstance.OnFinish += UpdatePlacementInProfile;
         }
 
         private void Start()
@@ -71,6 +69,9 @@ namespace Collection.GameManager.Scripts
 
         private void LateUpdate()
         {
+            if(PhotonNetwork.CurrentRoom.Players.Count < 2)
+                return;
+            
             //pls dont look at this it had to be done quickly.
             if (reSkinDone || playerHandler.Count != PhotonNetwork.CurrentRoom.Players.Count) return;
             ReSkinCars();
@@ -176,7 +177,7 @@ namespace Collection.GameManager.Scripts
             }
         }
 
-        private void UpdatePlacementInProfile(PlayerHandler player)
+        public void UpdatePlacementInProfile(PlayerHandler player)
         {
             if (player.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber) return;
 

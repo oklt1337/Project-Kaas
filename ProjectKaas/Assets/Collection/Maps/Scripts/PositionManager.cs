@@ -6,6 +6,7 @@ using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
+using static Collection.GameManager.Scripts.GameManager;
 
 namespace Collection.Maps.Scripts
 {
@@ -61,6 +62,7 @@ namespace Collection.Maps.Scripts
             
             OnFinish += AssignToStandings;
             OnFinish += OnRaceFinish;
+            OnFinish += Gm.UpdatePlacementInProfile;
         }
 
         private void Update()
@@ -332,12 +334,12 @@ namespace Collection.Maps.Scripts
             var players = PhotonNetwork.CurrentRoom.Players.Values.ToList();
             foreach (var player in players)
             {
-                var index = GameManager.Scripts.GameManager.Gm.PlayerHandlers.FindIndex(x =>
+                var index = Gm.PlayerHandlers.FindIndex(x =>
                     x.ActorNumber == player.ActorNumber);
 
                 if (index != -1)
                 {
-                    var handler = GameManager.Scripts.GameManager.Gm.PlayerHandlers[index];
+                    var handler = Gm.PlayerHandlers[index];
                     _names.Add(handler, player.NickName);
                 }
             }
@@ -355,7 +357,7 @@ namespace Collection.Maps.Scripts
         [PunRPC]
         private void SetProps()
         {
-            GameManager.Scripts.GameManager.Gm.OnMatchFinished();
+            Gm.OnMatchFinished();
         }
 
         [PunRPC]
