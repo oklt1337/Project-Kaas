@@ -56,6 +56,7 @@ namespace Collection.UI.Scripts.MainMenu.Profile
             registerDateText.text = LocalProfile.Instance.AccountInfo.Created.ToShortDateString();
             MapStuff();
             CarStuff();
+            PlacementStuff();
         }
 
         private void MapStuff()
@@ -150,18 +151,48 @@ namespace Collection.UI.Scripts.MainMenu.Profile
 
         private void PlacementStuff()
         {
+            var cityAmount = 0;
+            var japanAmount = 0;
+            var mountainsAmount = 0;
+            
+            if (LocalProfile.Instance.UserData.ContainsKey(LocalProfile.Data.City.ToString()))
+            {
+                cityAmount = int.Parse(LocalProfile.Instance.UserData[LocalProfile.Data.City.ToString()].Value);
+            }
+            if (LocalProfile.Instance.UserData.ContainsKey(LocalProfile.Data.Japan.ToString()))
+            {
+                japanAmount = int.Parse(LocalProfile.Instance.UserData[LocalProfile.Data.Japan.ToString()].Value);
+            }
+            if (LocalProfile.Instance.UserData.ContainsKey(LocalProfile.Data.Mountains.ToString()))
+            {
+                mountainsAmount = int.Parse(LocalProfile.Instance.UserData[LocalProfile.Data.Mountains.ToString()].Value);
+            }
+
+            var totalRaces = cityAmount + japanAmount + mountainsAmount;
+            var first = 0;
+            var second = 0;
+            var third = 0;
             if (LocalProfile.Instance.UserData.ContainsKey(LocalProfile.Data.First.ToString()))
             {
                 firstCountText.text = LocalProfile.Instance.UserData[LocalProfile.Data.First.ToString()].Value;
+                first = int.Parse(firstCountText.text);
             }
             if (LocalProfile.Instance.UserData.ContainsKey(LocalProfile.Data.Second.ToString()))
             {
                 secondCountText.text = LocalProfile.Instance.UserData[LocalProfile.Data.Second.ToString()].Value;
+                second = int.Parse(secondCountText.text);
             }
             if (LocalProfile.Instance.UserData.ContainsKey(LocalProfile.Data.Third.ToString()))
             {
                 thirdCountText.text = LocalProfile.Instance.UserData[LocalProfile.Data.Third.ToString()].Value;
+                third = int.Parse(thirdCountText.text);
             }
+            var totalPlace = first + second + third;
+
+            var percent = totalPlace / totalRaces * 100;
+            percentageSlider.value = percent;
+
+            topThreePercentageText.text = percent + "%";
         }
 
         #endregion
