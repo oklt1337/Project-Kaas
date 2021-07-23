@@ -8,7 +8,6 @@ namespace Collection.Audio.Scripts
     {
         MasterVolume,
         MusicVolume,
-        BackgroundMusic,
         SfxVolume,
         AmbientSound
     }
@@ -45,8 +44,7 @@ namespace Collection.Audio.Scripts
             if (audioData.ContainsKey(PlayerDataConst.MasterAudio.ToString()) &&
                 audioData.ContainsKey(PlayerDataConst.MusicAudio.ToString()) &&
                 audioData.ContainsKey(PlayerDataConst.SfxAudio.ToString()) &&
-                audioData.ContainsKey(PlayerDataConst.AmbientSound.ToString()) && 
-                audioData.ContainsKey(PlayerDataConst.BackgroundMusic.ToString()))
+                audioData.ContainsKey(PlayerDataConst.AmbientSound.ToString()))
             {
                 masterMixer.SetFloat(AudioVariables.MasterVolume.ToString(),
                     audioData[PlayerDataConst.MasterAudio.ToString()]);
@@ -54,8 +52,6 @@ namespace Collection.Audio.Scripts
                     audioData[PlayerDataConst.MusicAudio.ToString()]);
                 masterMixer.SetFloat(AudioVariables.SfxVolume.ToString(),
                     audioData[PlayerDataConst.SfxAudio.ToString()]);
-                masterMixer.SetFloat(AudioVariables.BackgroundMusic.ToString(),
-                    audioData[PlayerDataConst.BackgroundMusic.ToString()]);
                 masterMixer.SetFloat(AudioVariables.AmbientSound.ToString(),
                     audioData[PlayerDataConst.AmbientSound.ToString()]);
             }
@@ -64,7 +60,6 @@ namespace Collection.Audio.Scripts
                 masterMixer.SetFloat(AudioVariables.MasterVolume.ToString(), 1);
                 masterMixer.SetFloat(AudioVariables.MusicVolume.ToString(), 1);
                 masterMixer.SetFloat(AudioVariables.SfxVolume.ToString(), 1);
-                masterMixer.SetFloat(AudioVariables.BackgroundMusic.ToString(), 1);
                 masterMixer.SetFloat(AudioVariables.AmbientSound.ToString(), 1);
             }
         }
@@ -78,7 +73,7 @@ namespace Collection.Audio.Scripts
             masterMixer.SetFloat(AudioVariables.MasterVolume.ToString(), vol);
 
             LocalPlayerDataManager.SaveAudioData(GetMasterVolume(), GetMusicVolume(), GetSfxVolume(),
-                GetBackgroundMusicVolume(), GetAmbientSoundVolume());
+                GetAmbientSoundVolume());
         }
 
         public void SetMusicVolume(float vol)
@@ -86,7 +81,7 @@ namespace Collection.Audio.Scripts
             masterMixer.SetFloat(AudioVariables.MusicVolume.ToString(), vol);
 
             LocalPlayerDataManager.SaveAudioData(GetMasterVolume(), GetMusicVolume(), GetSfxVolume(),
-                GetBackgroundMusicVolume(), GetAmbientSoundVolume());
+                GetAmbientSoundVolume());
         }
 
         public void SetSfxVolume(float vol)
@@ -94,15 +89,7 @@ namespace Collection.Audio.Scripts
             masterMixer.SetFloat(AudioVariables.SfxVolume.ToString(), vol);
 
             LocalPlayerDataManager.SaveAudioData(GetMasterVolume(), GetMusicVolume(), GetSfxVolume(),
-                GetBackgroundMusicVolume(), GetAmbientSoundVolume());
-        }
-
-        public void SetBackgroundMusicVolume(float vol)
-        {
-            masterMixer.SetFloat(AudioVariables.BackgroundMusic.ToString(), vol);
-
-            LocalPlayerDataManager.SaveAudioData(GetMasterVolume(), GetMusicVolume(), GetSfxVolume(),
-                GetBackgroundMusicVolume(), GetAmbientSoundVolume());
+                GetAmbientSoundVolume());
         }
 
         public void SetAmbientSoundVolume(float vol)
@@ -110,7 +97,7 @@ namespace Collection.Audio.Scripts
             masterMixer.SetFloat(AudioVariables.AmbientSound.ToString(), vol);
 
             LocalPlayerDataManager.SaveAudioData(GetMasterVolume(), GetMusicVolume(), GetSfxVolume(),
-                GetBackgroundMusicVolume(), GetAmbientSoundVolume());
+                GetAmbientSoundVolume());
         }
 
         public float GetMasterVolume()
@@ -130,13 +117,6 @@ namespace Collection.Audio.Scripts
         public float GetSfxVolume()
         {
             masterMixer.GetFloat(AudioVariables.SfxVolume.ToString(), out var vol);
-
-            return vol;
-        }
-
-        public float GetBackgroundMusicVolume()
-        {
-            masterMixer.GetFloat(AudioVariables.BackgroundMusic.ToString(), out var vol);
 
             return vol;
         }

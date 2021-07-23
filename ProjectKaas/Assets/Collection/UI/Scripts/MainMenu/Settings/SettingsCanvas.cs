@@ -29,7 +29,6 @@ namespace Collection.UI.Scripts.MainMenu.Settings
         [SerializeField] private Slider masterSlider;
         [SerializeField] private Slider sfxSlider;
         [SerializeField] private Slider musicSlider;
-        [SerializeField] private Slider backgroundMusicSlider;
         [SerializeField] private Slider ambientSoundMusicSlider;
         
         [Header("VideoPanel")] 
@@ -51,7 +50,6 @@ namespace Collection.UI.Scripts.MainMenu.Settings
             masterSlider.onValueChanged.AddListener(OnMasterVolumeChanged);
             musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
             sfxSlider.onValueChanged.AddListener(OnSfxVolumeChanged);
-            backgroundMusicSlider.onValueChanged.AddListener(OnBackgroundMusicVolumeChanged);
             ambientSoundMusicSlider.onValueChanged.AddListener(OnAmbientSoundVolumeChanged);
             
             generalPanel.SetActive(true);
@@ -71,7 +69,6 @@ namespace Collection.UI.Scripts.MainMenu.Settings
             masterSlider.onValueChanged.AddListener(OnMasterVolumeChanged);
             musicSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
             sfxSlider.onValueChanged.RemoveListener(OnSfxVolumeChanged);
-            backgroundMusicSlider.onValueChanged.RemoveListener(OnBackgroundMusicVolumeChanged);
             ambientSoundMusicSlider.onValueChanged.RemoveListener(OnAmbientSoundVolumeChanged);
         }
 
@@ -156,12 +153,7 @@ namespace Collection.UI.Scripts.MainMenu.Settings
         {
             AudioManager.Instance.SetSfxVolume(value * 20f);
         }
-        
-        private static void OnBackgroundMusicVolumeChanged(float value)
-        {
-            AudioManager.Instance.SetBackgroundMusicVolume(value * 20f);
-        }
-        
+
         private static void OnAmbientSoundVolumeChanged(float value)
         {
             AudioManager.Instance.SetAmbientSoundVolume(value * 20f);
