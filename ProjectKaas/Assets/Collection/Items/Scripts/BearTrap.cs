@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using static Collection.GameManager.Scripts.GameManager;
 
 namespace Collection.Items.Scripts
 {
@@ -7,7 +8,8 @@ namespace Collection.Items.Scripts
     {
         public override void OnUse()
         {
-            PhotonNetwork.Instantiate("Prefabs/Items/Bear Trap",Owner.BackItem.transform.position, Quaternion.identity);
+            var item = PhotonNetwork.Instantiate("Prefabs/Items/Bear Trap",Owner.BackItem.transform.position, Quaternion.identity);
+            item.transform.parent = Gm.transform;
             base.OnUse();
         }
     }
