@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Collection.Audio.Scripts;
 using Collection.Network.Scripts;
 using Collection.UI.Scripts.Play.ChoosingCar;
 using Photon.Pun;
@@ -24,10 +25,9 @@ namespace Collection.UI.Scripts.Play.Room
         [Tooltip("Current Max Player Count")] [SerializeField]
         private TextMeshProUGUI playerCount;
 
-        [Header("Intractable Objects")]
-        [Tooltip("Toggle to make room private or public.")] [SerializeField]
+        [Header("Intractable Objects")] [Tooltip("Toggle to make room private or public.")] [SerializeField]
         private Toggle toggle;
-        
+
         [SerializeField] private Button readyButton;
         [SerializeField] private Button leaveButton;
         [SerializeField] private Button addButton;
@@ -53,7 +53,7 @@ namespace Collection.UI.Scripts.Play.Room
         private void Update()
         {
             if (PhotonNetwork.CurrentRoom == null || playerCount == null) return;
-            
+
             playerCount.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
         }
 
@@ -195,7 +195,7 @@ namespace Collection.UI.Scripts.Play.Room
             OnReadyButtonStates(!leaveButton.interactable);
             ChooseCarHandler.DeactivateCars();
             ChooseCarHandler.SetButtonInteractableState();
-            
+
             var hashTable = PhotonNetwork.LocalPlayer.CustomProperties;
             if (hashTable.ContainsKey("Car"))
             {
@@ -205,8 +205,9 @@ namespace Collection.UI.Scripts.Play.Room
             {
                 hashTable.Add("Car", ChooseCarHandler.Car);
             }
+
             PhotonNetwork.LocalPlayer.SetCustomProperties(hashTable);
-            
+
             SetReadyState(!_ready);
             photonView.RPC("RPCChangeReadyState", RpcTarget.All, PhotonNetwork.LocalPlayer, _ready);
         }
@@ -217,7 +218,8 @@ namespace Collection.UI.Scripts.Play.Room
         public void OnClickLeave()
         {
             PhotonNetwork.LeaveRoom();
-
+            AudioManager.Instance.SetMusic(RadioManager.Songs[0]);
+            
             // make sure to remove old rooms from list.
             OverlayCanvases.Instance.RoomListCanvas.RoomLayoutGroup.RemoveOldRooms();
             OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
