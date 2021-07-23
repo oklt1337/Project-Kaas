@@ -11,7 +11,9 @@ namespace Collection.LocalPlayerData.Scripts
         Password,
         MasterAudio,
         SfxAudio,
-        MusicAudio
+        MusicAudio,
+        BackgroundMusic,
+        AmbientSound
     }
 
     public class LocalPlayerDataManager : MonoBehaviour
@@ -82,21 +84,28 @@ namespace Collection.LocalPlayerData.Scripts
             var master = PlayerPrefs.GetFloat(PlayerDataConst.MasterAudio.ToString());
             var sfx = PlayerPrefs.GetFloat(PlayerDataConst.SfxAudio.ToString());
             var music = PlayerPrefs.GetFloat(PlayerDataConst.MusicAudio.ToString());
+            var backgroundMusic = PlayerPrefs.GetFloat(PlayerDataConst.BackgroundMusic.ToString());
+            var ambientSound = PlayerPrefs.GetFloat(PlayerDataConst.AmbientSound.ToString());
+            
             var audioData = new Dictionary<string, float>
             {
                 {PlayerDataConst.MasterAudio.ToString(), master},
                 {PlayerDataConst.SfxAudio.ToString(), sfx},
-                {PlayerDataConst.MusicAudio.ToString(), music}
+                {PlayerDataConst.MusicAudio.ToString(), music},
+                {PlayerDataConst.BackgroundMusic.ToString(), backgroundMusic},
+                {PlayerDataConst.AmbientSound.ToString(), ambientSound}
             };
 
             return audioData;
         }
 
-        public static void SaveAudioData(float master, float sfx, float music)
+        public static void SaveAudioData(float master, float sfx, float music, float backgroundMusic, float ambientSound)
         {
             PlayerPrefs.SetFloat(PlayerDataConst.MasterAudio.ToString(), master);
             PlayerPrefs.SetFloat(PlayerDataConst.SfxAudio.ToString(), sfx);
             PlayerPrefs.SetFloat(PlayerDataConst.MusicAudio.ToString(), music);
+            PlayerPrefs.SetFloat(PlayerDataConst.BackgroundMusic.ToString(), backgroundMusic);
+            PlayerPrefs.SetFloat(PlayerDataConst.AmbientSound.ToString(), ambientSound);
             PlayerPrefs.Save();
         }
 
