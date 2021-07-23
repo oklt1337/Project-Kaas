@@ -66,7 +66,7 @@ namespace Collection.UI.Scripts.Play
         
         public void LeaveRoom()
         { 
-            if (PhotonNetwork.IsMasterClient) 
+            if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.Players.Count > 1) 
             { 
                 photonView.RPC("RPCLeaveMatch", RpcTarget.All);
             }
