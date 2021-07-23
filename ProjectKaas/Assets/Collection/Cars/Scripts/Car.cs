@@ -1,8 +1,8 @@
 using System.Collections;
-using Collection.Maps.Scripts;
 using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using UnityEngine;
+using static Collection.Maps.Scripts.PositionManager;
 
 namespace Collection.Cars.Scripts
 {
@@ -17,6 +17,10 @@ namespace Collection.Cars.Scripts
 
         [SerializeField] private byte lapCount;
         [SerializeField] private byte zoneCount;
+
+        [Header("Audio Stuff")] 
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioClip onNewLapClip;
 
         #region Public Fields
 
@@ -102,10 +106,14 @@ namespace Collection.Cars.Scripts
             lapCount++;
             zoneCount = 0;
 
+            // Playing the correct clip.
+            audioSource.clip = onNewLapClip;
+            audioSource.Play();
+            
             // Triggers event when finished.
-            if (PositionManager.PositionManagerInstance.LapCount < LapCount)
+            if (PositionManagerInstance.LapCount < LapCount)
             {
-                PositionManager.PositionManagerInstance.OnFinish.Invoke(PlayerHandler);
+                PositionManagerInstance.OnFinish.Invoke(PlayerHandler);
             }
         }
 
@@ -116,7 +124,7 @@ namespace Collection.Cars.Scripts
         {
             zoneCount++;
 
-            if (ZoneCount == PositionManager.PositionManagerInstance.Zones.Length)
+            if (ZoneCount == PositionManagerInstance.Zones.Length)
             {
                 OnNextLap();
             }
@@ -136,6 +144,16 @@ namespace Collection.Cars.Scripts
             {
                 PlayerHandler.SpeedState = state;
             }
+        }
+
+        /// <summary>
+        /// Plays an audio clip.
+        /// </summary>
+        /// <param name="newClip"> The audio clip you want to have played. </param>
+        public void PlayAudioClip(AudioClip newClip)
+        {
+            audioSource.clip = newClip;
+            audioSource.Play();
         }
 
         #endregion

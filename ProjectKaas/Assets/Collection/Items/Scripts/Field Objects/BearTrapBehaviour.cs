@@ -7,6 +7,7 @@ namespace Collection.Items.Scripts.Field_Objects
     public class BearTrapBehaviour : MonoBehaviour
     {
         [SerializeField] private float duration;
+        [SerializeField] private AudioClip clip;
     
         private void OnTriggerEnter(Collider other)
         {
@@ -19,6 +20,7 @@ namespace Collection.Items.Scripts.Field_Objects
                 return;
             
             var hitPlayer = other.gameObject.GetComponentInParent<PlayerHandler>();
+            hitPlayer.Car.PlayAudioClip(clip);
             hitPlayer.Car.OnHit(duration);
         }
     }

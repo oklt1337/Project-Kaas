@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 0ffa723329988e243a22f8d2025a314a, type: 3}
   speedUpTime: 5
+  clip: {fileID: 8300000, guid: 0f95238557931da4ea9cb829be0c1381, type: 3}

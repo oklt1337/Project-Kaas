@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 3
+  clip: {fileID: 8300000, guid: da9dca85ae8493e4f8b68eac125adcda, type: 3}
 --- !u!54 &48756434224902907
 Rigidbody:
   m_ObjectHideFlags: 0

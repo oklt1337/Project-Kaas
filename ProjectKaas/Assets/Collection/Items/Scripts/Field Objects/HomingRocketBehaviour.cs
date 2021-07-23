@@ -12,14 +12,30 @@ namespace Collection.Items.Scripts.Field_Objects
     {
         [SerializeField] private GameObject target;
         [SerializeField] private NavMeshAgent agent;
+        
+        [Header("Audio stuff")] 
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioClip startSound;
+        [SerializeField] private AudioClip flySound;
+        [SerializeField] private AudioClip onHitSound;
 
         private void Start()
         {
             agent.updateRotation = true;
+            audioSource.clip = startSound;
+            audioSource.Play();
         }
 
         private void Update()
         {
+            // Looping the fly sound.
+            if (!audioSource.isPlaying)
+            {
+                audioSource.loop = true;
+                audioSource.clip = flySound;
+                audioSource.Play();
+            }
+            
             if (target == null)
                 return;
 
@@ -54,6 +70,7 @@ namespace Collection.Items.Scripts.Field_Objects
             // Makes the player tumble on hit.
             var hitPlayer = other.gameObject.GetComponentInParent<PlayerHandler>();
             hitPlayer.Car.OnHit(1f);
+            hitPlayer.Car.PlayAudioClip(onHitSound);
             PhotonNetwork.Destroy(gameObject);
         }
 
