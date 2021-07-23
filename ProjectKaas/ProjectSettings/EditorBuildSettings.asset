@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Maps/Mountains.unity
     guid: 091c93b2e3ac9fc42b310abb226416d9
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: c03923914dae8d84ba0d780fefccb930
   m_configObjects: {}
