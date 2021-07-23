@@ -38,6 +38,14 @@ namespace Collection.UI.Scripts.MainMenu.Settings
 
         #region MonoBehaviour Callbacks
 
+        private void Start()
+        {
+            masterSlider.value = AudioManager.Instance.GetMasterVolume();
+            musicSlider.value = AudioManager.Instance.GetMusicVolume();
+            sfxSlider.value = AudioManager.Instance.GetSfxVolume();
+            ambientSoundMusicSlider.value = AudioManager.Instance.GetAmbientSoundVolume();
+        }
+
         private void OnEnable()
         {
             backButton.onClick.AddListener(OnClickBack);
@@ -141,22 +149,24 @@ namespace Collection.UI.Scripts.MainMenu.Settings
 
         private static void OnMasterVolumeChanged(float value)
         {
-            AudioManager.Instance.SetMasterVolume(value * 20f);
+            Debug.Log("get trolled");
+            
+            AudioManager.Instance.SetMasterVolume(value);
         }
 
         private static void OnMusicVolumeChanged(float value)
         {
-            AudioManager.Instance.SetMusicVolume(value * 20f);
+            AudioManager.Instance.SetMusicVolume(value);
         }
 
         private static void OnSfxVolumeChanged(float value)
         {
-            AudioManager.Instance.SetSfxVolume(value * 20f);
+            AudioManager.Instance.SetSfxVolume(value);
         }
 
         private static void OnAmbientSoundVolumeChanged(float value)
         {
-            AudioManager.Instance.SetAmbientSoundVolume(value * 20f);
+            AudioManager.Instance.SetAmbientSoundVolume(value);
         }
 
         #endregion

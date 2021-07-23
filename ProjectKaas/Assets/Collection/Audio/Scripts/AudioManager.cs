@@ -1,3 +1,4 @@
+using System;
 using Collection.LocalPlayerData.Scripts;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -39,30 +40,34 @@ namespace Collection.Audio.Scripts
             {
                 Instance = this;
             }
+        }
 
+        private void Start()
+        {
             var audioData = LocalPlayerDataManager.GetAudioData();
 
-            if (audioData.ContainsKey(PlayerDataConst.MasterAudio.ToString()) &&
-                audioData.ContainsKey(PlayerDataConst.MusicAudio.ToString()) &&
-                audioData.ContainsKey(PlayerDataConst.SfxAudio.ToString()) &&
-                audioData.ContainsKey(PlayerDataConst.AmbientSound.ToString()))
-            {
-                masterMixer.SetFloat(AudioVariables.MasterVolume.ToString(),
-                    audioData[PlayerDataConst.MasterAudio.ToString()]);
-                masterMixer.SetFloat(AudioVariables.MusicVolume.ToString(),
-                    audioData[PlayerDataConst.MusicAudio.ToString()]);
-                masterMixer.SetFloat(AudioVariables.SfxVolume.ToString(),
-                    audioData[PlayerDataConst.SfxAudio.ToString()]);
-                masterMixer.SetFloat(AudioVariables.AmbientSound.ToString(),
-                    audioData[PlayerDataConst.AmbientSound.ToString()]);
-            }
-            else
-            {
-                masterMixer.SetFloat(AudioVariables.MasterVolume.ToString(), 1);
-                masterMixer.SetFloat(AudioVariables.MusicVolume.ToString(), 1);
-                masterMixer.SetFloat(AudioVariables.SfxVolume.ToString(), 1);
-                masterMixer.SetFloat(AudioVariables.AmbientSound.ToString(), 1);
-            }
+            masterMixer.SetFloat(AudioVariables.MasterVolume.ToString(),
+                audioData.ContainsKey(PlayerDataConst.MasterAudio.ToString())
+                    ? audioData[PlayerDataConst.MasterAudio.ToString()]
+                    : -30f);
+            
+            Debug.Log(audioData[PlayerDataConst.MasterAudio.ToString()]);
+            GetMasterVolume();
+
+            masterMixer.SetFloat(AudioVariables.MusicVolume.ToString(),
+                audioData.ContainsKey(PlayerDataConst.MusicAudio.ToString())
+                    ? audioData[PlayerDataConst.MusicAudio.ToString()]
+                    : -30f);
+            
+            masterMixer.SetFloat(AudioVariables.SfxVolume.ToString(),
+                audioData.ContainsKey(PlayerDataConst.SfxAudio.ToString())
+                    ? audioData[PlayerDataConst.SfxAudio.ToString()]
+                    : -30f);
+            
+            masterMixer.SetFloat(AudioVariables.AmbientSound.ToString(),
+                audioData.ContainsKey(PlayerDataConst.AmbientSound.ToString())
+                    ? audioData[PlayerDataConst.AmbientSound.ToString()]
+                    : -30f);
         }
 
         #endregion
@@ -71,7 +76,7 @@ namespace Collection.Audio.Scripts
 
         public void SetMasterVolume(float vol)
         {
-            masterMixer.SetFloat(AudioVariables.MasterVolume.ToString(), vol);
+            masterMixer.SetFloat(AudioVariables.MasterVolume.ToString(),vol);
 
             LocalPlayerDataManager.SaveAudioData(GetMasterVolume(), GetMusicVolume(), GetSfxVolume(),
                 GetAmbientSoundVolume());
@@ -105,6 +110,8 @@ namespace Collection.Audio.Scripts
         {
             masterMixer.GetFloat(AudioVariables.MasterVolume.ToString(), out var vol);
 
+            Debug.Log(vol);
+            
             return vol;
         }
 

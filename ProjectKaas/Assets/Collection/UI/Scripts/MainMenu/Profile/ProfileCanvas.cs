@@ -28,7 +28,7 @@ namespace Collection.UI.Scripts.MainMenu.Profile
         [SerializeField] private TextMeshProUGUI registerDateText;
         [SerializeField] private TextMeshProUGUI topThreePercentageText;
         [SerializeField] private Slider percentageSlider;
-        [SerializeField] private RawImage mostUsedCarImage;
+        [SerializeField] private TextMeshProUGUI mostUsedCar;
 
         #endregion
 
