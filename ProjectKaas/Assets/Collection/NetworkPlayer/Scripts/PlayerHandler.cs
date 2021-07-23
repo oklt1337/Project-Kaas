@@ -212,7 +212,7 @@ namespace Collection.NetworkPlayer.Scripts
             PositionManagerInstance.AllPlayers.Add(this);
 
             // Checks if the AllPlayers list is full and if so starts the round.
-            if (PhotonNetwork.PlayerList.Length == PositionManagerInstance.AllPlayers.Count)
+            if (PhotonNetwork.CurrentRoom.Players.Count == PositionManagerInstance.AllPlayers.Count)
             {
                 RoundStarterInstance.RoundStart();
             }
