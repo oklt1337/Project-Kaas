@@ -110,19 +110,22 @@ namespace Collection.Network.Scripts
         {
             while (PhotonNetwork.IsConnected)
             {
-                var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
-                if (!hashtable.ContainsKey("Ping"))
+                if (PhotonNetwork.IsConnectedAndReady)
                 {
-                    hashtable.Add("Ping", PhotonNetwork.GetPing());
-                }
-                else
-                {
-                    hashtable["Ping"] = PhotonNetwork.GetPing();
-                }
+                    var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+                    if (!hashtable.ContainsKey("Ping"))
+                    {
+                        hashtable.Add("Ping", PhotonNetwork.GetPing());
+                    }
+                    else
+                    {
+                        hashtable["Ping"] = PhotonNetwork.GetPing();
+                    }
 
-                PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
 
-                yield return new WaitForSeconds(5f);
+                    yield return new WaitForSeconds(5f);
+                }
             }
         }
 

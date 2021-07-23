@@ -69,12 +69,15 @@ namespace Collection.GameManager.Scripts
 
         private void LateUpdate()
         {
-            if(PhotonNetwork.CurrentRoom.Players.Count < 2)
-                return;
+            if (PhotonNetwork.InRoom)
+            {
+                if(PhotonNetwork.CurrentRoom.Players.Count < 2)
+                    return;
             
-            //pls dont look at this it had to be done quickly.
-            if (reSkinDone || playerHandler.Count != PhotonNetwork.CurrentRoom.Players.Count) return;
-            ReSkinCars();
+                //pls dont look at this it had to be done quickly.
+                if (reSkinDone || playerHandler.Count != PhotonNetwork.CurrentRoom.Players.Count) return;
+                ReSkinCars();
+            }
         }
 
         #endregion
