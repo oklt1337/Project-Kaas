@@ -50,9 +50,6 @@ namespace Collection.Audio.Scripts
                 audioData.ContainsKey(PlayerDataConst.MasterAudio.ToString())
                     ? audioData[PlayerDataConst.MasterAudio.ToString()]
                     : -30f);
-            
-            Debug.Log(audioData[PlayerDataConst.MasterAudio.ToString()]);
-            GetMasterVolume();
 
             masterMixer.SetFloat(AudioVariables.MusicVolume.ToString(),
                 audioData.ContainsKey(PlayerDataConst.MusicAudio.ToString())
