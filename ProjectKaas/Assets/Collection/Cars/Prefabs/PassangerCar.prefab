@@ -521,7 +521,7 @@ MonoBehaviour:
   zoneCount: 0
   audioSource: {fileID: 7861377651054083260}
   onNewLapClip: {fileID: 8300000, guid: 866998220535d554b8fd7ac9052895ba, type: 3}
-  place: 0
+  place: 1
   myCamera: {fileID: 265948249509247315}
   maxSpeed: 120
   forwardAccel: 80
