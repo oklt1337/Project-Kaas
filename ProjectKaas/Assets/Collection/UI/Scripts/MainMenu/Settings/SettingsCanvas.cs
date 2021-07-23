@@ -3,6 +3,7 @@ using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Collection.UI.Scripts.MainMenu.Settings
@@ -105,9 +106,7 @@ namespace Collection.UI.Scripts.MainMenu.Settings
         
         public void OnClickVideo()
         {
-            generalPanel.SetActive(false);
-            audioPanel.SetActive(false);
-            videoPanel.SetActive(true);
+            SceneManager.LoadScene(5);
         }
         
         #endregion
