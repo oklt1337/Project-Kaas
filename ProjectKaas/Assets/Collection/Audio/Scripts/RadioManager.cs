@@ -10,10 +10,18 @@ namespace Collection.Audio.Scripts
         [SerializeField] private TextMeshProUGUI text;
         [SerializeField] private int index;
 
+        public static AudioClip[] Songs;
+
+        private void Awake()
+        {
+            Songs = songs;
+        }
+
         private void OnEnable()
         {
             text.text = songs[index].name;
         }
+        
 
         public void OnClickForward()
         {
