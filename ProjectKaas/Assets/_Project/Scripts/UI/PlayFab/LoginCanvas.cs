@@ -16,6 +16,9 @@ namespace _Project.Scripts.UI.PlayFab
         [SerializeField] private Toggle stayLogin;
         [SerializeField] private TextMeshProUGUI outputText;
 
+        public static event Action OnClickLoginSuccess;
+        public static event Action OnClickGuestSuccess;
+
         private void OnDisable()
         {
             ClearInputFields();
@@ -29,10 +32,11 @@ namespace _Project.Scripts.UI.PlayFab
             }
             else
             {
-                PlayFabLogin.Instance.SetUserName(userName.text);
-                PlayFabLogin.Instance.SetPassword(password.text);
-                PlayFabLogin.Instance.LoginData.stayLogin = stayLogin;
-                PlayFabLogin.Instance.Login();
+                PlayFabLogin.SetUserName(userName.text);
+                PlayFabLogin.SetPassword(password.text);
+                PlayFabLogin.SetLoginData(stayLogin);
+                
+                OnClickLoginSuccess?.Invoke();
             }
         }
 
@@ -44,7 +48,7 @@ namespace _Project.Scripts.UI.PlayFab
 
         public void OnClickGuest()
         {
-            
+            OnClickGuestSuccess?.Invoke();
         }
         
         private void ClearInputFields()

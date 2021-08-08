@@ -17,6 +17,8 @@ namespace _Project.Scripts.UI.PlayFab
         [SerializeField] private TMP_InputField verifyPassword;
         [SerializeField] private TextMeshProUGUI outputText;
 
+        public static event Action OnClickRegisterSucess;
+
         private void OnDisable()
         {
             ClearInputFields();
@@ -30,10 +32,11 @@ namespace _Project.Scripts.UI.PlayFab
             }
             else
             {
-                PlayFabRegister.Instance.SetUserName(userName.text);
-                PlayFabRegister.Instance.SetEmail(email.text);
-                PlayFabRegister.Instance.SetPassword(password.text);
-                PlayFabRegister.Instance.Register();
+                PlayFabRegister.SetUserName(userName.text);
+                PlayFabRegister.SetEmail(email.text);
+                PlayFabRegister.SetPassword(password.text);
+                
+                OnClickRegisterSucess?.Invoke();
             }
         }
 

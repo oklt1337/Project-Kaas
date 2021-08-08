@@ -1,4 +1,6 @@
+using System;
 using _Project.Scripts.Scene;
+using _Project.Scripts.UI.PlayFab;
 using Collection.LocalPlayerData.Scripts;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -8,17 +10,15 @@ namespace _Project.Scripts.PlayFab
 {
     public class PlayFabRegister : MonoBehaviour
     {
-        public static PlayFabRegister Instance;
-        
         #region Serializable Fields
 
         #endregion
         
         #region Private Fields
         
-        private string _userName;
-        private string _email;
-        private string _password;
+        private static string _userName;
+        private static string _email;
+        private static string _password;
 
         #endregion
 
@@ -26,18 +26,17 @@ namespace _Project.Scripts.PlayFab
 
         #endregion
 
+        #region Pubic Events
+
+        public static event Action OnRegisterSuccess;
+
+        #endregion
+
         #region Unity Methods
 
-        private void Awake()
+        private void Start()
         {
-            if (Instance != null)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                Instance = this;
-            }
+            RegisterCanvas.OnClickRegisterSucess += Register;
         }
 
         #endregion
@@ -92,7 +91,7 @@ namespace _Project.Scripts.PlayFab
         /// Setting Username
         /// </summary>
         /// <param name="newUserName">Username to Login to PlayFab</param>
-        public void SetUserName(string newUserName)
+        public static void SetUserName(string newUserName)
         {
             _userName = newUserName;
         }
@@ -101,7 +100,7 @@ namespace _Project.Scripts.PlayFab
         /// Setting Email
         /// </summary>
         /// <param name="newEmail"></param>
-        public void SetEmail(string newEmail)
+        public static void SetEmail(string newEmail)
         {
             _email = newEmail;
         }
@@ -110,7 +109,7 @@ namespace _Project.Scripts.PlayFab
         /// Setting Password
         /// </summary>
         /// <param name="newPassword">Password to Login to PlayFab</param>
-        public void SetPassword(string newPassword)
+        public static void SetPassword(string newPassword)
         {
             _password = newPassword;
         }
@@ -131,10 +130,11 @@ namespace _Project.Scripts.PlayFab
         private void OnRegisterPlayFabSuccess(RegisterPlayFabUserResult result)
         {
             Debug.Log($"Registration Successful: {result.PlayFabId}");
-            PlayFabLogin.Instance.SetUserName(_userName);
-            PlayFabLogin.Instance.SetPassword(_password);
-            PlayFabLogin.Instance.LoginData.stayLogin = false;
-            PlayFabLogin.Instance.Login();
+            
+            PlayFabLogin.SetUserName(_userName);
+            PlayFabLogin.SetPassword(_password);
+            
+            OnRegisterSuccess?.Invoke();
         }
         
         private void OnFailedToRegister(PlayFabError error)
