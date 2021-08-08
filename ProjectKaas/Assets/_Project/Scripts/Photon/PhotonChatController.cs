@@ -42,6 +42,11 @@ namespace _Project.Scripts.Photon
             _chatClient.Service();
         }
 
+        private void OnDestroy()
+        {
+            PlayFabLogin.OnLoginSuccess -= ConnectToPhotonChat;
+        }
+
         #endregion
 
         #region Private Methods

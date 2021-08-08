@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.PlayFab
 {
-    public class PlayFabFriend : MonoBehaviour
+    public class PlayFabFriendController : MonoBehaviour
     {
         #region Serializable Fields
 

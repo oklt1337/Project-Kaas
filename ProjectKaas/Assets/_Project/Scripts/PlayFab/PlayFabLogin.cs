@@ -58,6 +58,13 @@ namespace _Project.Scripts.PlayFab
             LoginWithSavedData();
         }
 
+        private void OnDestroy()
+        {
+            PlayFabRegister.OnRegisterSuccess -= Login;
+            LoginCanvas.OnClickLoginSuccess -= Login;
+            LoginCanvas.OnClickGuestSuccess -= DeletePlayerPrefsData;
+        }
+
         #endregion
 
         #region Private Methods

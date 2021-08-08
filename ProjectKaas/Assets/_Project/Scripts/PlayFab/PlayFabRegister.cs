@@ -39,6 +39,11 @@ namespace _Project.Scripts.PlayFab
             RegisterCanvas.OnClickRegisterSucess += Register;
         }
 
+        private void OnDestroy()
+        {
+            RegisterCanvas.OnClickRegisterSucess -= Register;
+        }
+
         #endregion
 
         #region Private Methods

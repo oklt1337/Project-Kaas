@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.PlayFab;
 using Photon.Pun;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -28,12 +29,12 @@ namespace _Project.Scripts.Photon
         private void Awake()
         {
             // TODO: PlayFabFriendController.
-            //PlayFabFriendController.OnFriendListUpdated += HandleFriendsUpdated;
+            PlayFabFriendController.OnFriendListUpdated += HandleFriendsUpdated;
         }
 
         private void OnDestroy()
         {
-            //PlayFabFriendController.OnFriendListUpdated -= HandleFriendsUpdated;
+            PlayFabFriendController.OnFriendListUpdated -= HandleFriendsUpdated;
         }
 
         #endregion

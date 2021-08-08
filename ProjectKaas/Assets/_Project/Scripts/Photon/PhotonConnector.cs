@@ -1,13 +1,16 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.PlayFab;
 using _Project.Scripts.UI.PlayFab;
+using Collection.Authentication.Scripts;
+using Collection.Profile.Scripts;
 using Collection.UI.Scripts;
-using ExitGames.Client.Photon;
+using Collection.UI.Scripts.Login;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Photon
@@ -15,7 +18,7 @@ namespace _Project.Scripts.Photon
     public class PhotonConnector : MonoBehaviourPunCallbacks
     {
         #region Private Fields
-
+        
         /// <summary>
         /// This client's version number. Users are separated from each other by gameVersion.
         /// </summary>
@@ -26,6 +29,11 @@ namespace _Project.Scripts.Photon
         /// </summary>
         private const string AppVersion = "1.0.0";
         
+        /// <summary>
+        /// Coroutine for setting the ping.
+        /// </summary>
+        private Coroutine _pingCo;
+        
         #endregion
 
         #region Public Fields
@@ -34,17 +42,24 @@ namespace _Project.Scripts.Photon
 
         #region Events
 
-        public static event Action OnConnectedToPhoton;
-        
         #endregion
 
         #region Unity Methods
 
         private void Awake()
         {
+            // Need to be redone.
+            PlayFabAuthManager.OnLogOut.AddListener(() => SetRandomNickName());
+            LocalProfile.OnProfileInitialized.AddListener(SetPhotonProfileValues);
+            
             if (PhotonNetwork.IsConnected) return;
-
             ConnectToPhoton(SetRandomNickName());
+        }
+
+        private void OnDestroy()
+        {
+            PlayFabAuthManager.OnLogOut.RemoveListener(() => SetRandomNickName());
+            LocalProfile.OnProfileInitialized.RemoveListener(SetPhotonProfileValues);
         }
 
         #endregion
@@ -66,6 +81,9 @@ namespace _Project.Scripts.Photon
             // Set AppVersion.
             PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = AppVersion;
 
+            // Setting AuthValues
+            PhotonNetwork.AuthValues = new AuthenticationValues(nickName);
+            
             // Connecting to Photon
             PhotonNetwork.ConnectUsingSettings();
 
@@ -77,9 +95,6 @@ namespace _Project.Scripts.Photon
 
             // Make sure on new connection hashtable is empty
             PhotonNetwork.LocalPlayer.CustomProperties = new Hashtable();
-
-            // Setting AuthValues
-            PhotonNetwork.AuthValues = new AuthenticationValues(nickName);
 
             // Setting nickname
             PhotonNetwork.NickName = nickName;
@@ -95,6 +110,67 @@ namespace _Project.Scripts.Photon
             };
 
             PhotonNetwork.JoinOrCreateRoom(roomName, option, TypedLobby.Default);
+        }
+        
+        private static void TurnBackToRoom()
+        {
+            Debug.Log("Turning back to room.");
+            
+            var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+
+            if (!hashtable.ContainsKey("MatchFinished")) return;
+            if (!(bool) hashtable["MatchFinished"]) return;
+            if (!hashtable.ContainsKey("OldRoom")) return;
+            if (!hashtable.ContainsKey("MaxPlayer")) return;
+
+            var options = new RoomOptions {MaxPlayers = (byte) hashtable["MaxPlayer"]};
+            
+            if (hashtable["OldRoom"] == null) return;
+            PhotonNetwork.JoinOrCreateRoom((string) hashtable["OldRoom"], options, TypedLobby.Default);
+            
+            Debug.Log("Turn back to room.");
+            AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(false);
+            OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
+            OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
+
+            hashtable.Remove("MatchFinished");
+            hashtable.Remove("WasMasterClient");
+            hashtable.Remove("OldRoom");
+            hashtable.Remove("MaxPlayer");
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+        }
+
+        private static IEnumerator SetPingCo()
+        {
+            while (PhotonNetwork.IsConnected)
+            {
+                if (!PhotonNetwork.IsConnectedAndReady || !PhotonNetwork.InRoom) continue;
+                
+                var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+                if (!hashtable.ContainsKey("Ping"))
+                {
+                    hashtable.Add("Ping", PhotonNetwork.GetPing());
+                }
+                else
+                {
+                    hashtable["Ping"] = PhotonNetwork.GetPing();
+                }
+
+                PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+
+                yield return new WaitForSeconds(1f);
+            }
+        }
+        
+        /// <summary>
+        /// Set Photon Nickname to PlayFab displayName.
+        /// Set authValue to PlayFab playerId
+        /// </summary>
+        private static void SetPhotonProfileValues()
+        {
+            PhotonNetwork.LocalPlayer.NickName = LocalProfile.Instance.PlayerProfileModel.DisplayName;
+            PhotonNetwork.AuthValues.UserId = LocalProfile.Instance.PlayerProfileModel.PlayerId;
         }
 
         #endregion
@@ -121,11 +197,20 @@ namespace _Project.Scripts.Photon
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.LogError($"Connection Lost: {cause}");
+            // Make sure coroutine doesnt run twice.
+            if (_pingCo != null)
+                StopCoroutine(_pingCo);
         }
 
         public override void OnConnectedToMaster()
         {
             Debug.Log("Connected to MasterServer.");
+            
+            // Make sure coroutine doesnt run twice.
+            if (_pingCo != null)
+                StopCoroutine(_pingCo);
+
+            _pingCo = StartCoroutine(SetPingCo());
 
             if (!PhotonNetwork.InLobby)
             {
@@ -155,6 +240,7 @@ namespace _Project.Scripts.Photon
             else
             {
                 Debug.Log("Rejoined Lobby");
+                TurnBackToRoom();
             }
         }
 
