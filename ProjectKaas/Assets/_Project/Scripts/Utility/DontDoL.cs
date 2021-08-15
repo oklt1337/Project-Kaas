@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Collection.Network.Scripts
+namespace _Project.Scripts.Utility
 {
     public class DontDoL : MonoBehaviour
     {

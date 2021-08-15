@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Collection.Authentication.Scripts;
+using _Project.Scripts.PlayFab;
 using Collection.FriendList.Scripts;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -75,7 +75,7 @@ namespace Collection.Profile.Scripts
                 Instance = this;
             }
 
-            PlayFabAuthManager.OnLoginSuccess.AddListener(InitializeProfile);
+            PlayFabLogin.Instance.OnLoginSuccess += InitializeProfile;
             FriendRequester.OnSendFriendRequest.AddListener(UpdateFriendList);
             FriendRequester.OnRemoveSuccess.AddListener(UpdateFriendList);
             FriendRequester.OnFriendRequestAccepted.AddListener(UpdateFriendList);
@@ -85,6 +85,11 @@ namespace Collection.Profile.Scripts
         private void Update()
         {
             ConstUpdates();
+        }
+
+        private void OnDestroy()
+        {
+            PlayFabLogin.Instance.OnLoginSuccess -= InitializeProfile;
         }
 
         #endregion

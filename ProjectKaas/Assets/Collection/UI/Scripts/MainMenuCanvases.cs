@@ -1,4 +1,3 @@
-using Collection.Authentication.Scripts;
 using Collection.Profile.Scripts;
 using Collection.UI.Scripts.MainMenu;
 using Collection.UI.Scripts.MainMenu.FriendList;
