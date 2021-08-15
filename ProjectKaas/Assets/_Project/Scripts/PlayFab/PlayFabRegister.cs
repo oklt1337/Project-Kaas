@@ -1,7 +1,5 @@
 using System;
-using _Project.Scripts.Scene;
 using _Project.Scripts.UI.PlayFab;
-using Collection.LocalPlayerData.Scripts;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -10,15 +8,17 @@ namespace _Project.Scripts.PlayFab
 {
     public class PlayFabRegister : MonoBehaviour
     {
+        public static PlayFabRegister Instance;
+        
         #region Serializable Fields
 
         #endregion
         
         #region Private Fields
         
-        private static string _userName;
-        private static string _email;
-        private static string _password;
+        private string _userName;
+        private string _email;
+        private string _password;
 
         #endregion
 
@@ -28,20 +28,29 @@ namespace _Project.Scripts.PlayFab
 
         #region Pubic Events
 
-        public static event Action OnRegisterSuccess;
+        public event Action<string,string,bool?> OnRegisterSuccess;
+        public event Action<string> OnRegisterFailed;
 
         #endregion
 
         #region Unity Methods
 
+        private void Awake()
+        {
+            if (Instance != null)
+                Destroy(gameObject);
+            else
+                Instance = this;
+        }
+
         private void Start()
         {
-            RegisterCanvas.OnClickRegisterSucess += Register;
+            RegisterCanvas.OnClickRegisterButton += Register;
         }
 
         private void OnDestroy()
         {
-            RegisterCanvas.OnClickRegisterSucess -= Register;
+            RegisterCanvas.OnClickRegisterButton -= Register;
         }
 
         #endregion
@@ -69,6 +78,33 @@ namespace _Project.Scripts.PlayFab
         {
             return _password.Length >= 6;
         }
+        
+        /// <summary>
+        /// Setting Username
+        /// </summary>
+        /// <param name="newUserName">Username to Login to PlayFab</param>
+        public void SetUserName(string newUserName)
+        {
+            _userName = newUserName;
+        }
+
+        /// <summary>
+        /// Setting Email
+        /// </summary>
+        /// <param name="newEmail"></param>
+        public void SetEmail(string newEmail)
+        {
+            _email = newEmail;
+        }
+
+        /// <summary>
+        /// Setting Password
+        /// </summary>
+        /// <param name="newPassword">Password to Login to PlayFab</param>
+        public void SetPassword(string newPassword)
+        {
+            _password = newPassword;
+        }
 
         /// <summary>
         /// Sending Request to PlayFab with userName and Password.
@@ -93,37 +129,17 @@ namespace _Project.Scripts.PlayFab
         #region Public Methods
 
         /// <summary>
-        /// Setting Username
-        /// </summary>
-        /// <param name="newUserName">Username to Login to PlayFab</param>
-        public static void SetUserName(string newUserName)
-        {
-            _userName = newUserName;
-        }
-
-        /// <summary>
-        /// Setting Email
-        /// </summary>
-        /// <param name="newEmail"></param>
-        public static void SetEmail(string newEmail)
-        {
-            _email = newEmail;
-        }
-
-        /// <summary>
-        /// Setting Password
-        /// </summary>
-        /// <param name="newPassword">Password to Login to PlayFab</param>
-        public static void SetPassword(string newPassword)
-        {
-            _password = newPassword;
-        }
-
-        /// <summary>
         /// Login in to PlayFab.
         /// </summary>
-        public void Register()
+        /// <param name="email">email register with</param>
+        /// <param name="userName">userName registers with</param>
+        /// <param name="password">password registers with</param>
+        public void Register(string email, string userName, string password)
         {
+            SetEmail(email);
+            SetUserName(userName);
+            SetPassword(password);
+            
             if (!IsValidUserName() || !IsValidPassword()) return;
             RegisterPlayFabUserRequest();
         }
@@ -135,16 +151,15 @@ namespace _Project.Scripts.PlayFab
         private void OnRegisterPlayFabSuccess(RegisterPlayFabUserResult result)
         {
             Debug.Log($"Registration Successful: {result.PlayFabId}");
-            
-            PlayFabLogin.SetUserName(_userName);
-            PlayFabLogin.SetPassword(_password);
-            
-            OnRegisterSuccess?.Invoke();
+
+            OnRegisterSuccess?.Invoke(_userName, _password, null);
         }
         
         private void OnFailedToRegister(PlayFabError error)
         {
             Debug.LogError($"ERROR {error.GenerateErrorReport()}");
+
+            OnRegisterFailed?.Invoke(error.GenerateErrorReport());
         }
 
         #endregion

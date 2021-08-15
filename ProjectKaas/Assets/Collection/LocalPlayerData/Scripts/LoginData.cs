@@ -6,6 +6,6 @@ namespace Collection.LocalPlayerData.Scripts
     [CreateAssetMenu]
     public class LoginData : ScriptableObject
     {
-        public bool stayLogin;
+        public bool autoLogin;
     }
 }

@@ -50,9 +50,7 @@ namespace Collection.UI.Scripts
             {
                 Instance = this;
             }
-
-            PlayFabAuthManager.OnLoginSuccess.AddListener(MainMenu.ToggleButtonOnlyForLoggedUser);
-            PlayFabAuthManager.OnLogOut.AddListener(MainMenu.ToggleButtonOnlyForLoggedUser);
+            
             LocalProfile.OnProfileInitialized.AddListener(FriendListCanvas.SetIDText);
             LocalProfile.OnFriendListUpdated.AddListener(FriendListCanvas.FriendListLayoutGroup.UpdateFriendList);
         }

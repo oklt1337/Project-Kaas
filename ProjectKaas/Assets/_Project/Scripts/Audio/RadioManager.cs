@@ -1,8 +1,7 @@
-using System;
 using TMPro;
 using UnityEngine;
 
-namespace Collection.Audio.Scripts
+namespace _Project.Scripts.Audio
 {
     public class RadioManager : MonoBehaviour
     {

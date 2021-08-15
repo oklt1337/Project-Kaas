@@ -1,8 +1,7 @@
+using _Project.Scripts.PlayFab;
 using Collection.Authentication.Scripts;
-using Collection.UI.Scripts.Login;
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Collection.UI.Scripts.MainMenu
 {
@@ -11,8 +10,9 @@ namespace Collection.UI.Scripts.MainMenu
         #region Public Methods
         public void OnClickLogOut()
         {
-            PlayFabAuthManager.LogOut();
-            MainMenuCanvases.Instance.LogOutCanvas.gameObject.SetActive(false);
+            PlayFabLogin.Instance.Logout();
+            
+            PhotonNetwork.LoadLevel(1);
         }
 
         public void OnClickBack()

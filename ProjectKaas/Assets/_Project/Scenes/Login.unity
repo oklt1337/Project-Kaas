@@ -5901,10 +5901,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registerCanvas: {fileID: 2026051856}
+  outputText: {fileID: 164268824}
   userName: {fileID: 1371382140}
   password: {fileID: 1167134609}
-  stayLogin: {fileID: 1146036943}
-  outputText: {fileID: 164268824}
+  loginButton: {fileID: 390529604}
+  registerButton: {fileID: 2001865564}
+  guestButton: {fileID: 302452966}
+  autoLogin: {fileID: 1146036943}
 --- !u!114 &1573065265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6868,11 +6871,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loginCanvas: {fileID: 1573065263}
+  outputText: {fileID: 357039394}
   userName: {fileID: 951044799}
   email: {fileID: 2046642337}
   password: {fileID: 551253209}
   verifyPassword: {fileID: 138361179}
-  outputText: {fileID: 357039394}
+  registerButton: {fileID: 957591012}
+  backButton: {fileID: 955233119}
 --- !u!114 &2026051858
 MonoBehaviour:
   m_ObjectHideFlags: 0

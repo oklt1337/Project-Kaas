@@ -9,6 +9,8 @@ namespace _Project.Scripts.Photon
 {
     public class PhotonChatController : MonoBehaviour, IChatClientListener
     {
+        public static PhotonChatController Instance;
+        
         #region Private Serializable Fields
 
         #endregion
@@ -29,9 +31,17 @@ namespace _Project.Scripts.Photon
 
         #region Unity Methods
 
+        private void Awake()
+        {
+            if (Instance != null)
+                Destroy(gameObject);
+            else
+                Instance = this;
+        }
+
         private void Start()
         {
-            PlayFabLogin.OnLoginSuccess += ConnectToPhotonChat;
+            PlayFabLogin.Instance.OnLoginSuccess += ConnectToPhotonChat;
             
             _chatClient = new ChatClient(this);
         }
@@ -44,7 +54,7 @@ namespace _Project.Scripts.Photon
 
         private void OnDestroy()
         {
-            PlayFabLogin.OnLoginSuccess -= ConnectToPhotonChat;
+            PlayFabLogin.Instance.OnLoginSuccess -= ConnectToPhotonChat;
         }
 
         #endregion

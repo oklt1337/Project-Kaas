@@ -1,4 +1,4 @@
-using Collection.Audio.Scripts;
+using _Project.Scripts.Audio;
 using Collection.NetworkPlayer.Scripts;
 using Photon.Pun;
 using TMPro;

@@ -1,5 +1,5 @@
-using Collection.Authentication.Scripts;
-using Collection.UI.Scripts.Login;
+using _Project.Scripts.PlayFab;
+using Photon.Pun;
 using PlayFab;
 using TMPro;
 using UnityEngine;
@@ -25,13 +25,17 @@ namespace Collection.UI.Scripts.MainMenu
 
         #endregion
 
-        #region Public Methods
+        #region Unity Methods
 
-        public void ToggleButtonOnlyForLoggedUser()
+        private void Start()
         {
-            friendListButton.gameObject.SetActive(!friendListButton.gameObject.activeSelf);
-            profileButton.gameObject.SetActive(!profileButton.gameObject.activeSelf);
+            friendListButton.gameObject.SetActive(PlayFabLogin.Instance.LoginStatus);
+            profileButton.gameObject.SetActive(PlayFabLogin.Instance.LoginStatus);
         }
+
+        #endregion
+
+        #region Public Methods
 
         public void OnClickFriendList()
         {
@@ -57,7 +61,7 @@ namespace Collection.UI.Scripts.MainMenu
         {
             if (!PlayFabClientAPI.IsClientLoggedIn())
             {
-                AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(true);
+                PhotonNetwork.LoadLevel(1);
             }
             else
             {

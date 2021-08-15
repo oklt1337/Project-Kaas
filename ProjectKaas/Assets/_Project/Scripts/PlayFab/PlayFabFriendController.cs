@@ -10,6 +10,8 @@ namespace _Project.Scripts.PlayFab
 {
     public class PlayFabFriendController : MonoBehaviour
     {
+        public static PlayFabFriendController Instance;
+        
         #region Serializable Fields
 
         #endregion
@@ -26,7 +28,7 @@ namespace _Project.Scripts.PlayFab
 
         #region Events
 
-        public static event Action<List<FriendInfo>> OnFriendListUpdated;
+        public event Action<List<FriendInfo>> OnFriendListUpdated;
 
         #endregion
 
@@ -34,16 +36,24 @@ namespace _Project.Scripts.PlayFab
 
         private void Awake()
         {
+            if (Instance != null)
+                Destroy(gameObject);
+            else
+                Instance = this;
+            
             _friends = new List<FriendInfo>();
+        }
 
-            PlayFabLogin.OnLoginSuccess += HandleGetFriends;
+        private void Start()
+        {
+            PlayFabLogin.Instance.OnLoginSuccess += HandleGetFriends;
             //UIAddFriend.OnAddFriend += HandleAddPlayFabFriend;
             //UIFriend.OnRemoveFriend += HandleDelFriend;
         }
 
         private void OnDestroy()
         {
-            PlayFabLogin.OnLoginSuccess -= HandleGetFriends;
+            PlayFabLogin.Instance.OnLoginSuccess -= HandleGetFriends;
             //UIAddFriend.OnAddFriend -= HandleAddPlayFabFriend;
             //UIFriend.OnRemoveFriend -= HandleDelFriend;
         }

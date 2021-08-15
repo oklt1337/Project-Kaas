@@ -10,18 +10,36 @@ namespace _Project.Scripts.UI.PlayFab
     public class LoginCanvas : MonoBehaviour
     {
         [SerializeField] private GameObject registerCanvas;
+        [SerializeField] private TextMeshProUGUI outputText;
         
+        [Header("Inputs")]
         [SerializeField] private TMP_InputField userName;
         [SerializeField] private TMP_InputField password;
-        [SerializeField] private Toggle stayLogin;
-        [SerializeField] private TextMeshProUGUI outputText;
 
-        public static event Action OnClickLoginSuccess;
-        public static event Action OnClickGuestSuccess;
+        [Header("Buttons")] 
+        [SerializeField] private Button loginButton;
+        [SerializeField] private Button registerButton;
+        [SerializeField] private Button guestButton;
+        [SerializeField] private Toggle autoLogin;
+        
+
+        public static event Action<string,string,bool?> OnClickLoginButton;
+        public static event Action OnClickGuestButton;
+
+        private void Start()
+        {
+            PlayFabLogin.Instance.OnLoginFailed += FailedLogin;
+        }
+
+        private void OnEnable()
+        {
+            InteractableStatus(true);
+        }
 
         private void OnDisable()
         {
             ClearInputFields();
+            PlayFabLogin.Instance.OnLoginFailed -= FailedLogin;
         }
 
         public void OnClickLogin()
@@ -32,23 +50,25 @@ namespace _Project.Scripts.UI.PlayFab
             }
             else
             {
-                PlayFabLogin.SetUserName(userName.text);
-                PlayFabLogin.SetPassword(password.text);
-                PlayFabLogin.SetLoginData(stayLogin);
+                InteractableStatus(false);
                 
-                OnClickLoginSuccess?.Invoke();
+                OnClickLoginButton?.Invoke(userName.text, password.text, autoLogin);
             }
         }
 
         public void OnClickRegister()
         {
+            InteractableStatus(false);
+            
             registerCanvas.SetActive(true);
             gameObject.SetActive(false);
         }
 
         public void OnClickGuest()
         {
-            OnClickGuestSuccess?.Invoke();
+            InteractableStatus(false);
+            
+            OnClickGuestButton?.Invoke();
         }
         
         private void ClearInputFields()
@@ -56,6 +76,22 @@ namespace _Project.Scripts.UI.PlayFab
             userName.text = String.Empty;
             password.text = String.Empty;
             outputText.text = String.Empty;
+        }
+
+        private void InteractableStatus(bool status)
+        {
+            userName.interactable = status;
+            password.interactable = status;
+            loginButton.interactable = status;
+            registerButton.interactable = status;
+            guestButton.interactable = status;
+            autoLogin.interactable = status;
+        }
+
+        private void FailedLogin(string errorMessage)
+        {
+            InteractableStatus(true);
+            StartCoroutine(WarningCo(errorMessage));
         }
         
         private IEnumerator WarningCo(string text)

@@ -10,6 +10,8 @@ namespace _Project.Scripts.Photon
 {
     public class PhotonFriendController : MonoBehaviourPunCallbacks
     {
+        public static PhotonFriendController Instance;
+        
         #region Private Fields
 
         #endregion
@@ -20,7 +22,7 @@ namespace _Project.Scripts.Photon
 
         #region Events
 
-        public static Action<List<global::Photon.Realtime.FriendInfo>> OnDisplayFriends = delegate { };
+        public readonly Action<List<global::Photon.Realtime.FriendInfo>> DisplayFriends = delegate { };
 
         #endregion
 
@@ -28,13 +30,21 @@ namespace _Project.Scripts.Photon
 
         private void Awake()
         {
+            if (Instance != null)
+                Destroy(gameObject);
+            else
+                Instance = this;
+        }
+
+        private void Start()
+        {
             // TODO: PlayFabFriendController.
-            PlayFabFriendController.OnFriendListUpdated += HandleFriendsUpdated;
+            PlayFabFriendController.Instance.OnFriendListUpdated += HandleFriendsUpdated;
         }
 
         private void OnDestroy()
         {
-            PlayFabFriendController.OnFriendListUpdated -= HandleFriendsUpdated;
+            PlayFabFriendController.Instance.OnFriendListUpdated -= HandleFriendsUpdated;
         }
 
         #endregion
@@ -51,7 +61,7 @@ namespace _Project.Scripts.Photon
             else
             {
                 var photonFriends = new List<global::Photon.Realtime.FriendInfo>();
-                OnDisplayFriends?.Invoke(photonFriends);
+                DisplayFriends?.Invoke(photonFriends);
             }
         }
 

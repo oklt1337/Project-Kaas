@@ -2,11 +2,8 @@ using System.Collections;
 using Collection.Authentication.Scripts;
 using Collection.Profile.Scripts;
 using Collection.UI.Scripts;
-using Collection.UI.Scripts.Login;
 using Photon.Pun;
 using Photon.Realtime;
-using PlayFab.ClientModels;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -94,7 +91,6 @@ namespace Collection.Network.Scripts
             PhotonNetwork.JoinOrCreateRoom((string) hashtable["OldRoom"], options, TypedLobby.Default);
             
             Debug.Log("Turn back to room.");
-            AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(false);
             OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
             OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
 

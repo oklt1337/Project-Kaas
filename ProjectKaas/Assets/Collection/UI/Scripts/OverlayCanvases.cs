@@ -1,5 +1,4 @@
 using Collection.UI.Scripts.General;
-using Collection.UI.Scripts.Login;
 using Collection.UI.Scripts.Play.CreateRoom;
 using Collection.UI.Scripts.Play.Room;
 using Collection.UI.Scripts.Play.VoteMap;

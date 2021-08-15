@@ -1,6 +1,5 @@
 using System;
 using _Project.Scripts.Photon;
-using _Project.Scripts.Scene;
 using _Project.Scripts.UI.PlayFab;
 using Collection.LocalPlayerData.Scripts;
 using Photon.Pun;
@@ -12,6 +11,8 @@ namespace _Project.Scripts.PlayFab
 {
     public class PlayFabLogin : MonoBehaviour
     {
+        public static PlayFabLogin Instance;
+        
         #region Serializable Fields
 
         [Header("LoginData")]
@@ -21,19 +22,25 @@ namespace _Project.Scripts.PlayFab
         
         #region Private Fields
 
-        private static string _userName;
-        private static string _password;
-        private static LoginData _loginData;
+        private string _userName;
+        private string _password;
+        private LoginData _loginData;
 
         #endregion
 
         #region Public Fields
 
+        public bool LoginStatus { get; private set; }
+        public bool AutoLogin => loginData.autoLogin;
+
         #endregion
 
         #region Public Events
 
-        public static event Action OnLoginSuccess;
+        public event Action OnLoginSuccess;
+        public event Action OnLogoutSuccess;
+
+        public event Action<string> OnLoginFailed; 
 
         #endregion
 
@@ -41,14 +48,19 @@ namespace _Project.Scripts.PlayFab
 
         private void Awake()
         {
+            if (Instance != null)
+                Destroy(gameObject);
+            else
+                Instance = this;
+            
             _loginData = loginData;
         }
 
         private void Start()
         {
-            PlayFabRegister.OnRegisterSuccess += Login;
-            LoginCanvas.OnClickLoginSuccess += Login;
-            LoginCanvas.OnClickGuestSuccess += DeletePlayerPrefsData;
+            PlayFabRegister.Instance.OnRegisterSuccess += Login;
+            LoginCanvas.OnClickLoginButton += Login;
+            LoginCanvas.OnClickGuestButton += LoginAsGuest;
 
             if (string.IsNullOrEmpty(PlayFabSettings.TitleId))
             {
@@ -60,38 +72,99 @@ namespace _Project.Scripts.PlayFab
 
         private void OnDestroy()
         {
-            PlayFabRegister.OnRegisterSuccess -= Login;
-            LoginCanvas.OnClickLoginSuccess -= Login;
-            LoginCanvas.OnClickGuestSuccess -= DeletePlayerPrefsData;
+            PlayFabRegister.Instance.OnRegisterSuccess -= Login;
+            LoginCanvas.OnClickLoginButton -= Login;
+            LoginCanvas.OnClickGuestButton -= LoginAsGuest;
         }
 
         #endregion
 
         #region Private Methods
 
+        /// <summary>
+        /// Setting Username and saving it to PlayerPrefs with Key: USERNAME
+        /// </summary>
+        /// <param name="newUserName">Username to Login to PlayFab</param>
+        private void SetUserName(string newUserName)
+        {
+            _userName = newUserName;
+
+            if (!_loginData.autoLogin)
+            {
+                PlayerPrefs.SetString("USERNAME" ,_userName);
+            }
+        }
+
+        /// <summary>
+        /// Setting Password and saving it to PlayerPrefs with Key: PASSWORD
+        /// </summary>
+        /// <param name="newPassword">Password to Login to PlayFab</param>
+        private void SetPassword(string newPassword)
+        {
+            _password = newPassword;
+
+            if (!_loginData.autoLogin)
+            {
+                PlayerPrefs.SetString("PASSWORD" ,_password);
+            }
+        }
+
+        /// <summary>
+        /// Setting Stay Signed in bool in LoginData.
+        /// </summary>
+        /// <param name="autoLogin">Bool that represents if player want to stay signed in for the next time he opens the app</param>
+        private void SetLoginData(bool autoLogin)
+        {
+            _loginData.autoLogin = autoLogin;
+        }
+        
         private void LoginWithSavedData()
         {
-            if (!_loginData.stayLogin) return;
+            if (!_loginData.autoLogin) return;
             
             Debug.Log("Login with saved player data.");
-            SetUserName(PlayerPrefs.GetString("USERNAME"));
-            SetPassword(PlayerPrefs.GetString("PASSWORD"));
-            Login();
+            Login(PlayerPrefs.GetString("USERNAME"), PlayerPrefs.GetString("PASSWORD"), _loginData.autoLogin);
         }
         
         /// <summary>
         /// Login in to PlayFab.
         /// </summary>
-        private void Login()
+        /// <param name="userName">userName to Login with</param>
+        /// <param name="password">password to Login with</param>
+        /// <param name="autoLogin">bool that determined if on next login will be automatically logs in</param>
+        private void Login(string userName, string password, bool? autoLogin)
         {
+            SetUserName(userName);
+            SetPassword(password);
+            
+            // make sure bool is not null so no error occurs
+            if (autoLogin != null)
+            {
+                SetLoginData((bool) autoLogin);
+            }
+            
             if (!IsValidUserName() || !IsValidPassword()) return;
+            
+            Debug.Log("Login");
             LoginWithPlayFabRequest();
         }
 
-        private static void DeletePlayerPrefsData()
+        /// <summary>
+        /// Connects as Guest
+        /// </summary>
+        private void LoginAsGuest()
         {
-            Debug.Log("Deleting PlayerPref data.");
+            Debug.Log("Login As Guest");
+            DeletePlayerPrefsData();
+            LoginStatus = false;
+
+            PhotonNetwork.LoadLevel(2);
+        }
+
+        private void DeletePlayerPrefsData()
+        {
             PlayerPrefs.DeleteAll();
+            loginData.autoLogin = false;
         }
         
         /// <summary>
@@ -100,7 +173,7 @@ namespace _Project.Scripts.PlayFab
         /// more then 3 and less than 24 characters.
         /// </summary>
         /// <returns>if userName is valid or not (bool)</returns>
-        private static bool IsValidUserName()
+        private bool IsValidUserName()
         {
             return _userName.Length >= 3 && _userName.Length <= 24;
         }
@@ -111,7 +184,7 @@ namespace _Project.Scripts.PlayFab
         /// more then 6 character.
         /// </summary>
         /// <returns>if password is valid or not (bool)</returns>
-        private static bool IsValidPassword()
+        private bool IsValidPassword()
         {
             return _password.Length >= 6;
         }
@@ -153,42 +226,16 @@ namespace _Project.Scripts.PlayFab
         #region Public Methods
 
         /// <summary>
-        /// Setting Username and saving it to PlayerPrefs with Key: USERNAME
+        /// Logs you off of PlayFab.
         /// </summary>
-        /// <param name="newUserName">Username to Login to PlayFab</param>
-        public static void SetUserName(string newUserName)
+        public void Logout()
         {
-            _userName = newUserName;
-
-            if (!_loginData.stayLogin)
-            {
-                PlayerPrefs.SetString("USERNAME" ,_userName);
-            }
+            Debug.Log("Logout");
+            PlayFabClientAPI.ForgetAllCredentials();
+            LoginStatus = false;
+            OnLogoutSuccess?.Invoke();
         }
-
-        /// <summary>
-        /// Setting Password and saving it to PlayerPrefs with Key: PASSWORD
-        /// </summary>
-        /// <param name="newPassword">Password to Login to PlayFab</param>
-        public static void SetPassword(string newPassword)
-        {
-            _password = newPassword;
-
-            if (!_loginData.stayLogin)
-            {
-                PlayerPrefs.SetString("PASSWORD" ,_password);
-            }
-        }
-
-        /// <summary>
-        /// Setting Stay Signed in bool in LoginData.
-        /// </summary>
-        /// <param name="staySignedIn">Bool that represents if player want to stay signed in for the next time he opens the app</param>
-        public static void SetLoginData(bool staySignedIn)
-        {
-            _loginData.stayLogin = staySignedIn;
-        }
-
+        
         #endregion
 
         #region PlayFab Callbacks
@@ -196,16 +243,19 @@ namespace _Project.Scripts.PlayFab
         private void OnLoginPlayFabSuccess(LoginResult result)
         {
             Debug.Log($"Login Successful: {result.PlayFabId}");
+
+            LoginStatus = true;
             UpdateDisplayName(_userName);
-            PhotonConnector.UpdatePlayerData(_userName , result.PlayFabId);
+            PhotonConnector.Instance.UpdatePlayerData(_userName , result.PlayFabId);
             
             OnLoginSuccess?.Invoke();
-            //PhotonNetwork.LoadLevel(2);
+            PhotonNetwork.LoadLevel(2);
         }
         
         private void OnFailedToLogin(PlayFabError error)
         {
             Debug.LogError($"ERROR {error.GenerateErrorReport()}");
+            OnLoginFailed?.Invoke(error.GenerateErrorReport());
         }
         
         private void OnDisplayNameUpdateSuccess(UpdateUserTitleDisplayNameResult result)

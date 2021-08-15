@@ -1,13 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.PlayFab;
-using _Project.Scripts.UI.PlayFab;
 using Collection.Authentication.Scripts;
 using Collection.Profile.Scripts;
 using Collection.UI.Scripts;
-using Collection.UI.Scripts.Login;
 using Photon.Pun;
 using Photon.Realtime;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -17,6 +17,8 @@ namespace _Project.Scripts.Photon
 {
     public class PhotonConnector : MonoBehaviourPunCallbacks
     {
+        public static PhotonConnector Instance;
+        
         #region Private Fields
         
         /// <summary>
@@ -33,7 +35,7 @@ namespace _Project.Scripts.Photon
         /// Coroutine for setting the ping.
         /// </summary>
         private Coroutine _pingCo;
-        
+
         #endregion
 
         #region Public Fields
@@ -42,15 +44,25 @@ namespace _Project.Scripts.Photon
 
         #region Events
 
+        public event Action OnConnectedToPhoton; 
+        
         #endregion
 
         #region Unity Methods
 
         private void Awake()
         {
+            if (Instance != null)
+                Destroy(gameObject);
+            else
+                Instance = this;
+        }
+
+        private void Start()
+        {
             // Need to be redone.
-            PlayFabAuthManager.OnLogOut.AddListener(() => SetRandomNickName());
-            LocalProfile.OnProfileInitialized.AddListener(SetPhotonProfileValues);
+            PlayFabLogin.Instance.OnLogoutSuccess += ConnectViaNewConnection;
+            //LocalProfile.OnProfileInitialized.AddListener(SetPhotonProfileValues);
             
             if (PhotonNetwork.IsConnected) return;
             ConnectToPhoton(SetRandomNickName());
@@ -58,14 +70,23 @@ namespace _Project.Scripts.Photon
 
         private void OnDestroy()
         {
-            PlayFabAuthManager.OnLogOut.RemoveListener(() => SetRandomNickName());
-            LocalProfile.OnProfileInitialized.RemoveListener(SetPhotonProfileValues);
+            PlayFabLogin.Instance.OnLogoutSuccess -= ConnectViaNewConnection;
+            //LocalProfile.OnProfileInitialized.RemoveListener(SetPhotonProfileValues);
         }
 
         #endregion
 
         #region Private Methods
 
+        private void ConnectViaNewConnection()
+        {
+            if (PhotonNetwork.IsConnected)
+            {
+                PhotonNetwork.Disconnect();
+                ConnectToPhoton(SetRandomNickName());
+            }
+        }
+        
         private string SetRandomNickName()
         {
             var rndNumber = Random.Range(1000, 9999);
@@ -80,16 +101,16 @@ namespace _Project.Scripts.Photon
             
             // Set AppVersion.
             PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = AppVersion;
+            
+            // Set GameVersion.
+            PhotonNetwork.GameVersion = GameVersion;
 
             // Setting AuthValues
             PhotonNetwork.AuthValues = new AuthenticationValues(nickName);
-            
+
             // Connecting to Photon
             PhotonNetwork.ConnectUsingSettings();
 
-            // Set GameVersion.
-            PhotonNetwork.GameVersion = GameVersion;
-            
             // Make sure if LoadLevel is called all clients sync their level automatically
             PhotonNetwork.AutomaticallySyncScene = true;
 
@@ -112,10 +133,8 @@ namespace _Project.Scripts.Photon
             PhotonNetwork.JoinOrCreateRoom(roomName, option, TypedLobby.Default);
         }
         
-        private static void TurnBackToRoom()
+        private void TurnBackToRoom()
         {
-            Debug.Log("Turning back to room.");
-            
             var hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
 
             if (!hashtable.ContainsKey("MatchFinished")) return;
@@ -129,7 +148,6 @@ namespace _Project.Scripts.Photon
             PhotonNetwork.JoinOrCreateRoom((string) hashtable["OldRoom"], options, TypedLobby.Default);
             
             Debug.Log("Turn back to room.");
-            AuthUIManager.Instance.LoginCanvas.gameObject.SetActive(false);
             OverlayCanvases.Instance.RoomListCanvas.gameObject.SetActive(true);
             OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
 
@@ -177,7 +195,7 @@ namespace _Project.Scripts.Photon
 
         #region Public Methods
 
-        public static void UpdatePlayerData(string nickName, string id)
+        public void UpdatePlayerData(string nickName, string id)
         {
             PhotonNetwork.AuthValues = new AuthenticationValues(id);
             PhotonNetwork.LocalPlayer.NickName = nickName;
@@ -205,12 +223,6 @@ namespace _Project.Scripts.Photon
         public override void OnConnectedToMaster()
         {
             Debug.Log("Connected to MasterServer.");
-            
-            // Make sure coroutine doesnt run twice.
-            if (_pingCo != null)
-                StopCoroutine(_pingCo);
-
-            _pingCo = StartCoroutine(SetPingCo());
 
             if (!PhotonNetwork.InLobby)
             {
@@ -233,7 +245,7 @@ namespace _Project.Scripts.Photon
             Debug.Log($"Joined Lobby: {PhotonNetwork.CurrentLobby}");
             
             var scene = SceneManager.GetActiveScene();
-            if (scene.buildIndex != 1)
+            if (scene.buildIndex != 1 && !PlayFabLogin.Instance.AutoLogin)
             {
                 PhotonNetwork.LoadLevel(1);
             }
@@ -266,7 +278,7 @@ namespace _Project.Scripts.Photon
         public override void OnFriendListUpdate(List<FriendInfo> friendList)
         {
             Debug.Log($"FriendList Updated: FriendCount = {friendList.Count}");
-            PhotonFriendController.OnDisplayFriends?.Invoke(friendList);
+            PhotonFriendController.Instance.DisplayFriends?.Invoke(friendList);
         }
 
         public override void OnCreatedRoom()
@@ -277,6 +289,12 @@ namespace _Project.Scripts.Photon
         public override void OnJoinedRoom()
         {
             Debug.Log($"Joined Room: {PhotonNetwork.CurrentRoom.Name}");
+            
+            // Make sure coroutine doesnt run twice.
+            if (_pingCo != null)
+                StopCoroutine(_pingCo);
+
+            _pingCo = StartCoroutine(SetPingCo());
             
             OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
             

@@ -1,9 +1,8 @@
-using System;
 using Collection.LocalPlayerData.Scripts;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Collection.Audio.Scripts
+namespace _Project.Scripts.Audio
 {
     public enum AudioVariables
     {
@@ -43,6 +42,15 @@ namespace Collection.Audio.Scripts
         }
 
         private void Start()
+        {
+            SetSavedVolumes();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void SetSavedVolumes()
         {
             var audioData = LocalPlayerDataManager.GetAudioData();
 
