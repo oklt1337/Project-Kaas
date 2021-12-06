@@ -86,7 +86,7 @@ namespace _Project.Scripts.PlayFab
             PlayFabClientAPI.RemoveFriend(request, OnFriendRemoveSuccess, OnFriendRemoveFailed);
         }
         
-        private void HandleGetFriends()
+        private void HandleGetFriends(string userName, string id)
         {
             GetPlayFabFriends();
         }

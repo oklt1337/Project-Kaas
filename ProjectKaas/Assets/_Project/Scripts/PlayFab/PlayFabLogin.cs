@@ -37,7 +37,7 @@ namespace _Project.Scripts.PlayFab
 
         #region Public Events
 
-        public event Action OnLoginSuccess;
+        public event Action<string,string> OnLoginSuccess;
         public event Action OnLogoutSuccess;
 
         public event Action<string> OnLoginFailed; 
@@ -60,7 +60,6 @@ namespace _Project.Scripts.PlayFab
         {
             PlayFabRegister.Instance.OnRegisterSuccess += Login;
             LoginCanvas.OnClickLoginButton += Login;
-            LoginCanvas.OnClickGuestButton += LoginAsGuest;
 
             if (string.IsNullOrEmpty(PlayFabSettings.TitleId))
             {
@@ -74,7 +73,6 @@ namespace _Project.Scripts.PlayFab
         {
             PlayFabRegister.Instance.OnRegisterSuccess -= Login;
             LoginCanvas.OnClickLoginButton -= Login;
-            LoginCanvas.OnClickGuestButton -= LoginAsGuest;
         }
 
         #endregion
@@ -149,18 +147,6 @@ namespace _Project.Scripts.PlayFab
             LoginWithPlayFabRequest();
         }
 
-        /// <summary>
-        /// Connects as Guest
-        /// </summary>
-        private void LoginAsGuest()
-        {
-            Debug.Log("Login As Guest");
-            DeletePlayerPrefsData();
-            LoginStatus = false;
-
-            PhotonNetwork.LoadLevel(2);
-        }
-
         private void DeletePlayerPrefsData()
         {
             PlayerPrefs.DeleteAll();
@@ -231,8 +217,7 @@ namespace _Project.Scripts.PlayFab
         public void Logout()
         {
             Debug.Log("Logout");
-            PlayFabClientAPI.ForgetAllCredentials();
-            LoginStatus = false;
+            DeletePlayerPrefsData();
             OnLogoutSuccess?.Invoke();
         }
         
@@ -246,9 +231,8 @@ namespace _Project.Scripts.PlayFab
 
             LoginStatus = true;
             UpdateDisplayName(_userName);
-            PhotonConnector.Instance.UpdatePlayerData(_userName , result.PlayFabId);
             
-            OnLoginSuccess?.Invoke();
+            OnLoginSuccess?.Invoke(_userName, result.PlayFabId);
             PhotonNetwork.LoadLevel(2);
         }
         

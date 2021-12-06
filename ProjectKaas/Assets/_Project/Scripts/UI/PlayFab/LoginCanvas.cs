@@ -19,12 +19,10 @@ namespace _Project.Scripts.UI.PlayFab
         [Header("Buttons")] 
         [SerializeField] private Button loginButton;
         [SerializeField] private Button registerButton;
-        [SerializeField] private Button guestButton;
         [SerializeField] private Toggle autoLogin;
         
 
         public static event Action<string,string,bool?> OnClickLoginButton;
-        public static event Action OnClickGuestButton;
 
         private void Start()
         {
@@ -44,7 +42,7 @@ namespace _Project.Scripts.UI.PlayFab
 
         public void OnClickLogin()
         {
-            if (userName.text == String.Empty || password.text == String.Empty)
+            if (userName.text == string.Empty || password.text == string.Empty)
             {
                 StartCoroutine(WarningCo("Username or Password can't be empty."));
             }
@@ -64,18 +62,11 @@ namespace _Project.Scripts.UI.PlayFab
             gameObject.SetActive(false);
         }
 
-        public void OnClickGuest()
-        {
-            InteractableStatus(false);
-            
-            OnClickGuestButton?.Invoke();
-        }
-        
         private void ClearInputFields()
         {
-            userName.text = String.Empty;
-            password.text = String.Empty;
-            outputText.text = String.Empty;
+            userName.text = string.Empty;
+            password.text = string.Empty;
+            outputText.text = string.Empty;
         }
 
         private void InteractableStatus(bool status)
@@ -84,7 +75,6 @@ namespace _Project.Scripts.UI.PlayFab
             password.interactable = status;
             loginButton.interactable = status;
             registerButton.interactable = status;
-            guestButton.interactable = status;
             autoLogin.interactable = status;
         }
 
@@ -101,7 +91,7 @@ namespace _Project.Scripts.UI.PlayFab
 
             yield return new WaitForSeconds(5f);
             
-            outputText.text = String.Empty;
+            outputText.text = string.Empty;
         }
     }
 }

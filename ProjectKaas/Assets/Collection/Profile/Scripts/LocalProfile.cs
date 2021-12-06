@@ -101,7 +101,7 @@ namespace Collection.Profile.Scripts
         /// <summary>
         /// Initialize userprofile
         /// </summary>
-        private void InitializeProfile()
+        private void InitializeProfile(string userName, string id)
         {
             GetProfile();
             GetAccountInfo();

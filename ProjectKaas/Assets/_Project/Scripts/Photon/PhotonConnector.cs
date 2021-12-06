@@ -42,8 +42,27 @@ namespace _Project.Scripts.Photon
 
         #region Events
 
-        public event Action OnConnectedToPhoton; 
-        
+        public static event Action OnPhotonConnected;
+        public static event Action<string> OnPhotonDisconnected;
+        public static event Action OnConnectedToPhotonMaster;
+        public static event Action<RegionHandler> OnPhotonRegionListReceived;
+        public static event Action OnPhotonJoinedLobby;
+        public static event Action OnPhotonLeftLobby;
+        public static event Action<List<RoomInfo>> OnPhotonRoomListUpdated;
+        public static event Action<List<TypedLobbyInfo>> OnPhotonLobbyStatisticsUpdated;
+        public static event Action<List<FriendInfo>> OnPhotonFriendListUpdated;
+        public static event Action OnPhotonRoomCreated;
+        public static event Action OnPhotonJoinedRoom;
+        public static event Action<short, string> OnPhotonJoinedRoomFailed;
+        public static event Action<short, string> OnPhotonJoinedRandomFailed;
+        public static event Action OnPhotonLeftRoom;
+        public static event Action<Player> OnPhotonPlayerEnterRoom;
+        public static event Action<Player> OnPhotonPlayerLeftRoom;
+        public static event Action<Hashtable> OnPhotonRoomPropertiesUpdated;
+        public static event Action<Player, Hashtable> OnPhotonPlayerPropertiesUpdated;
+        public static event Action<Player> OnPhotonMasterClientSwitched;
+        public static event Action<ErrorInfo> OnPhotonErrorInfo;
+
         #endregion
 
         #region Unity Methods
@@ -55,56 +74,43 @@ namespace _Project.Scripts.Photon
             else
                 Instance = this;
         }
-
-        private void Start()
+        
+        public void Start()
         {
-            // Need to be redone.
-            PlayFabLogin.Instance.OnLogoutSuccess += ConnectViaNewConnection;
+            base.OnEnable();
+            PlayFabLogin.Instance.OnLoginSuccess += ConnectToPhoton;
             //LocalProfile.OnProfileInitialized.AddListener(SetPhotonProfileValues);
-            
-            if (PhotonNetwork.IsConnected) return;
-            ConnectToPhoton(SetRandomNickName());
         }
 
-        private void OnDestroy()
+        public override void OnDisable()
         {
-            PlayFabLogin.Instance.OnLogoutSuccess -= ConnectViaNewConnection;
+            base.OnDisable();
+            PlayFabLogin.Instance.OnLoginSuccess -= ConnectToPhoton;
             //LocalProfile.OnProfileInitialized.RemoveListener(SetPhotonProfileValues);
         }
 
         #endregion
 
         #region Private Methods
-
-        private void ConnectViaNewConnection()
-        {
-            if (PhotonNetwork.IsConnected)
-            {
-                PhotonNetwork.Disconnect();
-                ConnectToPhoton(SetRandomNickName());
-            }
-        }
         
-        private string SetRandomNickName()
+        private void ConnectToPhoton(string displayName, string id)
         {
-            var rndNumber = Random.Range(1000, 9999);
-            var nickName = $"Guest#{rndNumber}";
+            Debug.Log($"Connect to Photon as {displayName}");
 
-            return nickName;
-        }
-        
-        private void ConnectToPhoton(string nickName)
-        {
-            Debug.Log($"Connect to Photon as {nickName}");
-            
             // Set AppVersion.
             PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = AppVersion;
-            
+
             // Set GameVersion.
             PhotonNetwork.GameVersion = GameVersion;
-
+            
+            // Creating AuthValues
+            AuthenticationValues authValues = new AuthenticationValues
+            {
+                UserId = id
+            };
+            
             // Setting AuthValues
-            PhotonNetwork.AuthValues = new AuthenticationValues(nickName);
+            PhotonNetwork.AuthValues = authValues;
 
             // Connecting to Photon
             PhotonNetwork.ConnectUsingSettings();
@@ -116,12 +122,16 @@ namespace _Project.Scripts.Photon
             PhotonNetwork.LocalPlayer.CustomProperties = new Hashtable();
 
             // Setting nickname
-            PhotonNetwork.NickName = nickName;
+            PhotonNetwork.NickName = displayName;
+
+
+            // Setting AuthValues
+            PhotonNetwork.AuthValues = authValues;
         }
 
         private void CreatePhotonRoom(string roomName)
         {
-            var option = new RoomOptions
+            RoomOptions option = new RoomOptions
             {
                 MaxPlayers = 8,
                 IsOpen = true,
@@ -193,12 +203,6 @@ namespace _Project.Scripts.Photon
 
         #region Public Methods
 
-        public void UpdatePlayerData(string nickName, string id)
-        {
-            PhotonNetwork.AuthValues = new AuthenticationValues(id);
-            PhotonNetwork.LocalPlayer.NickName = nickName;
-        }
-        
         #endregion
 
         #region Photon Callbacks
@@ -208,11 +212,14 @@ namespace _Project.Scripts.Photon
         public override void OnConnected()
         {
             Debug.Log("Connecting...");
+            OnPhotonConnected?.Invoke();
         }
 
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.LogError($"Connection Lost: {cause}");
+            OnPhotonDisconnected?.Invoke(cause.ToString());
+
             // Make sure coroutine doesnt run twice.
             if (_pingCo != null)
                 StopCoroutine(_pingCo);
@@ -221,6 +228,7 @@ namespace _Project.Scripts.Photon
         public override void OnConnectedToMaster()
         {
             Debug.Log("Connected to MasterServer.");
+            OnConnectedToPhotonMaster?.Invoke();
 
             if (!PhotonNetwork.InLobby)
             {
@@ -232,6 +240,7 @@ namespace _Project.Scripts.Photon
         {
             Debug.Log("RegionList Received.");
             Debug.Log($"Best Region:{regionHandler.BestRegion.ToString()}");
+            OnPhotonRegionListReceived?.Invoke(regionHandler);
         }
 
         #endregion
@@ -241,8 +250,9 @@ namespace _Project.Scripts.Photon
         public override void OnJoinedLobby()
         {
             Debug.Log($"Joined Lobby: {PhotonNetwork.CurrentLobby}");
-            
-            var scene = SceneManager.GetActiveScene();
+            OnPhotonJoinedLobby?.Invoke();
+
+            UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
             if (scene.buildIndex != 1 && !PlayFabLogin.Instance.AutoLogin)
             {
                 PhotonNetwork.LoadLevel(1);
@@ -257,16 +267,19 @@ namespace _Project.Scripts.Photon
         public override void OnLeftLobby()
         {
             Debug.Log("Left Lobby.");
+            OnPhotonLeftLobby?.Invoke();
         }
 
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             Debug.Log($"RoomList Updated: RoomCount = {roomList.Count}");
+            OnPhotonRoomListUpdated?.Invoke(roomList);
         }
 
         public override void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
         {
             Debug.Log($"LobbyStatistics Updated: LobbyCount = {lobbyStatistics.Count}");
+            OnPhotonLobbyStatisticsUpdated?.Invoke(lobbyStatistics);
         }
 
         #endregion
@@ -276,54 +289,43 @@ namespace _Project.Scripts.Photon
         public override void OnFriendListUpdate(List<FriendInfo> friendList)
         {
             Debug.Log($"FriendList Updated: FriendCount = {friendList.Count}");
-            PhotonFriendController.Instance.DisplayFriends?.Invoke(friendList);
+            OnPhotonFriendListUpdated?.Invoke(friendList);
         }
 
         public override void OnCreatedRoom()
         {
             Debug.Log($"Created Room: {PhotonNetwork.CurrentRoom.Name}");
+            OnPhotonRoomCreated?.Invoke();
         }
 
         public override void OnJoinedRoom()
         {
             Debug.Log($"Joined Room: {PhotonNetwork.CurrentRoom.Name}");
-            
+            OnPhotonJoinedRoom?.Invoke();
+
             // Make sure coroutine doesnt run twice.
             if (_pingCo != null)
                 StopCoroutine(_pingCo);
 
             _pingCo = StartCoroutine(SetPingCo());
-            
-            OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(true);
-            
-            var customProp = PhotonNetwork.LocalPlayer.CustomProperties;
-            if (customProp.ContainsKey("Room"))
-            {
-                customProp["Room"] = PhotonNetwork.CurrentRoom.Name;
-            }
-            else
-            {
-                customProp.Add("Room", PhotonNetwork.CurrentRoom.Name);
-            }
-
-            PhotonNetwork.LocalPlayer.SetCustomProperties(customProp);
         }
 
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
             Debug.LogError($"ERROR {returnCode}: {message}");
-            
-            OverlayCanvases.Instance.CurrenRoomCanvas.gameObject.SetActive(false);
+            OnPhotonJoinedRoomFailed?.Invoke(returnCode, message);
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
             Debug.LogError($"ERROR {returnCode}: {message}");
+            OnPhotonJoinedRandomFailed?.Invoke(returnCode, message);
         }
 
         public override void OnLeftRoom()
         {
             Debug.Log("Left Room.");
+            OnPhotonLeftRoom?.Invoke();
         }
 
         #endregion
@@ -333,26 +335,31 @@ namespace _Project.Scripts.Photon
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             Debug.Log($"{newPlayer.UserId}: Joined Room.");
+            OnPhotonPlayerEnterRoom?.Invoke(newPlayer);
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
             Debug.Log($"{otherPlayer.UserId}: Left the Room.");
+            OnPhotonPlayerLeftRoom?.Invoke(otherPlayer);
         }
 
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
             Debug.Log("RoomProperties Updated");
+            OnPhotonRoomPropertiesUpdated?.Invoke(propertiesThatChanged);
         }
 
         public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
             Debug.Log($"PlayerProperties Updated: {targetPlayer.UserId}");
+            OnPhotonPlayerPropertiesUpdated?.Invoke(targetPlayer, changedProps);
         }
 
         public override void OnMasterClientSwitched(Player newMasterClient)
         {
             Debug.Log($"New Master Client: {newMasterClient.UserId}");
+            OnPhotonMasterClientSwitched?.Invoke(newMasterClient);
         }
 
         #endregion
@@ -362,6 +369,7 @@ namespace _Project.Scripts.Photon
         public override void OnErrorInfo(ErrorInfo errorInfo)
         {
             Debug.LogError($"ERROR {errorInfo.Info}");
+            OnPhotonErrorInfo?.Invoke(errorInfo);
         }
 
         #endregion

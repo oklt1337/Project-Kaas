@@ -39,9 +39,9 @@ namespace _Project.Scripts.Photon
                 Instance = this;
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            PlayFabLogin.Instance.OnLoginSuccess += ConnectToPhotonChat;
+            PhotonConnector.OnPhotonConnected += ConnectToPhotonChat;
             
             _chatClient = new ChatClient(this);
         }
@@ -52,9 +52,9 @@ namespace _Project.Scripts.Photon
             _chatClient.Service();
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-            PlayFabLogin.Instance.OnLoginSuccess -= ConnectToPhotonChat;
+            PhotonConnector.OnPhotonConnected -= ConnectToPhotonChat;
         }
 
         #endregion
